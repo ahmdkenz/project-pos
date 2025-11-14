@@ -410,10 +410,10 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="width: 100%;">
                     @csrf
-                    <button type="submit">
-                        <i data-feather="log-out"></i>
+                    <button type="submit" style="width: 100%; background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 12px; padding: 0.75rem 1.25rem; color: #718096; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#f7fafc'; this.style.color='#EF4444';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#718096';">
+                        <i data-feather="log-out" style="width: 20px; height: 20px;"></i>
                         <span>Logout</span>
                     </button>
                 </form>

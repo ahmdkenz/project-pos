@@ -120,7 +120,27 @@ class ProductController extends Controller
         $productName = $product->name;
         $productSku = $product->sku;
         
-        // soft delete is not implemented; perform hard delete
+        // Cek apakah produk sudah pernah dijual (ada di sale_items)
+        $hasSales = \DB::table('sale_items')
+            ->where('product_id', $product->id)
+            ->exists();
+        
+        if ($hasSales) {
+            return redirect()->route('inventory')->with('error', 
+                'Produk "' . $productName . '" tidak dapat dihapus karena sudah pernah dijual. Produk ini terhubung dengan riwayat transaksi penjualan.');
+        }
+        
+        // Cek apakah ada stock movement
+        $hasStockMovement = \DB::table('stock_movements')
+            ->where('product_id', $product->id)
+            ->exists();
+        
+        if ($hasStockMovement) {
+            return redirect()->route('inventory')->with('error', 
+                'Produk "' . $productName . '" tidak dapat dihapus karena memiliki riwayat pergerakan stok.');
+        }
+        
+        // Jika aman, lakukan hard delete
         $product->delete();
         
         // Log activity

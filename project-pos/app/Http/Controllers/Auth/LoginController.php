@@ -38,15 +38,19 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $userName = Auth::user()?->name ?? 'User';
+        // Cek apakah user sudah login
+        if (Auth::check()) {
+            // Log logout activity SEBELUM logout (agar user masih authenticated)
+            $this->logLogout(Auth::user()->name);
+            
+            // Logout user
+            Auth::logout();
+        }
         
-        Auth::logout();
-        
-        // Log logout activity (before session invalidate)
-        $this->logLogout($userName);
-        
+        // Invalidate session
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        
+        return redirect('/login')->with('success', 'Anda berhasil logout.');
     }
 }

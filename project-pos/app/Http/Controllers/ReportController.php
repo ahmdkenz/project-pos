@@ -44,6 +44,27 @@ class ReportController extends Controller
         // Hitung Laba Bersih (Gross Profit)
         $grossProfit = $totalSales - $totalCost;
 
+        // Data untuk grafik - Laba per hari
+        $chartData = DB::table('sales')
+            ->join('sale_items', 'sales.id', '=', 'sale_items.sale_id')
+            ->select(
+                DB::raw('DATE(sales.created_at) as date'),
+                DB::raw('SUM(sale_items.quantity * sale_items.price_per_unit) as daily_sales'),
+                DB::raw('SUM(sale_items.quantity * sale_items.cost_price_per_unit) as daily_cost')
+            )
+            ->whereBetween('sales.created_at', [$startDate, $endDate])
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->get()
+            ->map(function($row) {
+                return [
+                    'date' => Carbon::parse($row->date)->format('d M'),
+                    'profit' => $row->daily_sales - $row->daily_cost,
+                    'sales' => $row->daily_sales,
+                    'cost' => $row->daily_cost,
+                ];
+            });
+
         // Format untuk view
         $stats = [
             'total_sales' => $totalSales,
@@ -51,6 +72,7 @@ class ReportController extends Controller
             'gross_profit' => $grossProfit,
             'start_date' => $startDate,
             'end_date' => $endDate,
+            'chart_data' => $chartData,
         ];
 
         return view('reports.profit', compact('stats'));
