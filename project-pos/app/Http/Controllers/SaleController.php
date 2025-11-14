@@ -17,9 +17,8 @@ class SaleController extends Controller
     {
         $products = Product::orderBy('name')->get();
         
-        // Ambil 5 riwayat penjualan terakhir user yang login
+        // Ambil 5 riwayat penjualan terakhir
         $recentSales = Sale::with(['items.product', 'user'])
-            ->byUser(auth()->id())
             ->latest()
             ->limit(5)
             ->get();

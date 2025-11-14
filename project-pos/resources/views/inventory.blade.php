@@ -6,8 +6,7 @@
 @section('content')
 
     <div class="page-header">
-        <h1>Manajemen Produk</h1>
-        <a href="{{ route('products.create') }}" class="cta-button">
+               <a href="{{ route('products.create') }}" class="cta-button">
             <i data-feather="plus"></i>
             Tambah Produk Baru
         </a>

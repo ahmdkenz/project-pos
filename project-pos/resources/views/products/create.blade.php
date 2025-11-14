@@ -7,9 +7,7 @@
 
     <div class="page-header">
         <div>
-            <h1>Tambah Produk Baru</h1>
-            
-            <a href="{{ route('inventory') }}" class="back-link" style="margin-top: 0.25rem;">
+             <a href="{{ route('inventory') }}" class="back-link" style="margin-top: 0.25rem;">
                 <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
                 Kembali ke Manajemen Produk
             </a>

@@ -14,7 +14,6 @@ class SalesHistoryController extends Controller
     public function index(Request $request)
     {
         $query = Sale::with(['items.product', 'user'])
-            ->byUser(Auth::id()) // Hanya transaksi user yang login
             ->latest();
 
         // Filter berdasarkan tanggal
@@ -39,7 +38,6 @@ class SalesHistoryController extends Controller
     public function show($id)
     {
         $sale = Sale::with(['items.product', 'user'])
-            ->byUser(Auth::id()) // Pastikan hanya bisa lihat transaksi sendiri
             ->findOrFail($id);
 
         return view('sales-detail', compact('sale'));

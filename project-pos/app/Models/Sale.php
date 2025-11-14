@@ -65,7 +65,10 @@ class Sale extends Model
      */
     public function scopeByUser($query, $userId)
     {
-        return $query->where('user_id', $userId);
+        if ($userId) {
+            return $query->where('user_id', $userId);
+        }
+        return $query;
     }
 
     /**
