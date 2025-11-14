@@ -12,13 +12,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('/inventory', function () {
-    return view('inventory');
-})->name('inventory');
+Route::get('/inventory', [App\Http\Controllers\ProductController::class, 'index'])->name('inventory');
+Route::post('/inventory/restock', [App\Http\Controllers\ProductController::class, 'restock'])->name('inventory.restock');
 
-Route::get('/sales', function () {
-    return view('sales');
-})->name('sales');
+Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])->name('sales');
+Route::post('/sales/process', [App\Http\Controllers\SaleController::class, 'process'])->name('sales.process');
 
 // Product create/store
 Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');

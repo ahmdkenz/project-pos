@@ -26,50 +26,19 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($products as $product)
                 <tr>
-                    <td>Keyboard Mechanical X-Pro</td>
-                    <td>KB-XPRO-001</td>
-                    <td>Rp 650.000</td>
-                    <td>Rp 850.000</td>
-                    <td class="stock-level">42</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->sku ?? '-' }}</td>
+                    <td>Rp {{ number_format($product->cost_price,0,',','.') }}</td>
+                    <td>Rp {{ number_format($product->sale_price,0,',','.') }}</td>
+                    <td class="stock-level {{ $product->current_stock <= ($product->min_stock_level ?? 0) ? 'low' : '' }}">{{ $product->current_stock }}</td>
                     <td class="action-buttons">
                         <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
                         <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
                     </td>
                 </tr>
-                <tr>
-                    <td>Mouse Gaming RGB 12000 DPI</td>
-                    <td>MS-RGB-12K</td>
-                    <td>Rp 300.000</td>
-                    <td>Rp 420.000</td>
-                    <td class="stock-level">75</td>
-                    <td class="action-buttons">
-                        <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
-                        <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Headset Virtual 7.1 Surround</td>
-                    <td>HS-V71-SRD</td>
-                    <td>Rp 800.000</td>
-                    <td>Rp 1.100.000</td>
-                    <td class="stock-level low">3</td>
-                    <td class="action-buttons">
-                        <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
-                        <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Monitor Ultrawide 34" 144Hz</td>
-                    <td>MN-UW34-144</td>
-                    <td>Rp 4.800.000</td>
-                    <td>Rp 5.500.000</td>
-                    <td class="stock-level">12</td>
-                    <td class="action-buttons">
-                        <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
-                        <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -79,15 +48,15 @@
     </div>
     
     <div class="content-card">
-        <form action="#" method="POST">
+        <form action="{{ route('inventory.restock') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <label for="product">Pilih Produk</label>
                 <select id="product" name="product">
                     <option value="">-- Pilih produk yang akan di-restock --</option>
-                    <option value="KB-XPRO-001">Keyboard Mechanical X-Pro</option>
-                    <option value="MS-RGB-12K">Mouse Gaming RGB 12000 DPI</option>
-                    <option value="HS-V71-SRD">Headset Virtual 7.1 Surround</option>
-                    <option value="MN-UW34-144">Monitor Ultrawide 34" 144Hz</option>
+                    @foreach($products as $p)
+                        <option value="{{ $p->id }}">{{ $p->name }} @if($p->sku) ({{ $p->sku }}) @endif</option>
+                    @endforeach
                 </select>
             </div>
             
