@@ -19,17 +19,11 @@
                 <div class="form-group">
                     <label for="customer_name">Nama Pelanggan</label>
                     <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name') }}" placeholder="Contoh: Budi Santoso" required>
-                    @error('customer_name')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="customer_phone">Nomor Telepon (WA)</label>
                     <input type="tel" id="customer_phone" name="customer_phone" value="{{ old('customer_phone') }}" placeholder="Contoh: 0812xxxxxx" required>
-                    @error('customer_phone')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
@@ -41,54 +35,36 @@
                         <option value="Printer" {{ old('device_type') == 'Printer' ? 'selected' : '' }}>Printer</option>
                         <option value="Lainnya" {{ old('device_type') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                     </select>
-                    @error('device_type')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="device_model">Merk & Model</label>
                     <input type="text" id="device_model" name="device_brand" value="{{ old('device_brand') }}" placeholder="Contoh: Asus ROG G14">
-                    @error('device_brand')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group full-width">
                     <label for="complaint">Keluhan Pelanggan</label>
                     <textarea id="complaint" name="complaint" placeholder="Tuliskan keluhan yang disampaikan pelanggan, misal: Mati total, tidak bisa charge, blue screen..." required>{{ old('complaint') }}</textarea>
-                    @error('complaint')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group full-width">
                     <label for="items_included">Kelengkapan Barang</label>
                     <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan, misal: Unit Laptop, Charger Original, Tas Laptop">{{ old('items_included') }}</textarea>
-                    @error('items_included')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="estimated_cost">Estimasi Biaya (Rp)</label>
                     <input type="number" id="estimated_cost" name="cost" value="{{ old('cost', 0) }}" placeholder="0" min="0">
-                    @error('cost')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="technician">Ditugaskan ke Teknisi</label>
                     <select id="technician" name="technician">
-                        <option value="" {{ old('technician') == '' ? 'selected' : '' }}>-- Pilih Teknisi --</option>
+                        <option value="">-- Pilih Teknisi --</option>
                         <option value="Rudi" {{ old('technician') == 'Rudi' ? 'selected' : '' }}>Rudi</option>
                         <option value="Ahmad" {{ old('technician') == 'Ahmad' ? 'selected' : '' }}>Ahmad</option>
                         <option value="Eko" {{ old('technician') == 'Eko' ? 'selected' : '' }}>Eko</option>
                     </select>
-                    @error('technician')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
 
             </div>

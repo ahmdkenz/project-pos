@@ -23,81 +23,54 @@
             <div class="form-grid">
                 
                 <div class="form-group">
-                    <label for="customer_name">Nama Pelanggan *</label>
+                    <label for="customer_name">Nama Pelanggan</label>
                     <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name', $service->customer_name) }}" placeholder="Contoh: Budi Santoso" required>
-                    @error('customer_name')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="customer_phone">Nomor Telepon (WA)</label>
-                    <input type="tel" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $service->customer_phone) }}" placeholder="Contoh: 0812xxxxxx">
-                    @error('customer_phone')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
+                    <input type="tel" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $service->customer_phone) }}" placeholder="Contoh: 0812xxxxxx" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="device_type">Tipe Perangkat *</label>
-                    <select id="device_type" name="device_type" required>
+                    <label for="device_type">Tipe Perangkat</label>
+                    <select id="device_type" name="device_type">
                         <option value="Laptop" {{ old('device_type', $service->device_type) == 'Laptop' ? 'selected' : '' }}>Laptop</option>
                         <option value="PC" {{ old('device_type', $service->device_type) == 'PC' ? 'selected' : '' }}>PC / Komputer</option>
                         <option value="Monitor" {{ old('device_type', $service->device_type) == 'Monitor' ? 'selected' : '' }}>Monitor</option>
                         <option value="Printer" {{ old('device_type', $service->device_type) == 'Printer' ? 'selected' : '' }}>Printer</option>
                         <option value="Lainnya" {{ old('device_type', $service->device_type) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                     </select>
-                    @error('device_type')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
-                    <label for="device_brand">Merk & Model</label>
-                    <input type="text" id="device_brand" name="device_brand" value="{{ old('device_brand', $service->device_brand) }}" placeholder="Contoh: Asus ROG G14">
-                    @error('device_brand')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
+                    <label for="device_model">Merk & Model</label>
+                    <input type="text" id="device_model" name="device_brand" value="{{ old('device_brand', $service->device_brand) }}" placeholder="Contoh: Asus ROG G14">
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="complaint">Keluhan Pelanggan *</label>
-                    <textarea id="complaint" name="complaint" placeholder="Tuliskan keluhan yang disampaikan pelanggan..." required>{{ old('complaint', $service->complaint) }}</textarea>
-                    @error('complaint')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
+                    <label for="complaint">Keluhan Pelanggan</label>
+                    <textarea id="complaint" name="complaint" placeholder="Tuliskan keluhan yang disampaikan pelanggan, misal: Mati total, tidak bisa charge, blue screen..." required>{{ old('complaint', $service->complaint) }}</textarea>
                 </div>
 
                 <div class="form-group full-width">
                     <label for="items_included">Kelengkapan Barang</label>
-                    <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan...">{{ old('items_included', $service->items_included) }}</textarea>
-                    @error('items_included')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
+                    <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan, misal: Unit Laptop, Charger Original, Tas Laptop">{{ old('items_included', $service->items_included) }}</textarea>
                 </div>
 
                 <div class="form-group full-width">
                     <label for="diagnosis">Hasil Diagnosis</label>
                     <textarea id="diagnosis" name="diagnosis" placeholder="Hasil pengecekan teknisi...">{{ old('diagnosis', $service->diagnosis) }}</textarea>
-                    @error('diagnosis')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="form-group full-width">
                     <label for="action_taken">Tindakan yang Dilakukan</label>
                     <textarea id="action_taken" name="action_taken" placeholder="Tindakan perbaikan yang dilakukan...">{{ old('action_taken', $service->action_taken) }}</textarea>
-                    @error('action_taken')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
                 
                 <div class="form-group">
-                    <label for="cost">Biaya Servis (Rp)</label>
-                    <input type="number" id="cost" name="cost" value="{{ old('cost', $service->cost) }}" placeholder="0" min="0">
-                    @error('cost')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
+                    <label for="estimated_cost">Estimasi Biaya (Rp)</label>
+                    <input type="number" id="estimated_cost" name="cost" value="{{ old('cost', $service->cost) }}" placeholder="0" min="0">
                 </div>
                 
                 <div class="form-group">
@@ -108,22 +81,16 @@
                         <option value="Ahmad" {{ old('technician', $service->technician) == 'Ahmad' ? 'selected' : '' }}>Ahmad</option>
                         <option value="Eko" {{ old('technician', $service->technician) == 'Eko' ? 'selected' : '' }}>Eko</option>
                     </select>
-                    @error('technician')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="form-group full-width">
-                    <label for="status">Status *</label>
+                    <label for="status">Status</label>
                     <select id="status" name="status" required>
                         <option value="pending" {{ old('status', $service->status) == 'pending' ? 'selected' : '' }}>Menunggu Cek</option>
                         <option value="progress" {{ old('status', $service->status) == 'progress' ? 'selected' : '' }}>Dalam Pengerjaan</option>
                         <option value="done" {{ old('status', $service->status) == 'done' ? 'selected' : '' }}>Selesai (Siap Ambil)</option>
                         <option value="picked-up" {{ old('status', $service->status) == 'picked-up' ? 'selected' : '' }}>Sudah Diambil</option>
                     </select>
-                    @error('status')
-                    <small style="color: #EF4444;">{{ $message }}</small>
-                    @enderror
                 </div>
 
             </div>

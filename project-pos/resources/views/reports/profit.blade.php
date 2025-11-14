@@ -6,7 +6,7 @@
 @section('content')
 
     <div class="page-header">
-        <h1>Laporan Profit (Laba)</h1>
+       
     </div>
     
     <div class="content-card">
