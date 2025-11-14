@@ -13,14 +13,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 3. Gunakan firstOrCreate untuk membuat admin
-        User::firstOrCreate(
-            [
-                'email' => 'admin@mustika.com' // Kunci unik untuk pengecekan
-            ],
+        // 3. Gunakan updateOrCreate sehingga password akan diperbarui
+        User::updateOrCreate(
+            [ 'email' => 'admin@mustika.com' ], // kunci unik untuk pengecekan
             [
                 'name' => 'Admin',
-                'password' => Hash::make('admin123') // <-- GANTI DENGAN PASSWORD AMAN
+                // Set password ke 'password123' sesuai permintaan (terenkripsi)
+                'password' => Hash::make('password123')
             ]
         );
     }
