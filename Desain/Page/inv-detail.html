@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Invoice - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 5. Desain Tombol (CTA & Sekunder) --- */
+        
+        .cta-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .secondary-button {
+            padding: 0.85rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #4a5568;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+        .secondary-button:hover { background-color: #f8f9fa; }
+
+        
+        /* --- 6. Styling Halaman Umum --- */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        .content-card {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* --- 7. STYLING SPESIFIK: Detail Invoice --- */
+        
+        .page-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* * [MODIFIKASI] CSS Header Invoice
+         * Mengganti grid 3 kolom menjadi flex 2 kolom
+         */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eef2f7;
+            margin-bottom: 2rem;
+        }
+        
+        .invoice-info h5 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .invoice-info p {
+            font-weight: 500;
+            color: #2d3748;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .invoice-info p.strong {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        .status-badge.success {
+            background-color: #DEF7EC;
+            color: #0E9F6E;
+        }
+
+        /* Tabel Rincian Item */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .modern-table thead th {
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: #f8f9fa;
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .modern-table thead th.text-right { text-align: right; }
+        
+        .modern-table tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            color: #2d3748;
+            border-bottom: 1px solid #eef2f7;
+        }
+        .modern-table tbody td.text-right { text-align: right; }
+        .modern-table tbody td strong { font-weight: 600; }
+        
+        /* Rangkuman Total di Kanan Bawah */
+        .invoice-summary {
+            width: 100%;
+            max-width: 350px;
+            margin-left: auto;
+            margin-top: 2rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            font-size: 0.95rem;
+            color: #4a5568;
+            border-bottom: 1px solid #eef2f7;
+        }
+        
+        .summary-row.grand-total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            border-top: 2px solid #3B82F6; 
+            padding-top: 1rem;
+        }
+        
+        .summary-row span:last-child {
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header"> <h2>MUSTIKA KOMPUTER</h2> </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="#"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="#" class="active"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="#"><i data-feather="file-text"></i> Laporan Penjualan</a></li>
+                    <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="#"><i data-feather="shield"></i> Audit Log System</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer"> <a href="#"><i data-feather="log-out"></i> Logout</a> </div>
+        </aside>
+        
+        <main class="main-content">
+            
+            <a href="sales.html" class="back-link">
+                <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
+                Kembali ke Riwayat Penjualan
+            </a>
+            
+            <div class="page-header" style="margin-bottom: 0;">
+                <h1>Detail Invoice</h1>
+                <div class="page-actions">
+                    <button type="button" class="secondary-button">
+                        <i data-feather="download"></i>
+                        Download PDF
+                    </button>
+                    <button type="button" class="cta-button">
+                        <i data-feather="printer"></i>
+                        Cetak Struk
+                    </button>
+                </div>
+            </div>
+
+            
+            <div class="content-card">
+                
+                <div class="invoice-header">
+                    
+                    <div class="invoice-info">
+                        <h5>INVOICE</h5>
+                        <p class="strong" style="font-size: 1.75rem; color: #1a202c;">INV/2025/11/001</p>
+                    </div>
+                                        
+                    <div class="invoice-info" style="text-align: right;">
+                        <h5>DETAIL</h5>
+                        <p>
+                            Tanggal: 14 November 2025<br>
+                            Metode Bayar: Tunai<br>
+                            Status: <span class="status-badge success">LUNAS</span>
+                        </p>
+                    </div>
+                </div>
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th class="text-right">Qty</th>
+                            <th class="text-right">Harga Satuan</th>
+                            <th class="text-right">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>Mouse Gaming RGB</strong><br>
+                                <small style="color: #718096;">MS-RGB-12K</small>
+                            </td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">Rp 420.000</td>
+                            <td class="text-right">Rp 420.000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Keyboard Mechanical</strong> (Harga Tawar)<br>
+                                <small style="color: #718096;">KB-XPRO-001</small>
+                            </td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">Rp 800.000</td>
+                            <td class="text-right">Rp 800.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="invoice-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>Rp 1.220.000</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Pajak (11%)</span>
+                        <span>Rp 134.200</span>
+                    </div>
+                    <div class="summary-row grand-total">
+                        <span>Total Pembayaran</span>
+                        <span>Rp 1.354.200</span>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>

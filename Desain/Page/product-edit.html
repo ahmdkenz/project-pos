@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Produk - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Latar Belakang Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama Dashboard --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi (Kiri) --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px;
+            flex: 1; 
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 5. Desain Tombol (CTA & Sekunder) --- */
+        
+        /* Tombol CTA Utama (Biru/Ungu) */
+        .cta-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Tombol Sekunder (Putih) */
+        .secondary-button {
+            padding: 0.85rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #4a5568;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+        .secondary-button:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* [BARU] Tombol Bahaya (Merah) */
+        .danger-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #EF4444, #DC2626); /* Gradien merah */
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .danger-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); /* Glow merah */
+        }
+        
+        /* --- 6. Styling Halaman (Header & Card) --- */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        /* --- 7. Styling Form Modern --- */
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
+        }
+        
+        /* [BARU] Style untuk input yang read-only/disabled */
+        .form-group input:disabled {
+            background-color: #f4f7fa; /* Latar abu-abu */
+            color: #718096; /* Teks abu-abu */
+            cursor: not-allowed;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        /* [MODIFIKASI] Layout footer untuk 3 tombol */
+        .form-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eef2f7;
+            display: flex;
+            justify-content: space-between; /* Tombol Hapus di kiri, Batal & Simpan di kanan */
+            align-items: center;
+        }
+        
+        .form-footer .right-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class.sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i data-feather="home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="active">
+                            <i data-feather="package"></i>
+                            Manajemen Produk
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="shopping-cart"></i>
+                            Kasir (POS)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="file-text"></i>
+                            Laporan Penjualan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="bar-chart-2"></i>
+                            Laporan Profit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="audit-log.html">
+                            <i data-feather="shield"></i>
+                            Audit Log System
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#">
+                    <i data-feather="log-out"></i>
+                    Logout
+                </a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <div class="page-header">
+                <div>
+                    <h1>Edit Produk</h1>
+                    
+                    <a href="inventory.html" class="back-link" style="margin-top: 0.25rem;">
+                        <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
+                        Kembali ke Manajemen Produk
+                    </a>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <form action="#" method="POST">
+                    
+                    <div class="form-grid">
+                        
+                        <div class="form-group full-width">
+                            <label for="product_name">Nama Produk</label>
+                            <input type="text" id="product_name" name="product_name" value="Keyboard Mechanical X-Pro" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sku">SKU (Kode Barang)</label>
+                            <input type="text" id="sku" name="sku" value="KB-XPRO-001" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="min_stock_level">Batas Stok Minimum</label>
+                            <input type="number" id="min_stock_level" name="min_stock_level" value="10" min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cost_price">Harga Beli (Modal)</label>
+                            <input type="number" id="cost_price" name="cost_price" value="650000" min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sale_price">Harga Jual</label>
+                            <input type="number" id="sale_price" name="sale_price" value="850000" min="0">
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-footer">
+                        
+                        <button type="button" class="danger-button">
+                            <i data-feather="trash-2"></i>
+                            Hapus Produk
+                        </button>
+                        
+                        <div class="right-actions">
+                            <a href="inventory.html" class="secondary-button">
+                                Batal
+                            </a>
+                            <button type="submit" class="cta-button">
+                                <i data-feather="save"></i>
+                                Simpan Perubahan
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                </form>
+            </div>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>

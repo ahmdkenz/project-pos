@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Latar Belakang Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama Dashboard --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi (Kiri) --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+        }
+
+        /* --- 5. Banner Selamat Datang (CTA Modern) --- */
+        
+        .welcome-banner {
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+        .welcome-banner h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .welcome-banner p { font-size: 1rem; opacity: 0.9; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 6. Kartu Widget (Statistik) --- */
+        
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .widget-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03); 
+            border: 1px solid #eef2f7;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+        .widget-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .widget-value { font-size: 2.25rem; font-weight: 700; color: #1a2b4d; margin-top: 0.5rem; }
+        .widget-change { font-size: 0.875rem; margin-top: 0.5rem; }
+        .widget-change.positive { color: #10B981; }
+        .widget-change.negative { color: #EF4444; }
+        
+        
+        /* * ======================================
+         * [MODIFIKASI BARU] 
+         * 7. STYLING AUDIT LOG
+         * ======================================
+         */
+         
+        /* Kartu putih untuk menampung konten */
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem; /* Jarak dari widget di atas */
+        }
+
+        .content-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Daftar Aktivitas */
+        .activity-feed ul {
+            list-style: none;
+        }
+        
+        .activity-feed li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eef2f7; /* Garis pemisah halus */
+        }
+        
+        .activity-feed li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* Ikon bulat di kiri */
+        .activity-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .activity-text {
+            flex-grow: 1;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+        .activity-text strong {
+            color: #1a202c;
+            font-weight: 600;
+        }
+        
+        .activity-timestamp {
+            flex-shrink: 0;
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="active">
+                            <i data-feather="home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="package"></i>
+                            Manajemen Produk
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="shopping-cart"></i>
+                            Kasir (POS)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="file-text"></i>
+                            Laporan Penjualan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="bar-chart-2"></i>
+                            Laporan Profit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="audit-log.html">
+                            <i data-feather="shield"></i>
+                            Audit Log System
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#">
+                    <i data-feather="log-out"></i>
+                    Logout
+                </a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <div class="welcome-banner">
+                <h1>SELAMAT DATANG DI APLIKASI MUSTIKA KOMPUTER</h1>
+                <p>Ini adalah pusat kendali untuk bisnis Anda.</p>
+            </div>
+            
+            <div class="widget-grid">
+                
+                <div class="widget-card">
+                    <h4>Penjualan Hari Ini</h4>
+                    <div class="widget-value">Rp 1.250.000</div>
+                    <div class="widget-change positive">+15% dari kemarin</div>
+                </div>
+                
+                <div class="widget-card">
+                    <h4>Transaksi Hari Ini</h4>
+                    <div class="widget-value">42</div>
+                    <div class="widget-change positive">+5 dari kemarin</div>
+                </div>
+                
+                <div class="widget-card">
+                    <h4>Barang Stok Kritis</h4>
+                    <div class="widget-value">3</div>
+                    <div class="widget-change negative">Perlu restock</div>
+                </div>
+
+            </div>
+            
+            <div class="content-card">
+                <h3>Aktivitas Terbaru (Audit Log)</h3>
+                
+                <div class="activity-feed">
+                    <ul>
+                        <li>
+                            <div class="activity-icon" style="background-color: #E0F2FE; color: #0284C7;"> <i data-feather="shopping-cart"></i>
+                            </div>
+                            <div class="activity-text">
+                                <strong>Admin</strong> memproses penjualan baru <strong>(INV/2025/11/002)</strong>.
+                            </div>
+                            <div class="activity-timestamp">2 menit lalu</div>
+                        </li>
+                        
+                        <li>
+                            <div class="activity-icon" style="background-color: #DEF7EC; color: #0E9F6E;"> <i data-feather="user-check"></i>
+                            </div>
+                            <div class="activity-text">
+                                <strong>Admin</strong> berhasil login dari IP 103.44.1.2.
+                            </div>
+                            <div class="activity-timestamp">15 menit lalu</div>
+                        </li>
+                        
+                        <li>
+                            <div class="activity-icon" style="background-color: #eef2ff; color: #4F46E5;"> <i data-feather="package"></i>
+                            </div>
+                            <div class="activity-text">
+                                <strong>Admin</strong> mengedit produk <strong>(KB-XPRO-001)</strong>.
+                            </div>
+                            <div class="activity-timestamp">1 jam lalu</div>
+                        </li>
+                        
+                        <li>
+                            <div class="activity-icon" style="background-color: #FEF3C7; color: #D97706;"> <i data-feather="database"></i>
+                            </div>
+                            <div class="activity-text">
+                                <strong>Admin</strong> menambahkan stok untuk <strong>Mouse Gaming RGB (50 unit)</strong>.
+                            </div>
+                            <div class="activity-timestamp">3 jam lalu</div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>

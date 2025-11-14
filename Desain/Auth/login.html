@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Login Modern</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Latar Belakang Global --- */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Font modern yang bersih */
+            font-family: 'Poppins', sans-serif;
+            
+            /* Latar belakang cerah & terang */
+            background-color: #f0f4f8; 
+            
+            /* Untuk menengahkan kartu login */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* --- 2. Kartu Login (Form Container) --- */
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 16px; /* Sudut yang lebih bulat untuk nuansa modern */
+            
+            /* Bayangan (shadow) yang lembut dan modern */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            
+            width: 100%;
+            max-width: 450px; /* Lebar maksimum kartu */
+            text-align: center;
+            
+            /* Animasi "fade in" yang halus */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- 3. Header Form (Judul) --- */
+        
+        .login-header h2 {
+            font-size: 2rem; /* 32px */
+            font-weight: 700;
+            color: #1a202c; /* Teks hitam pekat */
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #718096; /* Teks abu-abu untuk subjudul */
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- 4. Grup Input (Label & Textbox) --- */
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left; /* Label rata kiri */
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem; /* 14px */
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            
+            /* Border modern yang bersih */
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; /* Sudut textbox */
+            
+            /* Transisi halus untuk efek :focus */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Efek modern saat textbox di-klik (:focus) */
+        .form-group input:focus {
+            outline: none; /* Hilangkan outline default */
+            border-color: #4F46E5; /* Warna aksen (Indigo) */
+            
+            /* "Glow" modern saat fokus */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
+        }
+        
+        /* --- 5. Opsi Tambahan (Lupa Password) --- */
+        
+        .form-options {
+            display: flex;
+            justify-content: flex-end; /* Pindahkan "Lupa Password?" ke kanan */
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-options a {
+            color: #4F46E5; /* Warna aksen */
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .form-options a:hover {
+            color: #3B82F6; /* Warna aksen (Biru) saat hover */
+        }
+
+        /* --- 6. Tombol CTA (Call to Action) Modern --- */
+        
+        .cta-button {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: none;
+            border-radius: 8px;
+            
+            /* * Desain CTA Modern: Gradien Cerah & Futuristik 
+             * (Arah 90 derajat, dari Indigo ke Biru Cerah)
+             */
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            
+            color: #ffffff; /* Teks putih */
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            
+            /* Transisi untuk efek hover */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Efek "mengangkat" dan "bersinar" saat di-hover */
+        .cta-button:hover {
+            transform: translateY(-2px); /* Sedikit terangkat */
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); /* Bayangan "glow" biru */
+        }
+        
+        /* Efek saat tombol ditekan */
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        
+        <div class="login-header">
+            <h2>Selamat Datang</h2>
+            <p>Silakan masuk untuk melanjutkan ke aplikasi Anda.</p>
+        </div>
+        
+        <form action="#" method="POST">
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-options">
+                <a href="#">Lupa Password?</a>
+            </div>
+            
+            <button type="submit" class="cta-button">
+                Masuk
+            </button>
+            
+        </form>
+        
+    </div>
+
+</body>
+</html>

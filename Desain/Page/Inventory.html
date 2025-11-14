@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Inventaris - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Latar Belakang Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; /* Latar belakang abu-abu muda */
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama Dashboard --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi (Kiri) --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .sidebar-nav a svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            stroke-width: 2.5px;
+        }
+
+        /* Style untuk link yang "Aktif" */
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+        }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; /* Offset dari sidebar */
+            flex: 1; 
+            padding: 2rem;
+            /* Animasi fade in untuk konten */
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 5. Desain Tombol CTA (Call to Action) Modern --- */
+        
+        .cta-button {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none; /* Untuk tag <a> */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-button.full-width {
+            width: 100%;
+            justify-content: center;
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+        }
+        
+        /* --- 6. Styling untuk Halaman (Header & Card) --- */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto; /* Memastikan tabel responsif di layar kecil */
+        }
+
+        /* --- 7. Styling Tabel Modern (Manajemen Produk) --- */
+        
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px; /* Lebar minimum agar tidak terlalu sempit */
+        }
+
+        .modern-table thead th {
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: #f8f9fa;
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .modern-table tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            color: #2d3748;
+            border-bottom: 1px solid #eef2f7;
+            white-space: nowrap; /* Mencegah teks turun baris di tabel */
+        }
+        
+        .modern-table tbody tr:hover {
+            background-color: #fcfdff;
+        }
+        
+        .modern-table .stock-level {
+            font-weight: 600;
+        }
+        .modern-table .stock-level.low {
+            color: #EF4444; /* Merah untuk stok rendah */
+        }
+
+        .action-buttons a {
+            color: #718096;
+            text-decoration: none;
+            margin-right: 0.75rem;
+        }
+        .action-buttons a:hover {
+            color: #4F46E5;
+        }
+
+        /* --- 8. Styling Form Modern (Barang Masuk) --- */
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i data-feather="home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="active">
+                            <i data-feather="package"></i>
+                            Manajemen Produk
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="shopping-cart"></i>
+                            Kasir (POS)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="file-text"></i>
+                            Laporan Penjualan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i data-feather="bar-chart-2"></i>
+                            Laporan Profit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="audit-log.html">
+                            <i data-feather="shield"></i>
+                            Audit Log System
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#">
+                    <i data-feather="log-out"></i>
+                    Logout
+                </a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <div class="page-header">
+                <h1>Manajemen Produk</h1>
+                <a href="#" class="cta-button">
+                    <i data-feather="plus"></i>
+                    Tambah Produk Baru
+                </a>
+            </div>
+            
+            <div class="content-card">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>SKU (Kode)</th>
+                            <th>Harga Beli (Modal)</th> 
+                            <th>Harga Jual</th>
+                            <th>Stok Saat Ini</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Keyboard Mechanical X-Pro</td>
+                            <td>KB-XPRO-001</td>
+                            <td>Rp 650.000</td> 
+                            <td>Rp 850.000</td>
+                            <td class="stock-level">42</td>
+                            <td class="action-buttons">
+                                <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
+                                <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mouse Gaming RGB 12000 DPI</td>
+                            <td>MS-RGB-12K</td>
+                            <td>Rp 300.000</td>
+                            <td>Rp 420.000</td>
+                            <td class="stock-level">75</td>
+                            <td class="action-buttons">
+                                <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
+                                <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Headset Virtual 7.1 Surround</td>
+                            <td>HS-V71-SRD</td>
+                            <td>Rp 800.000</td>
+                            <td>Rp 1.100.000</td>
+                            <td class="stock-level low">3</td> <td class="action-buttons">
+                                <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
+                                <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Monitor Ultrawide 34" 144Hz</td>
+                            <td>MN-UW34-144</td>
+                            <td>Rp 4.800.000</td>
+                            <td>Rp 5.500.000</td>
+                            <td class="stock-level">12</td>
+                            <td class="action-buttons">
+                                <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
+                                <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="page-header" style="margin-top: 2rem;">
+                <h1>Barang Masuk / Restock</h1>
+            </div>
+            
+            <div class="content-card">
+                <form action="#" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="product">Pilih Produk</label>
+                        <select id="product" name="product">
+                            <option value="">-- Pilih produk yang akan di-restock --</option>
+                            <option value="KB-XPRO-001">Keyboard Mechanical X-Pro</option>
+                            <option value="MS-RGB-12K">Mouse Gaming RGB 12000 DPI</option>
+                            <option value="HS-V71-SRD">Headset Virtual 7.1 Surround</option>
+                            <option value="MN-UW34-144">Monitor Ultrawide 34" 144Hz</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Jumlah Masuk</label>
+                        <input type="number" id="quantity" name="quantity" placeholder="Contoh: 50" min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cost_price">Harga Beli / Modal (Per Unit)</label>
+                        <input type="number" id="cost_price" name="cost_price" placeholder="Contoh: 600000" min="0">
+                    </div>
+                    
+                    <button type="submit" class="cta-button full-width" style="margin-top: 1rem;">
+                        <i data-feather="save"></i>
+                        Simpan Stok
+                    </button>
+                    
+                </form>
+            </div>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>

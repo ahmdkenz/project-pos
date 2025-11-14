@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Penjualan (POS) - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 5. Desain Tombol CTA Modern --- */
+        
+        .cta-button {
+            padding: 0.85rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .secondary-button {
+            padding: 0.85rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #4a5568;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+            width: 100%;
+        }
+        .secondary-button:hover { background-color: #f8f9fa; }
+
+        
+        /* --- 6. Styling Halaman Umum --- */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; color: #1a202c; }
+        
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; font-size: 0.875rem; font-weight: 600; color: #4a5568; margin-bottom: 0.5rem; }
+        .form-group input {
+            width: 100%; padding: 0.75rem 1rem; font-size: 1rem; font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0; border-radius: 8px; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus { outline: none; border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+        
+        /* --- 7. STYLING SPESIFIK: Halaman Kasir (POS) --- */
+
+        .pos-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+        .pos-products { flex: 2; }
+        .pos-cart {
+            flex: 1; background-color: #ffffff; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); position: sticky; top: 2rem; 
+        }
+        .pos-cart-header { padding: 1.5rem; border-bottom: 1px solid #eef2f7; }
+        .pos-cart-header h3 { font-size: 1.25rem; font-weight: 600; color: #1a202c; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .product-card {
+            background-color: #ffffff; border-radius: 12px; border: 1px solid #eef2f7; padding: 1rem;
+            text-align: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07); }
+        .product-card h6 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .product-card span { font-size: 0.875rem; font-weight: 500; color: #4F46E5; }
+        
+        /* Styling Fitur Tawar Harga */
+        .cart-item-list { list-style: none; padding: 1rem 1.5rem; max-height: 300px; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px dashed #e2e8f0; }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-details h5 { font-weight: 600; font-size: 0.95rem; color: #2d3748; margin-bottom: 0.5rem; }
+        .cart-item-editable { display: flex; gap: 0.5rem; align-items: center; }
+        .cart-item-editable label { font-size: 0.8rem; font-weight: 600; color: #718096; }
+        .cart-item-editable input {
+            font-family: 'Poppins', sans-serif; font-weight: 500; border: 1px solid #e2e8f0; background-color: #f8f9fa;
+            border-radius: 6px; padding: 4px 8px; font-size: 0.9rem; width: 80px; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .cart-item-editable input:focus { outline: none; background-color: #fff; border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+        .cart-item-remove button { background: none; border: none; color: #EF4444; cursor: pointer; padding: 0.5rem; margin-left: 0.5rem; transition: color 0.3s; }
+        .cart-item-remove button:hover { color: #9B2C2C; }
+        .info-box { background-color: #eef2ff; border-left: 4px solid #4F46E5; padding: 0.75rem 1rem; font-size: 0.85rem; color: #4a5568; border-radius: 8px; margin: 0 1.5rem 1rem 1.5rem; }
+        .info-box p { line-height: 1.5; }
+        
+        /* Cart Summary */
+        .cart-summary { padding: 1.5rem; border-top: 1px solid #eef2f7; background-color: #fcfdff; border-radius: 0 0 16px 16px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .summary-row span { color: #4a5568; }
+        .summary-row.total { font-size: 1.25rem; font-weight: 700; color: #1a202c; margin-top: 1rem; }
+        
+        /* --- 8. Styling Tabel Riwayat Penjualan --- */
+        .modern-table { width: 100%; border-collapse: collapse; }
+        .modern-table thead th {
+            text-align: left; font-size: 0.875rem; font-weight: 600; color: #718096; text-transform: uppercase;
+            letter-spacing: 0.5px; background-color: #f8f9fa; padding: 1rem 1.25rem; border-bottom: 2px solid #e2e8f0;
+        }
+        .modern-table tbody td { padding: 1rem 1.25rem; font-size: 0.95rem; color: #2d3748; border-bottom: 1px solid #eef2f7; }
+        .modern-table tbody tr:hover { background-color: #fcfdff; }
+        .action-buttons a { color: #718096; text-decoration: none; margin-right: 0.75rem; transition: color 0.3s; }
+        .action-buttons a:hover { color: #4F46E5; }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem; font-weight: 600; }
+        .status-badge.success { background-color: #DEF7EC; color: #0E9F6E; }
+        .filter-form { display: flex; gap: 1rem; }
+        .filter-form .form-group { flex: 1; }
+        .filter-form button { flex-shrink: 0; align-self: flex-end; width: auto; padding: 0.75rem 1.25rem; }
+
+        
+        /* * ==========================================
+         * CSS UNTUK MODAL PEMBAYARAN
+         * ==========================================
+         */
+         
+        .modal-overlay {
+            /* TAMPILKAN MODAL - Hapus baris ini untuk menyembunyikan */
+            display: flex; 
+            
+            /* Sembunyikan default - Gunakan 'display: none;' */
+            /* display: none; */
+            
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            justify-content: center; align-items: center;
+            z-index: 1000;
+            animation: fadeInModal 0.3s ease-out;
+        }
+        
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+            animation: popUpModal 0.3s ease-out;
+        }
+        
+        @keyframes popUpModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .modal-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #eef2f7;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .payment-info {
+            background-color: #f4f7fa;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .payment-info label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+        }
+        .payment-info .total-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #4F46E5;
+        }
+        
+        .payment-methods {
+            margin-bottom: 1.5rem;
+        }
+        .payment-methods label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.75rem;
+        }
+        .method-options {
+            display: grid;
+            /* [MODIFIKASI] Grid diubah dari 3 menjadi 2 kolom */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .method-options button {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d3748;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+        .method-options button:hover {
+            border-color: #4F46E5;
+            background-color: #eef2ff;
+        }
+        .method-options button.active {
+            border-color: #4F46E5;
+            background-color: #eef2ff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            color: #4F46E5;
+        }
+        
+        .cash-calculator {
+            display: block; 
+            border-top: 1px solid #eef2f7;
+            padding-top: 1.5rem;
+        }
+        /* Class ini akan ditambahkan oleh JS/Livewire jika "Transfer" dipilih */
+        .cash-calculator.hidden {
+            display: none; 
+        }
+        
+        .modal-body .form-group input {
+            font-size: 1.25rem;
+            padding: 0.85rem 1rem;
+            text-align: right;
+        }
+        
+        .change-display {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .change-display label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .change-display .change-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            background-color: #fcfdff;
+            border-top: 1px solid #eef2f7;
+            border-radius: 0 0 16px 16px;
+            display: flex;
+            gap: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header"> <h2>MUSTIKA KOMPUTER</h2> </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="#"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="#" class="active"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="#"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
+                    <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer"> <a href="#"><i data-feather="log-out"></i> Logout</a> </div>
+        </aside>
+        
+        <main class="main-content">
+            
+            <div class="page-header"> <h1>Kasir (Point of Sale)</h1> </div>
+            
+            <div class="pos-layout">
+                <div class="pos-products">
+                    <div class="form-group">
+                        <input type="text" id="product_search" placeholder="Cari produk berdasarkan nama atau SKU...">
+                    </div>
+                    <div class="product-grid">
+                        <div class="product-card"><h6>Keyboard Mechanical</h6><span>Rp 850.000</span></div>
+                        <div class="product-card"><h6>Mouse Gaming RGB</h6><span>Rp 420.000</span></div>
+                    </div>
+                </div>
+
+                <aside class="pos-cart">
+                    <div class="pos-cart-header"><h3>Keranjang Belanja</h3></div>
+                    <div class="info-box"><p>Klik pada <b>Qty</b> atau <b>Harga</b> untuk mengubahnya.</p></div>
+                    <ul class="cart-item-list">
+                        <li class="cart-item">
+                            <div class="cart-item-details">
+                                <h5>Mouse Gaming RGB</h5>
+                                <div class="cart-item-editable">
+                                    <label for="qty_1">Qty:</label><input type="number" id="qty_1" value="1" min="1">
+                                    <label for="price_1">Harga:</label><input type="text" id="price_1" value="420000">
+                                </div>
+                            </div>
+                            <div class="cart-item-remove"><button title="Hapus Item"><i data-feather="trash-2" style="width:20px; height:20px;"></i></button></div>
+                        </li>
+                        <li class="cart-item">
+                            <div class="cart-item-details">
+                                <h5>Keyboard Mechanical</h5>
+                                <div class="cart-item-editable">
+                                    <label for="qty_2">Qty:</label><input type="number" id="qty_2" value="1" min="1">
+                                    <label for="price_2">Harga:</label><input type="text" id="price_2" value="800000" style="border-color: #4F46E5; color: #4F46E5;">
+                                </div>
+                            </div>
+                            <div class="cart-item-remove"><button title="Hapus Item"><i data-feather="trash-2" style="width:20px; height:20px;"></i></button></div>
+                        </li>
+                    </ul>
+                    <div class="cart-summary">
+                        <div class="summary-row"><span>Subtotal</span><span>Rp 1.220.000</span></div>
+                        <div class="summary-row"><span>Pajak (11%)</span><span>Rp 134.200</span></div>
+                        <div class="summary-row total"><span>Total</span><span>Rp 1.354.200</span></div>
+                        <button type="button" class="cta-button" style="margin-top: 1.5rem;">
+                            <i data-feather="check-circle"></i>
+                            Proses Pembayaran
+                        </button>
+                    </div>
+                </aside>
+            </div>
+            
+            </main>
+        
+        <div class="modal-overlay">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h2>Proses Pembayaran</h2>
+                </div>
+                
+                <div class="modal-body">
+                    
+                    <div class="payment-info">
+                        <label>Total Belanja</label>
+                        <div class="total-value">Rp 1.354.200</div>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <label>Pilih Metode Pembayaran</label>
+                        <div class="method-options">
+                            <button type="button" class="active"> <i data-feather="dollar-sign"></i>
+                                Tunai
+                            </button>
+                            <button type="button">
+                                <i data-feather="repeat"></i> Transfer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="cash-calculator"> 
+                        <div class="form-group">
+                            <label for="cash_received">Jumlah Uang Tunai (Rp)</label>
+                            <input type="text" id="cash_received" name="cash_received" placeholder="Contoh: 1400000">
+                        </div>
+                        <div class="change-display">
+                            <label>Kembalian</label>
+                            <div class="change-value">Rp 45.800</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button">
+                        Batal
+                    </button>
+                    <button type="button" class="cta-button">
+                        <i data-feather="check-circle"></i>
+                        Konfirmasi Pembayaran
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>

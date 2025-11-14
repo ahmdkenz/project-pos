@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title','Dashboard - Mustika Komputer')</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    @verbatim
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden;
+        }
+        .dashboard-container { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: fixed; top: 0; left: 0; height: 100vh; padding: 1.5rem; display: flex; flex-direction: column;
+        }
+        .sidebar-header { text-align: center; margin-bottom: 2.5rem; padding-top: 1rem; }
+        .sidebar-header h2 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(90deg, #4F46E5, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a { display:flex; align-items:center; padding:0.75rem 1rem; text-decoration:none; font-size:0.95rem; font-weight:500; color:#718096; border-radius:8px; transition:background-color 0.3s, color 0.3s; }
+        .sidebar-nav a svg{ width:20px; height:20px; margin-right:0.75rem; stroke-width:2.5px; }
+        .sidebar-nav a.active, .sidebar-nav a:hover { background-color:#eef2ff; color:#4F46E5; }
+        .sidebar-footer { margin-top: auto; }
+
+        .main-content { margin-left: 260px; flex:1; padding:2rem; display:flex; flex-direction:column; min-height:100vh; }
+        .content-area { flex-grow:1; }
+
+        .main-header { background-color:#ffffff; border-radius:16px; padding:1.25rem 2rem; box-shadow:0 10px 40px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; animation:fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-10px);} to { opacity:1; transform:translateY(0);} }
+        .header-title h1 { font-size:1.75rem; font-weight:700; color:#1a202c; }
+        .search-bar { position: relative; }
+        .search-bar svg { position:absolute; top:50%; left:1rem; transform:translateY(-50%); color:#718096; stroke-width:2.5px; }
+        .search-bar input { font-family:'Poppins', sans-serif; font-size:0.95rem; font-weight:500; width:350px; padding:0.85rem 1rem 0.85rem 3rem; border:1px solid #e2e8f0; border-radius:8px; background-color:#f8f9fa; transition: border-color 0.3s, box-shadow 0.3s; }
+        .search-bar input:focus { outline:none; border-color:#4F46E5; background-color:#ffffff; box-shadow:0 0 0 3px rgba(79,70,229,0.2); }
+
+        .user-profile { display:flex; align-items:center; gap:1rem; }
+        .user-profile .avatar { width:40px; height:40px; border-radius:50%; background-image:linear-gradient(45deg,#4F46E5,#3B82F6); color:white; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:1rem; }
+        .user-profile .user-info { line-height:1.3; text-align:right; }
+        .user-profile .user-info strong { display:block; font-size:0.95rem; font-weight:600; color:#2d3748; }
+        .user-profile .user-info span { font-size:0.85rem; color:#718096; }
+
+        /* --- Dashboard specific styles (from Desain/Dashboard/dashboard.html) --- */
+        .welcome-banner {
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+        .welcome-banner h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .welcome-banner p { font-size: 1rem; opacity: 0.9; }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .widget-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eef2f7;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .widget-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.07); }
+        .widget-card h4 { font-size: 0.9rem; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; }
+        .widget-value { font-size: 2.25rem; font-weight: 700; color: #1a2b4d; margin-top: 0.5rem; }
+        .widget-change { font-size: 0.875rem; margin-top: 0.5rem; }
+        .widget-change.positive { color: #10B981; }
+        .widget-change.negative { color: #EF4444; }
+
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+
+        .content-card h3 { font-size: 1.25rem; font-weight: 700; color: #1a202c; margin-bottom: 1.5rem; }
+
+        .activity-feed ul { list-style: none; }
+        .activity-feed li { display:flex; align-items:center; gap:1rem; padding:1rem 0; border-bottom:1px solid #eef2f7; }
+        .activity-feed li:last-child { border-bottom:none; padding-bottom:0; }
+        .activity-icon { flex-shrink:0; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+        .activity-text { flex-grow:1; font-size:0.95rem; color:#4a5568; }
+        .activity-text strong { color:#1a202c; font-weight:600; }
+        .activity-timestamp { flex-shrink:0; font-size:0.875rem; color:#718096; font-weight:500; }
+
+        .main-footer { text-align:center; padding:1.5rem; margin-top:2rem; color:#718096; font-size:0.875rem; font-weight:500; }
+
+    </style>
+    @endverbatim
+
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="#"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="#"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="#"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
+                    <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="#"><i data-feather="shield"></i> Audit Log System</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#"><i data-feather="log-out"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>@yield('header-title','Dashboard')</h1>
+                </div>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <strong>Admin</strong>
+                        <span>Mustika Komputer</span>
+                    </div>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                @yield('content')
+            </div>
+
+            <footer class="main-footer">
+                &copy; 2025 Mustika Komputer. Dibuat dengan cinta & kopi.
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>
