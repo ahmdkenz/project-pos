@@ -3,6 +3,7 @@
 @section('header-title','Kasir')
 @section('content')
 
+    <div class="pos-layout">
             <div class="pos-products">
                 <div class="form-group">
                     <input type="text" id="product_search" placeholder="Cari produk berdasarkan nama atau SKU...">
@@ -31,14 +32,50 @@
                     <button type="button" id="process_payment_btn" class="cta-button" style="margin-top:1.5rem;"><i data-feather="check-circle"></i> Proses Pembayaran</button>
                 </div>
             </aside>
+    </div>
 
-            <div class="cart-summary">
-                <div class="summary-row"><span>Subtotal</span><span>Rp 1.220.000</span></div>
-                <div class="summary-row"><span>Pajak (11%)</span><span>Rp 134.200</span></div>
-                <div class="summary-row total"><span>Total</span><span>Rp 1.354.200</span></div>
-                <button type="button" class="cta-button" style="margin-top:1.5rem;"><i data-feather="check-circle"></i> Proses Pembayaran</button>
+    <!-- Payment Modal (hidden by default) -->
+    <div id="payment_modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Proses Pembayaran</h2>
             </div>
-        </aside>
+            <div class="modal-body">
+                <div class="payment-info">
+                    <label>Total Belanja</label>
+                    <div id="modal_total_value" class="total-value">Rp 0</div>
+                </div>
+
+                <div class="payment-methods">
+                    <label>Pilih Metode Pembayaran</label>
+                    <div class="method-options" id="method_options">
+                        <button type="button" data-method="cash" class="method-btn active">
+                            <i data-feather="dollar-sign"></i>
+                            Tunai
+                        </button>
+                        <button type="button" data-method="transfer" class="method-btn">
+                            <i data-feather="repeat"></i>
+                            Transfer
+                        </button>
+                    </div>
+                </div>
+
+                <div id="cash_section" class="cash-calculator">
+                    <div class="form-group">
+                        <label for="cash_received">Jumlah Uang Tunai (Rp)</label>
+                        <input type="number" id="cash_received" name="cash_received" placeholder="Contoh: 1400000">
+                    </div>
+                    <div class="change-display">
+                        <label>Kembalian</label>
+                        <div id="change_value" class="change-value">Rp 0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_cancel_btn" class="secondary-button">Batal</button>
+                <button type="button" id="modal_confirm_btn" class="cta-button"><i data-feather="check-circle"></i> Konfirmasi Pembayaran</button>
+            </div>
+        </div>
     </div>
 
     <div class="page-header" style="margin-top:3rem;">
@@ -205,22 +242,72 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    processBtn.addEventListener('click', async () => {
+    // Open payment modal and populate totals
+    const modal = document.getElementById('payment_modal');
+    const modalTotal = document.getElementById('modal_total_value');
+    const cashSection = document.getElementById('cash_section');
+    const cashInput = document.getElementById('cash_received');
+    const changeValue = document.getElementById('change_value');
+    const methodButtons = Array.from(document.querySelectorAll('.method-btn'));
+    const modalConfirmBtn = document.getElementById('modal_confirm_btn');
+    const modalCancelBtn = document.getElementById('modal_cancel_btn');
+
+    function openPaymentModal(){
         if(cart.length === 0){ alert('Keranjang kosong. Tambahkan produk terlebih dahulu.'); return; }
+        const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
+        const tax = Math.round(subtotal * 0.11);
+        const total = subtotal + tax;
+        modalTotal.textContent = formatIDR(total);
+        modal.dataset.total = total;
+        cashInput.value = total;
+        changeValue.textContent = formatIDR(0);
+        // default to cash visible
+        cashSection.classList.remove('hidden');
+        modal.style.display = 'flex';
+        if(window.feather) window.feather.replace();
+    }
 
-        let payment_method = prompt('Metode pembayaran (Cash/Card/QRIS)', 'Cash');
-        if(!payment_method) return;
-        payment_method = payment_method.trim();
+    function closePaymentModal(){
+        modal.style.display = 'none';
+    }
 
+    // method selection
+    methodButtons.forEach(btn => {
+        btn.addEventListener('click', function(){
+            methodButtons.forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            const m = btn.dataset.method;
+            if(m === 'cash'){
+                cashSection.classList.remove('hidden');
+            } else {
+                cashSection.classList.add('hidden');
+            }
+            if(window.feather) window.feather.replace();
+        });
+    });
+
+    // compute change live
+    cashInput.addEventListener('input', function(){
+        const total = Number(modal.dataset.total || 0);
+        const paid = Number(cashInput.value || 0);
+        const ch = Math.max(0, Math.round(paid - total));
+        changeValue.textContent = formatIDR(ch);
+    });
+
+    processBtn.addEventListener('click', function(){
+        openPaymentModal();
+    });
+
+    modalCancelBtn.addEventListener('click', function(){
+        closePaymentModal();
+    });
+
+    modalConfirmBtn.addEventListener('click', async function(){
+        const methodBtn = document.querySelector('.method-btn.active');
+        const payment_method = methodBtn ? methodBtn.dataset.method : 'cash';
         let cash_received = null;
-        if(payment_method.toLowerCase() === 'cash'){
-            const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
-            const tax = Math.round(subtotal * 0.11);
-            const total = subtotal + tax;
-            const val = prompt('Total: ' + formatIDR(total) + '\nMasukkan jumlah tunai yang diterima:', total);
-            if(val === null) return;
-            cash_received = parseFloat(val) || 0;
-            if(cash_received < total){ if(!confirm('Jumlah tunai kurang dari total. Lanjutkan?')) return; }
+        if(payment_method === 'cash'){
+            cash_received = Number(cashInput.value || 0);
         }
 
         const payload = {
@@ -230,8 +317,8 @@ document.addEventListener('DOMContentLoaded', function(){
         };
 
         try{
-            processBtn.disabled = true;
-            processBtn.textContent = 'Memproses...';
+            modalConfirmBtn.disabled = true;
+            modalConfirmBtn.textContent = 'Memproses...';
             const res = await fetch('/sales/process', {
                 method: 'POST',
                 headers: {
@@ -243,10 +330,10 @@ document.addEventListener('DOMContentLoaded', function(){
             });
             const data = await res.json();
             if(res.ok){
-                alert('Pembayaran berhasil. ID transaksi: ' + data.sale_id);
+                // show simple success modal then reload
+                closePaymentModal();
                 cart = [];
                 renderCart();
-                // optionally reload to show history
                 window.location.reload();
             } else {
                 alert('Gagal memproses: ' + (data.message || 'Server error'));
@@ -254,8 +341,8 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch(err){
             alert('Terjadi kesalahan: ' + err.message);
         } finally {
-            processBtn.disabled = false;
-            processBtn.innerHTML = '<i data-feather="check-circle"></i> Proses Pembayaran';
+            modalConfirmBtn.disabled = false;
+            modalConfirmBtn.innerHTML = '<i data-feather="check-circle"></i> Konfirmasi Pembayaran';
             if(window.feather) window.feather.replace();
         }
     });

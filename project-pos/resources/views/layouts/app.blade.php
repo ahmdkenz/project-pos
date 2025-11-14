@@ -183,6 +183,163 @@
     .summary-row span { color:#4a5568; }
     .summary-row.total { font-size:1.25rem; font-weight:700; color:#1a202c; margin-top:1rem; }
 
+    /* --- Modal Payment styles (from sales-process.html) --- */
+    .modal-overlay {
+        display: none;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(8px);
+        justify-content: center; align-items: center;
+        z-index: 1000;
+        animation: fadeInModal 0.3s ease-out;
+    }
+    @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 480px;
+        animation: popUpModal 0.3s ease-out;
+    }
+    @keyframes popUpModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+    .modal-header {
+        padding: 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid #eef2f7;
+    }
+    .modal-header h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a202c;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .payment-info {
+        background-color: #f4f7fa;
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .payment-info label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #718096;
+        text-transform: uppercase;
+    }
+    .payment-info .total-value {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #4F46E5;
+    }
+
+    .payment-methods {
+        margin-bottom: 1.5rem;
+    }
+    .payment-methods label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 0.75rem;
+    }
+    .method-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .method-options button {
+        background-color: #f8f9fa;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem 0.5rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #2d3748;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+    }
+    .method-options button:hover {
+        border-color: #4F46E5;
+        background-color: #eef2ff;
+    }
+    .method-options button.active {
+        border-color: #4F46E5;
+        background-color: #eef2ff;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        color: #4F46E5;
+    }
+
+    .cash-calculator {
+        display: block;
+        border-top: 1px solid #eef2f7;
+        padding-top: 1.5rem;
+    }
+    .cash-calculator.hidden {
+        display: none;
+    }
+
+    .modal-body .form-group input {
+        font-size: 1.25rem;
+        padding: 0.85rem 1rem;
+        text-align: right;
+    }
+
+    .change-display {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    .change-display label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4a5568;
+    }
+    .change-display .change-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #10B981;
+    }
+
+    .modal-footer {
+        padding: 1.5rem;
+        background-color: #fcfdff;
+        border-top: 1px solid #eef2f7;
+        border-radius: 0 0 16px 16px;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .secondary-button {
+        padding: 0.85rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background-color: #ffffff;
+        color: #4a5568;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: background-color 0.2s ease;
+        width: 100%;
+    }
+    .secondary-button:hover { background-color: #f8f9fa; }
 
     </style>
     @endverbatim
