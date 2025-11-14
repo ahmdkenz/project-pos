@@ -30,9 +30,23 @@ class ProductController extends Controller
             'sale_price' => ['nullable','numeric','min:0'],
         ]);
 
+        // Auto-generate SKU if not provided. Format: PRD-{SANITIZED_NAME}-{UNIQUE_CODE}
+        if (empty($data['sku'])) {
+            $namePart = preg_replace('/[^A-Za-z0-9]+/', '-', $data['name']);
+            $namePart = trim($namePart, '-');
+            $namePart = strtoupper(substr($namePart, 0, 50)); // limit length
+
+            do {
+                $unique = strtoupper(bin2hex(random_bytes(3))); // 6 hex chars
+                $generated = 'PRD-' . $namePart . '-' . $unique;
+            } while (Product::where('sku', $generated)->exists());
+
+            $data['sku'] = $generated;
+        }
+
         $product = Product::create([
             'name' => $data['name'],
-            'sku' => $data['sku'] ?? null,
+            'sku' => $data['sku'],
             'current_stock' => $data['initial_stock'] ?? 0,
             'cost_price' => $data['cost_price'] ?? 0,
             'sale_price' => $data['sale_price'] ?? 0,

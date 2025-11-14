@@ -36,7 +36,17 @@
 
                 <div class="form-group">
                     <label for="sku">SKU (Kode Barang)</label>
-                    <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Contoh: KB-XPRO-001">
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                        <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Contoh: KB-XPRO-001" style="flex:1;">
+                        <button type="button" id="generate_sku_btn" class="secondary-button" style="white-space:nowrap;">Generate SKU</button>
+                    </div>
+                    <div style="margin-top:0.5rem;display:flex;gap:0.75rem;align-items:center;">
+                        <label style="font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;">
+                            <input type="checkbox" id="auto_generate_sku" checked>
+                            <span>Auto-generate dari nama</span>
+                        </label>
+                        <div style="font-size:0.9rem;color:#666;">Preview: <span id="sku_preview">{{ old('sku') ?? '-' }}</span></div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -64,5 +74,69 @@
     </div>
 
     <script>feather.replace()</script>
+
+    <script>
+        (function(){
+            const nameInput = document.getElementById('name');
+            const skuInput = document.getElementById('sku');
+            const previewEl = document.getElementById('sku_preview');
+            const genBtn = document.getElementById('generate_sku_btn');
+            const autoChk = document.getElementById('auto_generate_sku');
+
+            function sanitizeNameForSku(name){
+                let s = name.replace(/[^A-Za-z0-9]+/g, '-');
+                s = s.replace(/^-+|-+$/g, '');
+                s = s.toUpperCase();
+                if(s.length > 50) s = s.substring(0,50);
+                return s;
+            }
+
+            function randomHex(len){
+                let out = '';
+                for(let i=0;i<len;i++) out += Math.floor(Math.random()*16).toString(16);
+                return out.toUpperCase();
+            }
+
+            function generateSkuFromName(name){
+                const part = sanitizeNameForSku(name || 'PRODUCT');
+                const code = randomHex(6);
+                return `PRD-${part}-${code}`;
+            }
+
+            function updatePreviewAndInput(newSku, setInput){
+                previewEl.textContent = newSku;
+                if(setInput) skuInput.value = newSku;
+            }
+
+            // on name change, if auto-generate checked and sku hasn't been manually edited, generate
+            nameInput.addEventListener('input', function(){
+                if(!autoChk.checked) return;
+                const sku = generateSkuFromName(nameInput.value);
+                updatePreviewAndInput(sku, true);
+            });
+
+            // generate button always generates and fills input
+            genBtn.addEventListener('click', function(){
+                const sku = generateSkuFromName(nameInput.value);
+                updatePreviewAndInput(sku, true);
+                autoChk.checked = true;
+            });
+
+            // if user types into SKU manually, turn off auto-generate
+            skuInput.addEventListener('input', function(){
+                if(skuInput.value && skuInput.value !== previewEl.textContent){
+                    autoChk.checked = false;
+                }
+            });
+
+            // initialize preview if empty
+            document.addEventListener('DOMContentLoaded', function(){
+                if(!previewEl.textContent || previewEl.textContent === '-'){
+                    const initial = generateSkuFromName(nameInput.value || 'PRODUCT');
+                    updatePreviewAndInput(initial, false);
+                }
+            });
+        })();
+    </script>
 
 @endsection
