@@ -155,6 +155,34 @@
 
         .main-footer { text-align:center; padding:1.5rem; margin-top:2rem; color:#718096; font-size:0.875rem; font-weight:500; }
 
+    /* --- Sales/POS specific styles (from Desain/Page/sales.html) --- */
+    .pos-layout { display:flex; gap:1.5rem; align-items:flex-start; }
+    .pos-products { flex:2; }
+    .pos-cart { flex:1; background-color:#ffffff; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.05); position:sticky; top:2rem; }
+    .pos-cart-header { padding:1.5rem; border-bottom:1px solid #eef2f7; }
+    .pos-cart-header h3 { font-size:1.25rem; font-weight:600; color:#1a202c; }
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr)); gap:1rem; margin-top:1.5rem; }
+    .product-card { background-color:#ffffff; border-radius:12px; border:1px solid #eef2f7; padding:1rem; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; }
+    .product-card:hover { transform: translateY(-5px); box-shadow:0 8px 25px rgba(0,0,0,0.07); }
+    .product-card h6 { font-size:0.9rem; font-weight:600; margin-bottom:0.25rem; }
+    .product-card span { font-size:0.875rem; font-weight:500; color:#4F46E5; }
+    .cart-item-list { list-style:none; padding:1rem 1.5rem; max-height:300px; overflow-y:auto; }
+    .cart-item { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px dashed #e2e8f0; }
+    .cart-item:last-child { border-bottom:none; }
+    .cart-item-details h5 { font-weight:600; font-size:0.95rem; color:#2d3748; margin-bottom:0.5rem; }
+    .cart-item-editable { display:flex; gap:0.5rem; align-items:center; }
+    .cart-item-editable label { font-size:0.8rem; font-weight:600; color:#718096; }
+    .cart-item-editable input { font-family:'Poppins',sans-serif; font-weight:500; border:1px solid #e2e8f0; background-color:#f8f9fa; border-radius:6px; padding:4px 8px; font-size:0.9rem; width:80px; }
+    .cart-item-editable input:focus { outline:none; background-color:#fff; border-color:#4F46E5; box-shadow:0 0 0 3px rgba(79,70,229,0.2); }
+    .cart-item-remove button { background:none; border:none; color:#EF4444; cursor:pointer; padding:0.5rem; margin-left:0.5rem; }
+    .cart-item-remove button:hover { color:#9B2C2C; }
+    .info-box { background-color:#eef2ff; border-left:4px solid #4F46E5; padding:0.75rem 1rem; font-size:0.85rem; color:#4a5568; border-radius:8px; margin:0 1.5rem 1rem 1.5rem; }
+    .cart-summary { padding:1.5rem; border-top:1px solid #eef2f7; background-color:#fcfdff; border-radius:0 0 16px 16px; }
+    .summary-row { display:flex; justify-content:space-between; margin-bottom:0.75rem; font-size:0.95rem; }
+    .summary-row span { color:#4a5568; }
+    .summary-row.total { font-size:1.25rem; font-weight:700; color:#1a202c; margin-top:1rem; }
+
+
     </style>
     @endverbatim
 
@@ -170,7 +198,7 @@
                 <ul>
                     <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> Dashboard</a></li>
                     <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> Manajemen Produk</a></li>
-                    <li><a href="#"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
                     <li><a href="#"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
                     <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
                     <li><a href="#"><i data-feather="shield"></i> Audit Log System</a></li>

@@ -16,6 +16,14 @@ Route::get('/inventory', function () {
     return view('inventory');
 })->name('inventory');
 
+Route::get('/sales', function () {
+    return view('sales');
+})->name('sales');
+
+// Product create/store
+Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
+
 // Placeholder for password reset route used in the login view
 Route::get('/password/reset', function () {
     return 'Password reset not implemented yet.';
