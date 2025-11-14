@@ -37,7 +37,14 @@
                     <td>{{ $product->sku ?? '-' }}</td>
                     <td>Rp {{ number_format($product->cost_price,0,',','.') }}</td>
                     <td>Rp {{ number_format($product->sale_price,0,',','.') }}</td>
-                    <td class="stock-level {{ $product->current_stock <= ($product->min_stock_level ?? 0) ? 'low' : '' }}">{{ $product->current_stock }}</td>
+                    <td class="stock-level {{ $product->current_stock <= ($product->min_stock_level ?? 0) ? 'low' : '' }}">
+                        {{ $product->current_stock }}
+                        @if($product->current_stock <= 0)
+                            <span class="badge badge-danger" style="margin-left:0.5rem;">Habis</span>
+                        @elseif($product->current_stock < 3)
+                            <span class="badge badge-warning" style="margin-left:0.5rem;">Menipis</span>
+                        @endif
+                    </td>
                     <td class="action-buttons">
                         <a href="{{ route('products.edit', $product->id) }}" title="Edit"><i data-feather="edit-2"></i></a>
                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Hapus produk ini?');">

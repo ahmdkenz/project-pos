@@ -35,18 +35,47 @@
             background-color: #ffffff;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             position: fixed; top: 0; left: 0; height: 100vh; padding: 1.5rem; display: flex; flex-direction: column;
+            transition: width 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            z-index: 100;
         }
-        .sidebar-header { text-align: center; margin-bottom: 2.5rem; padding-top: 1rem; }
-        .sidebar-header h2 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(90deg, #4F46E5, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar.collapsed {
+            width: 80px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        .sidebar-header { text-align: center; margin-bottom: 2.5rem; padding-top: 1rem; white-space: nowrap; }
+        .sidebar-header h2 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(90deg, #4F46E5, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: opacity 0.3s ease; }
+        .sidebar.collapsed .sidebar-header h2 { opacity: 0; font-size: 0; }
         .sidebar-nav { flex-grow: 1; }
         .sidebar-nav ul { list-style: none; }
         .sidebar-nav li { margin-bottom: 0.5rem; }
-        .sidebar-nav a { display:flex; align-items:center; padding:0.75rem 1rem; text-decoration:none; font-size:0.95rem; font-weight:500; color:#718096; border-radius:8px; transition:background-color 0.3s, color 0.3s; }
-        .sidebar-nav a svg{ width:20px; height:20px; margin-right:0.75rem; stroke-width:2.5px; }
+        .sidebar-nav a { display:flex; align-items:center; padding:0.75rem 1rem; text-decoration:none; font-size:0.95rem; font-weight:500; color:#718096; border-radius:8px; transition:background-color 0.3s, color 0.3s; white-space: nowrap; }
+        .sidebar-nav a svg{ width:20px; height:20px; margin-right:0.75rem; stroke-width:2.5px; flex-shrink: 0; }
+        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 0.75rem 0.5rem; }
+        .sidebar.collapsed .sidebar-nav a svg { margin-right: 0; }
+        .sidebar.collapsed .sidebar-nav a span { display: none; }
         .sidebar-nav a.active, .sidebar-nav a:hover { background-color:#eef2ff; color:#4F46E5; }
         .sidebar-footer { margin-top: auto; }
+        .sidebar-footer form { width: 100%; }
+        .sidebar-footer button { width: 100%; display: flex; align-items: center; padding: 0.75rem 1rem; background: none; border: none; color: #718096; font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; border-radius: 8px; transition: background-color 0.3s, color 0.3s; white-space: nowrap; }
+        .sidebar-footer button svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; flex-shrink: 0; }
+        .sidebar.collapsed .sidebar-footer button { justify-content: center; padding: 0.75rem 0.5rem; }
+        .sidebar.collapsed .sidebar-footer button svg { margin-right: 0; }
+        .sidebar.collapsed .sidebar-footer button span { display: none; }
+        .sidebar-footer button:hover { background-color: #fee2e2; color: #DC2626; }
+        @media (min-width: 768px) {
+            .sidebar:hover { width: 260px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+            .sidebar:hover.collapsed .sidebar-header h2 { opacity: 1; font-size: 1.5rem; }
+            .sidebar:hover.collapsed .sidebar-nav a { justify-content: flex-start; padding: 0.75rem 1rem; }
+            .sidebar:hover.collapsed .sidebar-nav a svg { margin-right: 0.75rem; }
+            .sidebar:hover.collapsed .sidebar-nav a span { display: inline; }
+            .sidebar:hover.collapsed .sidebar-footer button { justify-content: flex-start; padding: 0.75rem 1rem; }
+            .sidebar:hover.collapsed .sidebar-footer button svg { margin-right: 0.75rem; }
+            .sidebar:hover.collapsed .sidebar-footer button span { display: inline; }
+        }
 
-        .main-content { margin-left: 260px; flex:1; padding:2rem; display:flex; flex-direction:column; min-height:100vh; }
+        .main-content { margin-left: 260px; flex:1; padding:2rem; display:flex; flex-direction:column; min-height:100vh; transition: margin-left 0.3s ease; }
+        .sidebar.collapsed ~ .main-content { margin-left: 80px; }
         .content-area { flex-grow:1; }
 
         .main-header { background-color:#ffffff; border-radius:16px; padding:1.25rem 2rem; box-shadow:0 10px 40px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; animation:fadeIn 0.5s ease-out; }
@@ -350,23 +379,29 @@
 <body>
 
     <div class="dashboard-container">
-        <aside class="sidebar">
+        <aside class="sidebar collapsed" id="appSidebar">
             <div class="sidebar-header">
                 <h2>MUSTIKA KOMPUTER</h2>
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> Dashboard</a></li>
-                    <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> Manajemen Produk</a></li>
-                    <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
-                    <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
-                    <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
-                    <li><a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}"><i data-feather="tool"></i> Manajemen Servis</a></li>
-                    <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> Audit Log System</a></li>
+                    <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> <span>Dashboard</span></a></li>
+                    <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> <span>Manajemen Produk</span></a></li>
+                    <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> <span>Kasir (POS)</span></a></li>
+                    <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Penjualan</span></a></li>
+                    <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> <span>Laporan Profit</span></a></li>
+                    <li><a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}"><i data-feather="tool"></i> <span>Manajemen Servis</span></a></li>
+                    <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> <span>Audit Log System</span></a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <a href="#"><i data-feather="log-out"></i> Logout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">
+                        <i data-feather="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </div>
         </aside>
 

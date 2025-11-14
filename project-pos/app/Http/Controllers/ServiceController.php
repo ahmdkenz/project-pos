@@ -53,8 +53,10 @@ class ServiceController extends Controller
             'device_type' => ['required', 'string', 'max:255'],
             'device_brand' => ['nullable', 'string', 'max:100'],
             'complaint' => ['required', 'string'],
+            'items_included' => ['nullable', 'string'],
             'diagnosis' => ['nullable', 'string'],
-            'status' => ['required', 'in:pending,progress,done,picked-up'],
+            'technician' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', 'in:pending,progress,done,picked-up'],
             'cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
@@ -62,6 +64,7 @@ class ServiceController extends Controller
         $data['service_code'] = Service::generateServiceCode();
         $data['created_by'] = Auth::id();
         $data['cost'] = $data['cost'] ?? 0;
+        $data['status'] = $data['status'] ?? 'pending';
 
         $service = Service::create($data);
 
@@ -97,8 +100,10 @@ class ServiceController extends Controller
             'device_type' => ['required', 'string', 'max:255'],
             'device_brand' => ['nullable', 'string', 'max:100'],
             'complaint' => ['required', 'string'],
+            'items_included' => ['nullable', 'string'],
             'diagnosis' => ['nullable', 'string'],
             'action_taken' => ['nullable', 'string'],
+            'technician' => ['nullable', 'string', 'max:100'],
             'status' => ['required', 'in:pending,progress,done,picked-up'],
             'cost' => ['nullable', 'numeric', 'min:0'],
         ]);

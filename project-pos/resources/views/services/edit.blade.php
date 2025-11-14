@@ -69,6 +69,14 @@
                 </div>
 
                 <div class="form-group full-width">
+                    <label for="items_included">Kelengkapan Barang</label>
+                    <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan...">{{ old('items_included', $service->items_included) }}</textarea>
+                    @error('items_included')
+                    <small style="color: #EF4444;">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group full-width">
                     <label for="diagnosis">Hasil Diagnosis</label>
                     <textarea id="diagnosis" name="diagnosis" placeholder="Hasil pengecekan teknisi...">{{ old('diagnosis', $service->diagnosis) }}</textarea>
                     @error('diagnosis')
@@ -93,6 +101,19 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="technician">Ditugaskan ke Teknisi</label>
+                    <select id="technician" name="technician">
+                        <option value="" {{ old('technician', $service->technician) == '' ? 'selected' : '' }}>-- Pilih Teknisi --</option>
+                        <option value="Rudi" {{ old('technician', $service->technician) == 'Rudi' ? 'selected' : '' }}>Rudi</option>
+                        <option value="Ahmad" {{ old('technician', $service->technician) == 'Ahmad' ? 'selected' : '' }}>Ahmad</option>
+                        <option value="Eko" {{ old('technician', $service->technician) == 'Eko' ? 'selected' : '' }}>Eko</option>
+                    </select>
+                    @error('technician')
+                    <small style="color: #EF4444;">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group full-width">
                     <label for="status">Status *</label>
                     <select id="status" name="status" required>
                         <option value="pending" {{ old('status', $service->status) == 'pending' ? 'selected' : '' }}>Menunggu Cek</option>

@@ -105,7 +105,21 @@
         background-color: #eef2f7;
         border-radius: 10px;
         padding: 0.5rem;
-        flex-wrap: wrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 transparent;
+    }
+    .filter-tabs::-webkit-scrollbar {
+        height: 6px;
+    }
+    .filter-tabs::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .filter-tabs::-webkit-scrollbar-thumb {
+        background-color: #cbd5e0;
+        border-radius: 10px;
     }
     
     .filter-tab {
@@ -125,8 +139,15 @@
         justify-content: center;
         text-align: center;
         white-space: nowrap;
-        flex: 1 1 auto;
-        min-width: fit-content;
+        flex: 0 0 auto;
+        min-width: 140px;
+    }
+    @media (max-width: 768px) {
+        .filter-tab {
+            min-width: 120px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
     }
     
     .filter-tab:hover {
