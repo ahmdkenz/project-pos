@@ -20,6 +20,12 @@ class ProductController extends Controller
         return view('inventory', compact('products'));
     }
 
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -88,5 +94,34 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('inventory')->with('status', 'Stok berhasil ditambahkan.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => ['required','string','max:255'],
+            'min_stock_level' => ['nullable','integer','min:0'],
+            'cost_price' => ['nullable','numeric','min:0'],
+            'sale_price' => ['nullable','numeric','min:0'],
+        ]);
+
+        $product->update([
+            'name' => $data['name'],
+            'min_stock_level' => $data['min_stock_level'] ?? $product->min_stock_level,
+            'cost_price' => $data['cost_price'] ?? $product->cost_price,
+            'sale_price' => $data['sale_price'] ?? $product->sale_price,
+        ]);
+
+        return redirect()->route('inventory')->with('status', 'Produk berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        // soft delete is not implemented; perform hard delete
+        $product->delete();
+        return redirect()->route('inventory')->with('status', 'Produk berhasil dihapus.');
     }
 }

@@ -12,6 +12,11 @@
             Tambah Produk Baru
         </a>
     </div>
+    @if(session('status'))
+        <div class="content-card" style="border-left:4px solid #10B981;">
+            <strong style="color:#0E9F6E">{{ session('status') }}</strong>
+        </div>
+    @endif
     
     <div class="content-card">
         <table class="modern-table">
@@ -34,8 +39,14 @@
                     <td>Rp {{ number_format($product->sale_price,0,',','.') }}</td>
                     <td class="stock-level {{ $product->current_stock <= ($product->min_stock_level ?? 0) ? 'low' : '' }}">{{ $product->current_stock }}</td>
                     <td class="action-buttons">
-                        <a href="#" title="Edit"><i data-feather="edit-2"></i></a>
-                        <a href="#" title="Hapus"><i data-feather="trash-2"></i></a>
+                        <a href="{{ route('products.edit', $product->id) }}" title="Edit"><i data-feather="edit-2"></i></a>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Hapus produk ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" title="Hapus" style="background:none;border:none;padding:0;margin:0;vertical-align:middle;color:inherit;">
+                                <i data-feather="trash-2"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
@@ -52,7 +63,7 @@
             @csrf
             <div class="form-group">
                 <label for="product">Pilih Produk</label>
-                <select id="product" name="product">
+                <select id="product" name="product_id" required>
                     <option value="">-- Pilih produk yang akan di-restock --</option>
                     @foreach($products as $p)
                         <option value="{{ $p->id }}">{{ $p->name }} @if($p->sku) ({{ $p->sku }}) @endif</option>
