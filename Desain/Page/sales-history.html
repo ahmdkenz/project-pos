@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Penjualan - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content-area {
+            flex-grow: 1; /* Mendorong footer ke bawah */
+        }
+        
+        /* --- 5. HEADER (TOP BAR) --- */
+         
+        .main-header {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .search-bar { position: relative; }
+        .search-bar svg {
+            position: absolute; top: 50%; left: 1rem; transform: translateY(-50%);
+            color: #718096; stroke-width: 2.5px;
+        }
+        .search-bar input {
+            font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 500; width: 350px;
+            padding: 0.85rem 1rem 0.85rem 3rem; border: 1px solid #e2e8f0; border-radius: 8px;
+            background-color: #f8f9fa; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-bar input:focus {
+            outline: none; border-color: #4F46E5; background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .user-profile .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-image: linear-gradient(45deg, #4F46E5, #3B82F6);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 1rem;
+        }
+        .user-profile .user-info { line-height: 1.3; text-align: right; }
+        .user-profile .user-info strong { display: block; font-size: 0.95rem; font-weight: 600; color: #2d3748; }
+        .user-profile .user-info span { font-size: 0.85rem; color: #718096; }
+
+        /* --- 6. FOOTER --- */
+        
+        .main-footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #718096;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* --- 7. STYLING KONTEN (Filter, Tabel, CTA) --- */
+
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto; /* Untuk tabel agar responsif */
+        }
+        
+        .cta-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
+        }
+
+        /* Grid untuk form filter */
+        .filter-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto; /* 4 kolom */
+            gap: 1rem;
+            align-items: flex-end; /* Tombol sejajar dengan bawah input */
+        }
+        .filter-form-grid .form-group {
+            margin-bottom: 0;
+        }
+        .filter-form-grid .cta-button {
+            width: 100%;
+        }
+        
+        /* Tabel Modern */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        .modern-table thead th {
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: #f8f9fa;
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .modern-table thead th.text-right { text-align: right; }
+        
+        .modern-table tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            color: #2d3748;
+            border-bottom: 1px solid #eef2f7;
+            white-space: nowrap;
+        }
+        .modern-table tbody td.text-right { text-align: right; }
+        .modern-table tbody tr:hover {
+            background-color: #fcfdff;
+        }
+        
+        /* Badge Status (Cerah & Modern) */
+        .status-badge {
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px; /* Bentuk pil */
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-badge.success {
+            background-color: #DEF7EC;
+            color: #0E9F6E;
+        }
+        
+        /* Tombol Aksi di Tabel */
+        .action-buttons a {
+            color: #718096;
+            text-decoration: none;
+            margin-right: 0.75rem;
+            transition: color 0.3s;
+        }
+        .action-buttons a:hover {
+            color: #4F46E5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="inventory.html"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="sales.html"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="#" class="active"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
+                    <li><a href="reports.html"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="audit-log.html"><i data-feather="shield"></i> Audit Log System</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#"><i data-feather="log-out"></i> Logout</a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Riwayat Penjualan</h1>
+                </div>
+                
+                <div class="search-bar">
+                    <i data-feather="search"></i>
+                    <input type="text" placeholder="Cari produk, invoice, atau log...">
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-info">
+                        <strong>Admin</strong>
+                        <span>Mustika Komputer</span>
+                    </div>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+            
+            <div class="content-area">
+
+                <div class="content-card">
+                    <form class="filter-form-grid">
+                        <div class="form-group">
+                            <label for="start_date">Tanggal Mulai</label>
+                            <input type="date" id="start_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">Tanggal Akhir</label>
+                            <input type="date" id="end_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoice_id">Cari ID Invoice</label>
+                            <input type="text" id="invoice_id" placeholder="Contoh: INV/2025/11/001">
+                        </div>
+                        
+                        <button type="submit" class="cta-button">
+                            <i data-feather="filter"></i>
+                            Filter
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="content-card">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>ID Transaksi</th>
+                                <th>Tanggal</th>
+                                <th class="text-right">Total</th>
+                                <th>Metode Bayar</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>INV/2025/11/001</strong></td>
+                                <td>14 Nov 2025, 13:05</td>
+                                <td class="text-right">Rp 1.354.200</td>
+                                <td>Tunai</td>
+                                <td><span class="status-badge success">Lunas</span></td>
+                                <td class="action-buttons">
+                                    <a href="invoice-detail.html" title="Lihat Detail"><i data-feather="eye"></i></a>
+                                    <a href="#" title="Cetak Ulang Struk"><i data-feather="printer"></i></a>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>INV/2025/11/002</strong></td>
+                                <td>14 Nov 2025, 11:30</td>
+                                <td class="text-right">Rp 1.100.000</td>
+                                <td>Transfer</td>
+                                <td><span class="status-badge success">Lunas</span></td>
+                                <td class="action-buttons">
+                                    <a href="invoice-detail.html" title="Lihat Detail"><i data-feather="eye"></i></a>
+                                    <a href="#" title="Cetak Ulang Struk"><i data-feather="printer"></i></a>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>INV/2025/11/003</strong></td>
+                                <td>13 Nov 2025, 16:15</td>
+                                <td class="text-right">Rp 5.500.000</td>
+                                <td>Transfer</td>
+                                <td><span class="status-badge success">Lunas</span></td>
+                                <td class="action-buttons">
+                                    <a href="invoice-detail.html" title="Lihat Detail"><i data-feather="eye"></i></a>
+                                    <a href="#" title="Cetak Ulang Struk"><i data-feather="printer"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            
+            <footer class="main-footer">
+                &copy; 2025 Mustika Komputer. Dibuat dengan cinta & kopi.
+            </footer>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>
