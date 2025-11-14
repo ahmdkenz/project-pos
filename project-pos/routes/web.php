@@ -12,6 +12,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/inventory', function () {
+    return view('inventory');
+})->name('inventory');
+
 // Placeholder for password reset route used in the login view
 Route::get('/password/reset', function () {
     return 'Password reset not implemented yet.';

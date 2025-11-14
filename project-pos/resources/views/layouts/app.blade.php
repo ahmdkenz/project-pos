@@ -101,6 +101,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             margin-top: 2rem;
+            overflow-x: auto; /* Ensure responsive tables */
         }
 
         .content-card h3 { font-size: 1.25rem; font-weight: 700; color: #1a202c; margin-bottom: 1.5rem; }
@@ -112,6 +113,45 @@
         .activity-text { flex-grow:1; font-size:0.95rem; color:#4a5568; }
         .activity-text strong { color:#1a202c; font-weight:600; }
         .activity-timestamp { flex-shrink:0; font-size:0.875rem; color:#718096; font-weight:500; }
+
+        /* --- Inventory/Page specific styles (from Desain/Page/Inventory.html) --- */
+        .cta-button {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); }
+        .cta-button.full-width { width:100%; justify-content:center; padding:0.85rem 1rem; font-size:1rem; }
+
+        .page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
+        .page-header h1 { font-size:1.75rem; font-weight:700; color:#1a202c; }
+
+        .modern-table { width:100%; border-collapse: collapse; min-width:700px; }
+        .modern-table thead th { text-align:left; font-size:0.875rem; font-weight:600; color:#718096; text-transform:uppercase; letter-spacing:0.5px; background-color:#f8f9fa; padding:1rem 1.25rem; border-bottom:2px solid #e2e8f0; }
+        .modern-table tbody td { padding:1rem 1.25rem; font-size:0.95rem; color:#2d3748; border-bottom:1px solid #eef2f7; white-space:nowrap; }
+        .modern-table tbody tr:hover { background-color:#fcfdff; }
+        .modern-table .stock-level { font-weight:600; }
+        .modern-table .stock-level.low { color:#EF4444; }
+
+        .action-buttons a { color:#718096; text-decoration:none; margin-right:0.75rem; }
+        .action-buttons a:hover { color:#4F46E5; }
+
+        .form-group { margin-bottom:1.25rem; text-align:left; }
+        .form-group label { display:block; font-size:0.875rem; font-weight:600; color:#4a5568; margin-bottom:0.5rem; }
+        .form-group input, .form-group select { width:100%; padding:0.75rem 1rem; font-size:1rem; font-family:'Poppins', sans-serif; border:1px solid #e2e8f0; border-radius:8px; background-color:#fdfdfd; transition:border-color 0.3s, box-shadow 0.3s; }
+        .form-group select { appearance:none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 1rem center; background-size:1em; padding-right:2.5rem; }
+        .form-group input:focus, .form-group select:focus { outline:none; border-color:#4F46E5; box-shadow:0 0 0 3px rgba(79,70,229,0.2); }
 
         .main-footer { text-align:center; padding:1.5rem; margin-top:2rem; color:#718096; font-size:0.875rem; font-weight:500; }
 
@@ -128,8 +168,8 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active"><i data-feather="home"></i> Dashboard</a></li>
-                    <li><a href="#"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> Manajemen Produk</a></li>
                     <li><a href="#"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
                     <li><a href="#"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
                     <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
