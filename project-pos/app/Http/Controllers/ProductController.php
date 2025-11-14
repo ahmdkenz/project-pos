@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\PurchaseLot;
 use App\Models\StockMovement;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use LogsActivity;
     public function create()
     {
         return view('products.create');
@@ -59,6 +61,9 @@ class ProductController extends Controller
             'min_stock_level' => 0,
         ]);
 
+        // Log activity
+        $this->logProductCreated($product->name, $product->sku);
+
         return redirect()->route('inventory')->with('status', 'Produk berhasil ditambahkan.');
     }
 
@@ -93,6 +98,9 @@ class ProductController extends Controller
             'reason' => 'stock_in',
         ]);
 
+        // Log activity
+        $this->logStockRestock($product->name, $data['quantity']);
+
         return redirect()->route('inventory')->with('status', 'Stok berhasil ditambahkan.');
     }
 
@@ -114,14 +122,24 @@ class ProductController extends Controller
             'sale_price' => $data['sale_price'] ?? $product->sale_price,
         ]);
 
+        // Log activity
+        $this->logProductUpdated($product->name, $product->sku);
+
         return redirect()->route('inventory')->with('status', 'Produk berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $productName = $product->name;
+        $productSku = $product->sku;
+        
         // soft delete is not implemented; perform hard delete
         $product->delete();
+        
+        // Log activity
+        $this->logProductDeleted($productName, $productSku);
+        
         return redirect()->route('inventory')->with('status', 'Produk berhasil dihapus.');
     }
 }

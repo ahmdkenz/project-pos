@@ -6,11 +6,13 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\StockMovement;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
+    use LogsActivity;
     public function index()
     {
         $products = Product::orderBy('name')->get();
@@ -61,6 +63,10 @@ class SaleController extends Controller
                     ]);
                 }
             }
+
+            // Log activity
+            $invoiceNumber = 'INV/' . date('Y/m') . '/' . str_pad($sale->id, 3, '0', STR_PAD_LEFT);
+            $this->logSaleCreated($invoiceNumber, $total);
 
             DB::commit();
             return response()->json(['status' => 'success', 'sale_id' => $sale->id]);

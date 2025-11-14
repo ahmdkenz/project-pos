@@ -344,6 +344,8 @@
     </style>
     @endverbatim
 
+    @stack('styles')
+
 </head>
 <body>
 
@@ -359,7 +361,7 @@
                     <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
                     <li><a href="#"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
                     <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
-                    <li><a href="#"><i data-feather="shield"></i> Audit Log System</a></li>
+                    <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> Audit Log System</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">

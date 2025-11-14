@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    use LogsActivity;
     public function showLoginForm()
     {
         return view('auth.login');
@@ -23,6 +25,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember')) ) {
             $request->session()->regenerate();
 
+            // Log login activity
+            $this->logLogin(Auth::user()->name);
+
             return redirect()->intended('/dashboard');
         }
 
@@ -33,7 +38,13 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        $userName = Auth::user()?->name ?? 'User';
+        
         Auth::logout();
+        
+        // Log logout activity (before session invalidate)
+        $this->logLogout($userName);
+        
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
