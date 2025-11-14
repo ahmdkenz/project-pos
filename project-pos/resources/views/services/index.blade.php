@@ -105,13 +105,14 @@
         background-color: #eef2f7;
         border-radius: 10px;
         padding: 0.5rem;
+        flex-wrap: wrap;
     }
     
     .filter-tab {
         background-color: transparent;
         border: none;
         border-radius: 8px;
-        padding: 0.6rem 1rem;
+        padding: 0.6rem 1.2rem;
         font-family: 'Poppins', sans-serif;
         font-size: 0.9rem;
         font-weight: 600;
@@ -119,7 +120,13 @@
         cursor: pointer;
         text-decoration: none;
         transition: all 0.3s ease;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        white-space: nowrap;
+        flex: 1 1 auto;
+        min-width: fit-content;
     }
     
     .filter-tab:hover {
