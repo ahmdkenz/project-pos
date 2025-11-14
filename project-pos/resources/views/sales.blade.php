@@ -172,17 +172,23 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function renderCart(){
         cartItemsEl.innerHTML = '';
-        cart.forEach(it => {
+        cart.forEach((it, index) => {
             const li = document.createElement('li');
             li.className = 'cart-item';
+            const qtyId = 'qty_' + (it.product_id);
+            const priceId = 'price_' + (it.product_id);
             li.innerHTML = `
-                <div class="cart-item-left">
-                    <div class="cart-item-name">${it.name}</div>
+                <div class="cart-item-details">
+                    <h5>${it.name}</h5>
+                    <div class="cart-item-editable">
+                        <label for="${qtyId}">Qty:</label>
+                        <input type="number" id="${qtyId}" class="cart-qty" data-id="${it.product_id}" value="${it.quantity}" min="1">
+                        <label for="${priceId}">Harga:</label>
+                        <input type="number" id="${priceId}" class="cart-price" data-id="${it.product_id}" value="${it.price_per_unit}" min="0">
+                    </div>
                 </div>
-                <div class="cart-item-right">
-                    <input type="number" min="1" class="cart-qty" data-id="${it.product_id}" value="${it.quantity}" style="width:5rem;margin-right:0.5rem;">
-                    <input type="number" min="0" step="0.01" class="cart-price" data-id="${it.product_id}" value="${it.price_per_unit}" style="width:7rem;margin-right:0.5rem;">
-                    <button class="remove-item" data-id="${it.product_id}" aria-label="Remove">&times;</button>
+                <div class="cart-item-remove">
+                    <button class="remove-item" data-id="${it.product_id}" title="Hapus Item"><i data-feather="trash-2" style="width:20px; height:20px;"></i></button>
                 </div>
             `;
             cartItemsEl.appendChild(li);
@@ -214,13 +220,17 @@ document.addEventListener('DOMContentLoaded', function(){
             });
         });
 
+        // refresh feather icons inside cart
+        if(window.feather) window.feather.replace();
+
         updateTotals();
     }
 
     function updateTotals(){
         const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
-        const tax = Math.round(subtotal * 0.11);
-        const total = subtotal + tax;
+        // Pajak 11% tidak dihitung ke total (tidak terakumulasi)
+        const tax = 0; // intentionally ignored
+        const total = subtotal; // total excludes tax
         subtotalDisplay.textContent = formatIDR(subtotal);
         taxDisplay.textContent = formatIDR(tax);
         totalDisplay.textContent = formatIDR(total);
@@ -254,11 +264,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function openPaymentModal(){
         if(cart.length === 0){ alert('Keranjang kosong. Tambahkan produk terlebih dahulu.'); return; }
-        const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
-        const tax = Math.round(subtotal * 0.11);
-        const total = subtotal + tax;
-        modalTotal.textContent = formatIDR(total);
-        modal.dataset.total = total;
+    const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
+    // Pajak tidak dihitung kedalam total pada permintaan saat ini
+    const tax = 0;
+    const total = subtotal;
+    modalTotal.textContent = formatIDR(total);
+    modal.dataset.total = total;
         cashInput.value = total;
         changeValue.textContent = formatIDR(0);
         // default to cash visible
