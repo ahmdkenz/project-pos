@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\SalesHistoryController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ServiceController;
 
 // Simple routes for login and dashboard (migrated from design files)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -25,6 +27,12 @@ Route::get('/sales/{id}/detail', [SalesHistoryController::class, 'show'])->name(
 
 // Audit Log System
 Route::get('/audit-log', [AuditLogController::class, 'index'])->name('audit-log');
+
+// Reports
+Route::get('/reports/profit', [ReportController::class, 'profit'])->name('reports.profit');
+
+// Services Management (Manajemen Servis)
+Route::resource('services', ServiceController::class);
 
 // Product create/store
 Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');

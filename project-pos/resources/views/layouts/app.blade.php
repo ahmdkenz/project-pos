@@ -360,7 +360,8 @@
                     <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> Manajemen Produk</a></li>
                     <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
                     <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
-                    <li><a href="#"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}"><i data-feather="tool"></i> Manajemen Servis</a></li>
                     <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> Audit Log System</a></li>
                 </ul>
             </nav>
