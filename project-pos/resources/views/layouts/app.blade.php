@@ -403,9 +403,9 @@
                     <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> <span>Dashboard</span></a></li>
                     <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> <span>Manajemen Produk</span></a></li>
                     <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> <span>Kasir (POS)</span></a></li>
+                    <li><a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}"><i data-feather="tool"></i> <span>Manajemen Servis</span></a></li>
                     <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Penjualan</span></a></li>
                     <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> <span>Laporan Profit</span></a></li>
-                    <li><a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}"><i data-feather="tool"></i> <span>Manajemen Servis</span></a></li>
                     <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> <span>Audit Log System</span></a></li>
                 </ul>
             </nav>
