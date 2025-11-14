@@ -79,15 +79,11 @@
     </div>
 
     <div class="page-header" style="margin-top:3rem;">
-        <h1>Riwayat Penjualan</h1>
-    </div>
-
-    <div class="content-card">
-        <form class="filter-form">
-            <div class="form-group"><label for="start_date">Tanggal Mulai</label><input type="date" id="start_date"></div>
-            <div class="form-group"><label for="end_date">Tanggal Akhir</label><input type="date" id="end_date"></div>
-            <button type="submit" class="cta-button" style="width:auto;padding:0.75rem 1.25rem;"><i data-feather="filter"></i> Filter</button>
-        </form>
+        <h1>Riwayat Penjualan Terbaru</h1>
+        <a href="{{ route('sales.history') }}" class="cta-button" style="text-decoration: none;">
+            <i data-feather="file-text"></i>
+            Lihat Semua Riwayat
+        </a>
     </div>
 
     <div class="content-card">
@@ -103,22 +99,25 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($recentSales as $sale)
                 <tr>
-                    <td>INV/2025/11/001</td>
-                    <td>14 Nov 2025, 13:05</td>
-                    <td>Rp 1.354.200</td>
-                    <td>QRIS</td>
-                    <td><span class="status-badge success">Lunas</span></td>
-                    <td class="action-buttons"><a href="#" title="Lihat Detail"><i data-feather="eye"></i></a><a href="#" title="Cetak Ulang Struk"><i data-feather="printer"></i></a></td>
+                    <td>{{ $sale->invoice_number }}</td>
+                    <td>{{ $sale->created_at->format('d M Y, H:i') }}</td>
+                    <td>Rp {{ number_format($sale->total_amount, 0, ',', '.') }}</td>
+                    <td>{{ $sale->payment_method }}</td>
+                    <td><span class="status-badge {{ $sale->status_badge_class }}">{{ $sale->status }}</span></td>
+                    <td class="action-buttons">
+                        <a href="{{ route('sales.detail', $sale->id) }}" title="Lihat Detail"><i data-feather="eye"></i></a>
+                        <a href="#" onclick="window.print(); return false;" title="Cetak Ulang Struk"><i data-feather="printer"></i></a>
+                    </td>
                 </tr>
+                @empty
                 <tr>
-                    <td>INV/2025/11/002</td>
-                    <td>14 Nov 2025, 11:30</td>
-                    <td>Rp 1.100.000</td>
-                    <td>Cash</td>
-                    <td><span class="status-badge success">Lunas</span></td>
-                    <td class="action-buttons"><a href="#" title="Lihat Detail"><i data-feather="eye"></i></a><a href="#" title="Cetak Ulang Struk"><i data-feather="printer"></i></a></td>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: #718096;">
+                        Belum ada riwayat penjualan. Transaksi pertama Anda akan muncul di sini.
+                    </td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

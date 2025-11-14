@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\SalesHistoryController;
 
 // Simple routes for login and dashboard (migrated from design files)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -17,6 +18,10 @@ Route::post('/inventory/restock', [App\Http\Controllers\ProductController::class
 
 Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])->name('sales');
 Route::post('/sales/process', [App\Http\Controllers\SaleController::class, 'process'])->name('sales.process');
+
+// Sales History (Riwayat Penjualan)
+Route::get('/sales/history', [SalesHistoryController::class, 'index'])->name('sales.history');
+Route::get('/sales/{id}/detail', [SalesHistoryController::class, 'show'])->name('sales.detail');
 
 // Audit Log System
 Route::get('/audit-log', [AuditLogController::class, 'index'])->name('audit-log');

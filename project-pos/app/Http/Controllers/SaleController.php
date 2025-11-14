@@ -16,7 +16,15 @@ class SaleController extends Controller
     public function index()
     {
         $products = Product::orderBy('name')->get();
-        return view('sales', compact('products'));
+        
+        // Ambil 5 riwayat penjualan terakhir user yang login
+        $recentSales = Sale::with(['items.product', 'user'])
+            ->byUser(auth()->id())
+            ->latest()
+            ->limit(5)
+            ->get();
+        
+        return view('sales', compact('products', 'recentSales'));
     }
 
     public function process(Request $request)
