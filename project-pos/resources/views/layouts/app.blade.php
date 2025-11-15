@@ -508,7 +508,7 @@
             </div>
 
             <footer class="main-footer">
-                &copy; 2025 Mustika Komputer. Dibuat dengan cinta & kopi.
+                &copy; 2025 Mustika Komputer | All Rights Reserved.
             </footer>
 
         </main>
