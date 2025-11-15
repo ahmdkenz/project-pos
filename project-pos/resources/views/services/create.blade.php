@@ -57,15 +57,7 @@
                     <input type="number" id="estimated_cost" name="cost" value="{{ old('cost', 0) }}" placeholder="0" min="0">
                 </div>
                 
-                <div class="form-group">
-                    <label for="technician">Ditugaskan ke Teknisi</label>
-                    <select id="technician" name="technician">
-                        <option value="">-- Pilih Teknisi --</option>
-                        <option value="Rudi" {{ old('technician') == 'Rudi' ? 'selected' : '' }}>Rudi</option>
-                        <option value="Ahmad" {{ old('technician') == 'Ahmad' ? 'selected' : '' }}>Ahmad</option>
-                        <option value="Eko" {{ old('technician') == 'Eko' ? 'selected' : '' }}>Eko</option>
-                    </select>
-                </div>
+                <!-- Field 'Ditugaskan ke Teknisi' dihapus sesuai permintaan -->
 
             </div>
             

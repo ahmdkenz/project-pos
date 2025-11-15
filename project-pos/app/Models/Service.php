@@ -32,6 +32,25 @@ class Service extends Model
     ];
 
     /**
+     * Boot method untuk auto-generate service_code
+     */
+    protected static function booted()
+    {
+        static::creating(function ($service) {
+            if (empty($service->service_code)) {
+                // Format: SVC-DDMMYY-XXXXXX (6 karakter alfanumerik acak)
+                do {
+                    $date = now()->format('dmy');
+                    $random = strtoupper(substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6));
+                    $code = "SVC-{$date}-{$random}";
+                } while (self::where('service_code', $code)->exists());
+                
+                $service->service_code = $code;
+            }
+        });
+    }
+
+    /**
      * Relasi ke User (yang membuat record)
      */
     public function creator(): BelongsTo
@@ -97,13 +116,4 @@ class Service extends Model
         return $query;
     }
 
-    /**
-     * Generate service code
-     */
-    public static function generateServiceCode(): string
-    {
-        $lastService = self::latest('id')->first();
-        $number = $lastService ? $lastService->id + 1 : 1;
-        return 'SVC-' . str_pad($number, 3, '0', STR_PAD_LEFT);
-    }
 }

@@ -55,13 +55,11 @@ class ServiceController extends Controller
             'complaint' => ['required', 'string'],
             'items_included' => ['nullable', 'string'],
             'diagnosis' => ['nullable', 'string'],
-            'technician' => ['nullable', 'string', 'max:100'],
             'status' => ['nullable', 'in:pending,progress,done,picked-up'],
             'cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        // Generate service code
-        $data['service_code'] = Service::generateServiceCode();
+        // Service code akan di-generate otomatis oleh model
         $data['created_by'] = Auth::id();
         $data['cost'] = $data['cost'] ?? 0;
         $data['status'] = $data['status'] ?? 'pending';
@@ -103,7 +101,6 @@ class ServiceController extends Controller
             'items_included' => ['nullable', 'string'],
             'diagnosis' => ['nullable', 'string'],
             'action_taken' => ['nullable', 'string'],
-            'technician' => ['nullable', 'string', 'max:100'],
             'status' => ['required', 'in:pending,progress,done,picked-up'],
             'cost' => ['nullable', 'numeric', 'min:0'],
         ]);
