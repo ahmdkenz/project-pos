@@ -24,61 +24,26 @@ class ReportController extends Controller
             ? Carbon::parse($request->end_date)->endOfDay()
             : Carbon::now()->endOfMonth();
 
-        // Ambil data sale items dalam periode
-        $saleItems = SaleItem::with('sale')
-            ->whereHas('sale', function($query) use ($startDate, $endDate) {
-                $query->whereBetween('created_at', [$startDate, $endDate]);
-            })
-            ->get();
-
-        // Hitung Total Penjualan (Gross Sales)
-        $totalSales = $saleItems->sum(function($item) {
-            return $item->quantity * $item->price_per_unit;
-        });
-
-        // Hitung Total Modal / COGS (Cost of Goods Sold)
-        $totalCost = $saleItems->sum(function($item) {
-            return $item->quantity * $item->cost_price_per_unit;
-        });
-
-        // Hitung Laba Bersih (Gross Profit)
-        $grossProfit = $totalSales - $totalCost;
-
-        // Hitung Total Nilai Inventaris (current_stock * cost_price)
-        $inventoryValue = DB::table('products')
-            ->select(DB::raw('SUM(current_stock * cost_price) as total'))
-            ->value('total') ?? 0;
-
-        // Data untuk grafik - Laba per hari
-        $chartData = DB::table('sales')
-            ->join('sale_items', 'sales.id', '=', 'sale_items.sale_id')
-            ->select(
-                DB::raw('DATE(sales.created_at) as date'),
-                DB::raw('SUM(sale_items.quantity * sale_items.price_per_unit) as daily_sales'),
-                DB::raw('SUM(sale_items.quantity * sale_items.cost_price_per_unit) as daily_cost')
-            )
+        // Hitung Penjualan Produk dari sale_items
+        $productRevenue = (float) DB::table('sale_items')
+            ->join('sales', 'sale_items.sale_id', '=', 'sales.id')
             ->whereBetween('sales.created_at', [$startDate, $endDate])
-            ->groupBy('date')
-            ->orderBy('date', 'ASC')
-            ->get()
-            ->map(function($row) {
-                return [
-                    'date' => Carbon::parse($row->date)->format('d M'),
-                    'profit' => $row->daily_sales - $row->daily_cost,
-                    'sales' => $row->daily_sales,
-                    'cost' => $row->daily_cost,
-                ];
-            });
+            ->selectRaw('COALESCE(SUM(sale_items.quantity * sale_items.price_per_unit), 0) as total')
+            ->value('total');
+
+        // Hitung Pendapatan Servis dari services (status done atau picked-up)
+        $serviceRevenue = (float) DB::table('services')
+            ->whereIn('status', ['done', 'picked-up'])
+            ->whereBetween('completed_at', [$startDate, $endDate])
+            ->selectRaw('COALESCE(SUM(cost), 0) as total')
+            ->value('total');
 
         // Format untuk view
         $stats = [
-            'total_sales' => $totalSales,
-            'total_cost' => $totalCost,
-            'gross_profit' => $grossProfit,
-            'inventory_value' => $inventoryValue,
+            'product_revenue' => $productRevenue,
+            'service_revenue' => $serviceRevenue,
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'chart_data' => $chartData,
         ];
 
         return view('reports.profit', compact('stats'));
@@ -115,16 +80,28 @@ class ReportController extends Controller
             $labelFormat = 'd M';
         }
 
-        // Ambil data dari database
-        $rows = DB::table('sales')
+        // Ambil data penjualan produk
+        $productRows = DB::table('sales')
             ->join('sale_items', 'sales.id', '=', 'sale_items.sale_id')
             ->whereBetween('sales.created_at', [$startDate, $endDate])
             ->groupByRaw($groupFormat)
-            ->orderByRaw($groupFormat)
             ->selectRaw("
                 {$groupFormat} as period,
-                COALESCE(SUM(sale_items.quantity * sale_items.price_per_unit),0) as revenue,
-                COALESCE(SUM(sale_items.quantity * sale_items.cost_price_per_unit),0) as cogs
+                COALESCE(SUM(sale_items.quantity * sale_items.price_per_unit),0) as revenue
+            ")
+            ->get()
+            ->keyBy('period');
+
+        // Ambil data pendapatan servis
+        $groupFormatService = str_replace('sales.created_at', 'services.completed_at', $groupFormat);
+        $serviceRows = DB::table('services')
+            ->whereIn('status', ['done', 'picked-up'])
+            ->whereNotNull('completed_at')
+            ->whereBetween('completed_at', [$startDate, $endDate])
+            ->groupByRaw($groupFormatService)
+            ->selectRaw("
+                {$groupFormatService} as period,
+                COALESCE(SUM(cost),0) as revenue
             ")
             ->get()
             ->keyBy('period');
@@ -152,47 +129,37 @@ class ReportController extends Controller
 
         // Map data ke periode
         $labels = [];
-        $revenueData = [];
-        $cogsData = [];
-        $profitData = [];
+        $productData = [];
+        $serviceData = [];
 
         foreach ($periods as $period) {
             $labels[] = Carbon::parse($period)->format($labelFormat);
             
-            $revenue = isset($rows[$period]) ? (float)$rows[$period]->revenue : 0;
-            $cogs = isset($rows[$period]) ? (float)$rows[$period]->cogs : 0;
+            $productRev = isset($productRows[$period]) ? (float)$productRows[$period]->revenue : 0;
+            $serviceRev = isset($serviceRows[$period]) ? (float)$serviceRows[$period]->revenue : 0;
             
-            $revenueData[] = $revenue;
-            $cogsData[] = $cogs;
-            $profitData[] = $revenue - $cogs;
+            $productData[] = $productRev;
+            $serviceData[] = $serviceRev;
         }
 
         return response()->json([
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Laba Bersih',
-                    'data' => $profitData,
-                    'borderColor' => '#10B981',
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.1)',
+                    'label' => 'Penjualan Produk',
+                    'data' => $productData,
+                    'borderColor' => '#3B82F6',
+                    'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
                     'borderWidth' => 3,
                     'fill' => true
                 ],
                 [
-                    'label' => 'Total Penjualan',
-                    'data' => $revenueData,
-                    'borderColor' => '#3B82F6',
-                    'backgroundColor' => 'rgba(59, 130, 246, 0.05)',
-                    'borderWidth' => 2,
-                    'fill' => false
-                ],
-                [
-                    'label' => 'Total Modal',
-                    'data' => $cogsData,
-                    'borderColor' => '#EF4444',
-                    'backgroundColor' => 'rgba(239, 68, 68, 0.05)',
-                    'borderWidth' => 2,
-                    'fill' => false
+                    'label' => 'Pendapatan Servis',
+                    'data' => $serviceData,
+                    'borderColor' => '#7C3AED',
+                    'backgroundColor' => 'rgba(124, 58, 237, 0.1)',
+                    'borderWidth' => 3,
+                    'fill' => true
                 ]
             ]
         ]);

@@ -32,14 +32,14 @@
         </form>
     </div>
     
-    <div class="widget-grid">
+    <div class="widget-grid" style="grid-template-columns: repeat(2, 1fr);">
         
         <div class="widget-card">
             <h4>
                 <i data-feather="shopping-cart" style="color: #3B82F6;"></i>
                 Penjualan Produk
             </h4>
-            <div class="widget-value sales">Rp {{ number_format($stats['total_sales'], 0, ',', '.') }}</div>
+            <div class="widget-value sales">Rp {{ number_format($stats['product_revenue'] ?? 0, 0, ',', '.') }}</div>
         </div>
         
         <div class="widget-card">
@@ -47,29 +47,13 @@
                 <i data-feather="tool" style="color: #4F46E5;"></i>
                 Pendapatan Servis
             </h4>
-            <div class="widget-value service">Rp 0</div>
-        </div>
-        
-        <div class="widget-card">
-            <h4>
-                <i data-feather="dollar-sign" style="color: #10B981;"></i>
-                Total Keuntungan
-            </h4>
-            <div class="widget-value profit">Rp {{ number_format($stats['gross_profit'], 0, ',', '.') }}</div>
-        </div>
-        
-        <div class="widget-card">
-            <h4>
-                <i data-feather="database" style="color: #D97706;"></i>
-                Total Nilai Inventaris
-            </h4>
-            <div class="widget-value inventory">Rp {{ number_format($stats['inventory_value'] ?? 0, 0, ',', '.') }}</div>
+            <div class="widget-value service">Rp {{ number_format($stats['service_revenue'] ?? 0, 0, ',', '.') }}</div>
         </div>
 
     </div>
     
     <div class="content-card" style="margin-top: 2rem;">
-        <h3>Grafik Keuntungan (Bulanan)</h3>
+        <h3>Grafik Penjualan (Bulanan)</h3>
         <canvas id="profitChart" style="max-height: 400px;"></canvas>
     </div>
 
@@ -87,11 +71,11 @@
         function fetchAndRenderChart(range) {
             // Update judul grafik
             const titles = {
-                'daily': 'Grafik Keuntungan (Harian)',
-                'monthly': 'Grafik Keuntungan (Bulanan)',
-                'yearly': 'Grafik Keuntungan (Tahunan)'
+                'daily': 'Grafik Penjualan (Harian)',
+                'monthly': 'Grafik Penjualan (Bulanan)',
+                'yearly': 'Grafik Penjualan (Tahunan)'
             };
-            document.querySelector('.content-card h3').textContent = titles[range] || 'Grafik Keuntungan';
+            document.querySelector('.content-card h3').textContent = titles[range] || 'Grafik Penjualan';
             
             fetch('{{ route('reports.profit.data') }}?range=' + range)
                 .then(response => response.json())
