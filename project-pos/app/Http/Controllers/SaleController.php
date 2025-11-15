@@ -15,7 +15,8 @@ class SaleController extends Controller
     use LogsActivity;
     public function index()
     {
-        $products = Product::orderBy('name')->get();
+        // paginate products for POS list (10 per page) — keep ordering and other logic
+        $products = Product::orderBy('name')->paginate(10)->withQueryString();
         
         // Ambil 5 riwayat penjualan terakhir
         $recentSales = Sale::with(['items.product', 'user'])

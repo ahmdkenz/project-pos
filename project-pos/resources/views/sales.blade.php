@@ -17,6 +17,9 @@
                         </div>
                     @endforeach
                 </div>
+                <div class="pagination-wrapper" style="margin-top:1rem;">
+                    {{ $products->links() }}
+                </div>
             </div>
 
             <aside class="pos-cart">
