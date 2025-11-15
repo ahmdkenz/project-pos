@@ -43,10 +43,14 @@ class ProductController extends Controller
             return response()->json($suggestions);
         }
 
-        // Pagination per 10 produk
+        // Pagination per 10 produk (tabel)
         $products = $query->orderBy('name')->paginate(10)->appends(['q' => $searchQuery]);
-        
-        return view('inventory', compact('products', 'searchQuery'));
+
+        // Untuk dropdown "Pilih Produk" pada halaman restok, kirim semua produk
+        // tanpa memengaruhi pagination pada tabel utama
+        $allProducts = \App\Models\Product::orderBy('name')->get();
+
+        return view('inventory', compact('products', 'searchQuery', 'allProducts'));
     }
 
     public function edit($id)

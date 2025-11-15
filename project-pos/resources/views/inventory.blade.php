@@ -83,16 +83,16 @@
     </div>
     
     <div class="content-card">
-        <form action="{{ route('inventory.restock') }}" method="POST">
+                <form action="{{ route('inventory.restock') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="product">Pilih Produk</label>
-                <select id="product" name="product_id" required>
-                    <option value="">-- Pilih produk yang akan di-restock --</option>
-                    @foreach($products as $p)
-                        <option value="{{ $p->id }}">{{ $p->name }} @if($p->sku) ({{ $p->sku }}) @endif</option>
-                    @endforeach
-                </select>
+                        <select id="product" name="product_id" required>
+                            <option value="">-- Pilih produk yang akan di-restock --</option>
+                            @foreach($allProducts as $p)
+                                <option value="{{ $p->id }}">{{ $p->name }} @if($p->sku) ({{ $p->sku }}) @endif</option>
+                            @endforeach
+                        </select>
             </div>
             
             <div class="form-group">
