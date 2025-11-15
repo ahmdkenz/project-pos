@@ -9,7 +9,14 @@
     </div>
 
     <div class="content-card">
-        <form method="GET" action="{{ route('reports.profit') }}" class="filter-form">
+        
+        <div class="filter-tabs">
+            <button type="button" class="tab-btn" data-tab="daily">Harian</button>
+            <button type="button" class="tab-btn active" data-tab="monthly">Bulanan</button>
+            <button type="button" class="tab-btn" data-tab="yearly">Tahunan</button>
+        </div>
+        
+        <form method="GET" action="{{ route('reports.profit') }}" class="filter-form-grid">
             <div class="form-group">
                 <label for="start_date">Tanggal Mulai</label>
                 <input type="date" id="start_date" name="start_date" value="{{ request('start_date', $stats['start_date']->format('Y-m-d')) }}">
@@ -29,32 +36,40 @@
         
         <div class="widget-card">
             <h4>
-                <i data-feather="trending-up" style="color: #3B82F6;"></i>
-                Total Penjualan (Omzet)
+                <i data-feather="shopping-cart" style="color: #3B82F6;"></i>
+                Penjualan Produk
             </h4>
             <div class="widget-value sales">Rp {{ number_format($stats['total_sales'], 0, ',', '.') }}</div>
         </div>
         
         <div class="widget-card">
             <h4>
-                <i data-feather="trending-down" style="color: #EF4444;"></i>
-                Total Modal (HPP)
+                <i data-feather="tool" style="color: #4F46E5;"></i>
+                Pendapatan Servis
             </h4>
-            <div class="widget-value cost">Rp {{ number_format($stats['total_cost'], 0, ',', '.') }}</div>
+            <div class="widget-value service">Rp 0</div>
         </div>
         
         <div class="widget-card">
             <h4>
                 <i data-feather="dollar-sign" style="color: #10B981;"></i>
-                Laba Bersih (Profit)
+                Total Keuntungan
             </h4>
             <div class="widget-value profit">Rp {{ number_format($stats['gross_profit'], 0, ',', '.') }}</div>
+        </div>
+        
+        <div class="widget-card">
+            <h4>
+                <i data-feather="database" style="color: #D97706;"></i>
+                Total Nilai Inventaris
+            </h4>
+            <div class="widget-value inventory">Rp {{ number_format($stats['inventory_value'] ?? 0, 0, ',', '.') }}</div>
         </div>
 
     </div>
     
     <div class="content-card" style="margin-top: 2rem;">
-        <h3>Grafik Laba per Periode</h3>
+        <h3>Grafik Keuntungan (Bulanan)</h3>
         <canvas id="profitChart" style="max-height: 400px;"></canvas>
     </div>
 
@@ -65,147 +80,158 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('profitChart').getContext('2d');
+        let chart = null;
+        let currentRange = 'monthly'; // Default
         
-        const chartData = @json($stats['chart_data']);
-        
-        const labels = chartData.map(item => item.date);
-        const profitData = chartData.map(item => item.profit);
-        const salesData = chartData.map(item => item.sales);
-        const costData = chartData.map(item => item.cost);
-        
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Laba Bersih',
-                        data: profitData,
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        pointBackgroundColor: '#10B981',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                    },
-                    {
-                        label: 'Total Penjualan',
-                        data: salesData,
-                        borderColor: '#3B82F6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#3B82F6',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                    },
-                    {
-                        label: 'Total Modal',
-                        data: costData,
-                        borderColor: '#EF4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.05)',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#EF4444',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Poppins',
-                                size: 12,
-                                weight: '600'
-                            },
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleFont: {
-                            family: 'Poppins',
-                            size: 13,
-                            weight: '600'
+        // Function untuk fetch dan render chart
+        function fetchAndRenderChart(range) {
+            // Update judul grafik
+            const titles = {
+                'daily': 'Grafik Keuntungan (Harian)',
+                'monthly': 'Grafik Keuntungan (Bulanan)',
+                'yearly': 'Grafik Keuntungan (Tahunan)'
+            };
+            document.querySelector('.content-card h3').textContent = titles[range] || 'Grafik Keuntungan';
+            
+            fetch('{{ route('reports.profit.data') }}?range=' + range)
+                .then(response => response.json())
+                .then(data => {
+                    const config = {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: data.datasets.map(ds => ({
+                                label: ds.label,
+                                data: ds.data,
+                                borderColor: ds.borderColor,
+                                backgroundColor: ds.backgroundColor,
+                                borderWidth: ds.borderWidth,
+                                fill: ds.fill,
+                                tension: 0.4,
+                                pointRadius: ds.borderWidth === 3 ? 5 : 4,
+                                pointHoverRadius: ds.borderWidth === 3 ? 7 : 6,
+                                pointBackgroundColor: ds.borderColor,
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                            }))
                         },
-                        bodyFont: {
-                            family: 'Poppins',
-                            size: 12
-                        },
-                        padding: 12,
-                        displayColors: true,
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        font: {
+                                            family: 'Poppins',
+                                            size: 12,
+                                            weight: '600'
+                                        },
+                                        padding: 15,
+                                        usePointStyle: true,
+                                        pointStyle: 'circle'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleFont: {
+                                        family: 'Poppins',
+                                        size: 13,
+                                        weight: '600'
+                                    },
+                                    bodyFont: {
+                                        family: 'Poppins',
+                                        size: 12
+                                    },
+                                    padding: 12,
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += 'Rp ' + new Intl.NumberFormat('id-ID').format(context.parsed.y);
+                                            return label;
+                                        }
+                                    }
                                 }
-                                label += 'Rp ' + new Intl.NumberFormat('id-ID').format(context.parsed.y);
-                                return label;
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: '#f3f4f6',
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            family: 'Poppins',
+                                            size: 11
+                                        },
+                                        color: '#718096',
+                                        callback: function(value) {
+                                            return 'Rp ' + new Intl.NumberFormat('id-ID', { 
+                                                notation: 'compact',
+                                                compactDisplay: 'short'
+                                            }).format(value);
+                                        }
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            family: 'Poppins',
+                                            size: 11
+                                        },
+                                        color: '#718096'
+                                    }
+                                }
+                            },
+                            interaction: {
+                                mode: 'index',
+                                intersect: false
                             }
                         }
+                    };
+                    
+                    if (chart) {
+                        chart.destroy();
                     }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f3f4f6',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Poppins',
-                                size: 11
-                            },
-                            color: '#718096',
-                            callback: function(value) {
-                                return 'Rp ' + new Intl.NumberFormat('id-ID', { 
-                                    notation: 'compact',
-                                    compactDisplay: 'short'
-                                }).format(value);
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Poppins',
-                                size: 11
-                            },
-                            color: '#718096'
-                        }
-                    }
-                },
-                interaction: {
-                    mode: 'index',
-                    intersect: false
-                }
-            }
+                    chart = new Chart(ctx, config);
+                })
+                .catch(error => {
+                    console.error('Error fetching chart data:', error);
+                });
+        }
+        
+        // Event listeners untuk filter tabs
+        document.querySelectorAll('.filter-tabs .tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.filter-tabs .tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Fetch data dengan range baru
+                const rangeMap = {
+                    'daily': 'daily',
+                    'monthly': 'monthly',
+                    'yearly': 'yearly'
+                };
+                currentRange = rangeMap[this.dataset.tab];
+                fetchAndRenderChart(currentRange);
+            });
         });
+        
+        // Load default chart (monthly)
+        fetchAndRenderChart('monthly');
     });
     </script>
 @endpush

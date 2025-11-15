@@ -108,7 +108,7 @@
 
         .widget-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             margin-top: 2rem;
         }
@@ -121,11 +121,18 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .widget-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.07); }
-        .widget-card h4 { font-size: 0.9rem; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; }
-        .widget-value { font-size: 2.25rem; font-weight: 700; color: #1a2b4d; margin-top: 0.5rem; }
+        .widget-card h4 { font-size: 0.9rem; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.5rem; }
+        .widget-value { font-size: 2rem; font-weight: 700; color: #1a2b4d; margin-top: 0.5rem; }
         .widget-change { font-size: 0.875rem; margin-top: 0.5rem; }
         .widget-change.positive { color: #10B981; }
         .widget-change.negative { color: #EF4444; }
+        
+        /* Warna Widget Value sesuai report.html */
+        .widget-value.sales { color: #3B82F6; }
+        .widget-value.service { color: #4F46E5; }
+        .widget-value.profit { color: #10B981; }
+        .widget-value.inventory { color: #D97706; }
+        .widget-value.cost { color: #EF4444; }
 
         .content-card {
             background-color: #ffffff;
@@ -189,6 +196,48 @@
         
         .form-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:1.5rem; }
         .form-group.full-width { grid-column:1 / -1; }
+        
+        /* Filter Tabs (untuk report.html) */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background-color: #eef2f7;
+            border-radius: 10px;
+            padding: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-tabs button, .filter-tabs .tab-btn {
+            background-color: transparent;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.25rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-tabs button:hover, .filter-tabs .tab-btn:hover {
+            background-color: #ffffff;
+        }
+        .filter-tabs button.active, .filter-tabs .tab-btn.active {
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+        }
+        
+        /* Filter Form Grid (3 kolom: tanggal mulai, tanggal akhir, tombol) */
+        .filter-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        .filter-form-grid .form-group {
+            margin-bottom: 0;
+            text-align: left;
+        }
         
         .form-footer { margin-top:2rem; padding-top:1.5rem; border-top:1px solid #eef2f7; display:flex; justify-content:space-between; align-items:center; }
         .form-footer.justify-end { justify-content:flex-end; }

@@ -30,6 +30,7 @@ Route::get('/audit-log', [AuditLogController::class, 'index'])->name('audit-log'
 
 // Reports
 Route::get('/reports/profit', [ReportController::class, 'profit'])->name('reports.profit');
+Route::get('/reports/profit/data', [ReportController::class, 'profitChartData'])->name('reports.profit.data');
 
 // Services Management (Manajemen Servis)
 Route::resource('services', ServiceController::class);
