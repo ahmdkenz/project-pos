@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\Product;
 use App\Models\AuditLog;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -44,6 +45,19 @@ class DashboardController extends Controller
                 ->limit(10)
                 ->get();
 
+            // 5. Pendapatan servis hari ini (gunakan completed_at atau picked_up_at)
+            $start = Carbon::now()->startOfDay();
+            $end = Carbon::now()->endOfDay();
+
+            $serviceRevenueToday = (float) DB::table('services')
+                ->whereIn('status', ['done', 'picked-up'])
+                ->where(function($q) use ($start, $end) {
+                    $q->whereBetween('completed_at', [$start, $end])
+                      ->orWhereBetween('picked_up_at', [$start, $end]);
+                })
+                ->selectRaw('COALESCE(SUM(cost), 0) as total')
+                ->value('total');
+
         } catch (\Exception $e) {
             // Log error untuk debugging
             \Log::error('Dashboard error: ' . $e->getMessage());
@@ -59,7 +73,8 @@ class DashboardController extends Controller
             'salesToday',
             'transactionsToday',
             'criticalStockCount',
-            'activities'
+            'activities',
+            'serviceRevenueToday'
         ));
     }
 }

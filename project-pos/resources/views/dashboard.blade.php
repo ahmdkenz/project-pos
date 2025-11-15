@@ -17,6 +17,14 @@
             <div class="widget-change positive">Realtime</div>
         </div>
         <div class="widget-card">
+            <h4>
+                <i data-feather="tool" style="color: #4F46E5;"></i>
+                Pendapatan Servis (Hari Ini)
+            </h4>
+            <div class="widget-value" style="color:#6D28D9">Rp {{ number_format($serviceRevenueToday ?? 0, 0, ',', '.') }}</div>
+            <div class="widget-change positive">Realtime</div>
+        </div>
+        <div class="widget-card">
             <h4>Transaksi Hari Ini</h4>
             <div class="widget-value">{{ $transactionsToday ?? 0 }}</div>
             <div class="widget-change positive">Realtime</div>
