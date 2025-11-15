@@ -268,6 +268,50 @@
             background-color: #FEE2E2; /* Merah Muda */
             color: #DC2626;
         }
+        
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .pagination-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #4a5568;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-btn:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+            border-color: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-btn:disabled:hover {
+            background-color: #ffffff;
+            color: #4a5568;
+            border-color: #e2e8f0;
+            transform: none;
+            box-shadow: none;
+        }
 
     </style>
 </head>
@@ -423,6 +467,12 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <button class="pagination-btn" disabled>Previous</button>
+                    <button class="pagination-btn">Next</button>
+                </div>
             </div>
             
         </main>

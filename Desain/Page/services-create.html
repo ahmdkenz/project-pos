@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Servis Baru - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content-area {
+            flex-grow: 1; /* Mendorong footer ke bawah */
+        }
+        
+        /* --- 5. HEADER (TOP BAR) --- */
+         
+        .main-header {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem; /* Jarak dikurangi untuk link "kembali" */
+        }
+        
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .search-bar { position: relative; }
+        .search-bar svg {
+            position: absolute; top: 50%; left: 1rem; transform: translateY(-50%);
+            color: #718096; stroke-width: 2.5px;
+        }
+        .search-bar input {
+            font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 500; width: 350px;
+            padding: 0.85rem 1rem 0.85rem 3rem; border: 1px solid #e2e8f0; border-radius: 8px;
+            background-color: #f8f9fa; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-bar input:focus {
+            outline: none; border-color: #4F46E5; background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .user-profile .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-image: linear-gradient(45deg, #4F46E5, #3B82F6);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 1rem;
+        }
+        .user-profile .user-info { line-height: 1.3; text-align: right; }
+        .user-profile .user-info strong { display: block; font-size: 0.95rem; font-weight: 600; color: #2d3748; }
+        .user-profile .user-info span { font-size: 0.85rem; color: #718096; }
+
+        /* --- 6. FOOTER --- */
+        
+        .main-footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #718096;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* --- 7. STYLING KONTEN FORM --- */
+
+        /* Link "Kembali" */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem; /* Jarak ke kartu form */
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .secondary-button {
+            padding: 0.85rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #4a5568;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+        .secondary-button:hover { background-color: #f8f9fa; }
+        
+        /* Styling Form Modern (Reuse) */
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
+        }
+        
+        /* Grid layout untuk form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1; /* Span 2 kolom */
+        }
+        
+        .form-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eef2f7;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="inventory.html"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="sales.html"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="sales-history.html"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
+                    <li><a href="reports.html"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="audit-log.html"><i data-feather="shield"></i> Audit Log System</a></li>
+                    <li><a href="service.html" class="active"><i data-feather="tool"></i> Jasa Servis</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#"><i data-feather="log-out"></i> Logout</a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Tambah Servis Baru</h1>
+                </div>
+                
+                <div class="search-bar">
+                    <i data-feather="search"></i>
+                    <input type="text" placeholder="Cari ID Servis atau Pelanggan...">
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-info">
+                        <strong>Admin</strong>
+                        <span>Mustika Komputer</span>
+                    </div>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+            
+            <div class="content-area">
+
+                <a href="service.html" class="back-link">
+                    <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
+                    Kembali ke Manajemen Servis
+                </a>
+                
+                <div class="content-card">
+                    <form action="#" method="POST">
+                    
+                        <div class="form-grid">
+                            
+                            <div class="form-group">
+                                <label for="customer_name">Nama Pelanggan</label>
+                                <input type="text" id="customer_name" name="customer_name" placeholder="Contoh: Budi Santoso" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer_phone">Nomor Telepon (WA)</label>
+                                <input type="tel" id="customer_phone" name="customer_phone" placeholder="Contoh: 0812xxxxxx" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="device_type">Tipe Perangkat</label>
+                                <select id="device_type" name="device_type">
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="PC">PC / Komputer</option>
+                                    <option value="Monitor">Monitor</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="device_model">Merk & Model</label>
+                                <input type="text" id="device_model" name="device_model" placeholder="Contoh: Asus ROG G14">
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="complaint">Keluhan Pelanggan</label>
+                                <textarea id="complaint" name="complaint" placeholder="Tuliskan keluhan yang disampaikan pelanggan, misal: Mati total, tidak bisa charge, blue screen..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="items_included">Kelengkapan Barang</label>
+                                <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan, misal: Unit Laptop, Charger Original, Tas Laptop"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="estimated_cost">Estimasi Biaya (Rp)</label>
+                                <input type="number" id="estimated_cost" name="estimated_cost" placeholder="0" min="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="technician">Ditugaskan ke Teknisi</label>
+                                <select id="technician" name="technician">
+                                    <option value="">-- Pilih Teknisi --</option>
+                                    <option value="Rudi">Rudi</option>
+                                    <option value="Ahmad">Ahmad</option>
+                                    <option value="Eko">Eko</option>
+                                </select>
+                            </div>
+    
+                        </div>
+                        
+                        <div class="form-footer">
+                            <a href="service.html" class="secondary-button">
+                                Batal
+                            </a>
+                            <button type="submit" class="cta-button">
+                                <i data-feather="save"></i>
+                                Simpan & Terima Servis
+                            </button>
+                        </div>
+                        
+                    </form>
+                </div>
+                
+            </div>
+            
+            <footer class="main-footer">
+                &copy; 2025 Mustika Komputer. Dibuat dengan cinta & kopi.
+            </footer>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>
