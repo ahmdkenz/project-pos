@@ -1,14 +1,10 @@
 @extends('layouts.app')
 
 @section('title','Audit Log - Mustika Komputer')
-@section('header-title','Audit Log System')
+@section('header-title','Riwayat Aktivitas (Audit Log)')
 
 @section('content')
 
-    <div class="page-header">
-        <h1>Riwayat Aktivitas (Audit Log)</h1>
-    </div>
-    
     <div class="content-card">
         <form method="GET" action="{{ route('audit-log') }}" class="filter-form-grid">
             <div class="form-group">
@@ -54,8 +50,12 @@
             <tbody>
                 @forelse($activities as $activity)
                 <tr>
-                    <td><strong>{{ $activity->actor ?? $activity->user->name ?? 'System' }}</strong></td>
-                    <td><span class="action-badge {{ $activity->type }}">{{ strtoupper($activity->type) }}</span></td>
+                    <td><strong>{{ $activity->actor ?? ($activity->user->name ?? 'System') }}</strong></td>
+                    <td>
+                        <span class="action-badge {{ $activity->type }}">
+                            {{ strtoupper($activity->type == 'security' ? 'KEAMANAN' : ($activity->type == 'sales' ? 'PENJUALAN' : ($activity->type == 'product' ? 'PRODUK' : ($activity->type == 'stock' ? 'STOK' : ($activity->type == 'danger' ? 'HAPUS' : $activity->type))))) }}
+                        </span>
+                    </td>
                     <td>{!! $activity->message !!}</td>
                     <td>{{ $activity->ip_address ?? '-' }}</td>
                     <td>{{ $activity->created_at->format('d M Y, H:i') }}</td>
@@ -71,11 +71,13 @@
         </table>
 
         @if($activities->hasPages())
-        <div style="margin-top: 2rem; display: flex; justify-content: center;">
+        <div style="margin-top: 2rem;">
             {{ $activities->links() }}
         </div>
         @endif
     </div>
+
+    <script>feather.replace()</script>
 
 @endsection
 
@@ -97,6 +99,31 @@
         width: 100%;
     }
 
+    /* Tabel Log (Reuse & Modifikasi) */
+    .modern-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px; /* Lebar minimum agar muat */
+    }
+    .modern-table thead th {
+        text-align: left;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #718096;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background-color: #f8f9fa;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .modern-table tbody td {
+        padding: 1rem 1.25rem;
+        font-size: 0.95rem;
+        color: #2d3748;
+        border-bottom: 1px solid #eef2f7;
+    }
+
     /* Badge Aksi yang Modern/Futuristik */
     .action-badge {
         padding: 0.3rem 0.75rem;
@@ -104,7 +131,7 @@
         font-size: 0.8rem;
         font-weight: 600;
         display: inline-block;
-        text-transform: uppercase;
+        white-space: nowrap;
     }
     
     .action-badge.sales {
@@ -128,47 +155,7 @@
         color: #DC2626;
     }
 
-    /* Pagination styling */
-    .pagination {
-        display: flex;
-        list-style: none;
-        gap: 0.5rem;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .pagination li {
-        display: inline-block;
-    }
-    
-    .pagination a,
-    .pagination span {
-        display: inline-block;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        color: #4a5568;
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-    
-    .pagination a:hover {
-        background-color: #eef2ff;
-        color: #4F46E5;
-        border-color: #4F46E5;
-    }
-    
-    .pagination .active span {
-        background-color: #4F46E5;
-        color: white;
-        border-color: #4F46E5;
-    }
-    
-    .pagination .disabled span {
-        color: #cbd5e0;
-        cursor: not-allowed;
-    }
+    /* Pagination styling sudah ada di layout global - tidak perlu duplikat */
+
 </style>
 @endpush

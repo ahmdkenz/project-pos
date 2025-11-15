@@ -5,12 +5,6 @@
 
 @section('content')
 
-    @if(session('status'))
-    <div class="alert alert-success" style="background-color: #DEF7EC; color: #0E9F6E; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        {{ session('status') }}
-    </div>
-    @endif
-
     <div class="service-page-header">
         <div class="filter-tabs">
             <a href="{{ route('services.index') }}" class="filter-tab {{ !request('status') || request('status') == 'all' ? 'active' : '' }}">Semua</a>
@@ -82,14 +76,6 @@
 
 @push('styles')
 <style>
-    .alert {
-        animation: slideDown 0.3s ease-out;
-    }
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
     /* Service Page Header */
     .service-page-header {
         display: flex;

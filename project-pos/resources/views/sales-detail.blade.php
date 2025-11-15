@@ -13,7 +13,7 @@
     <div class="page-header" style="margin-bottom: 0; margin-top: 1rem;">
         <h1>Detail Invoice</h1>
         <div class="page-actions">
-            <button type="button" class="secondary-button" onclick="alert('Fitur download PDF akan segera hadir!')">
+            <button type="button" class="secondary-button" onclick="showToast('info', 'Fitur download PDF akan segera hadir!');">
                 <i data-feather="download"></i>
                 Download PDF
             </button>

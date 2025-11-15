@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <script src="https://unpkg.com/feather-icons"></script>
 
     @verbatim
@@ -385,6 +387,72 @@
     }
     .secondary-button:hover { background-color: #f8f9fa; }
 
+    /* ========================================
+     * PAGINATION STYLING - KONSISTEN & KOMPAK
+     * ======================================== */
+    .pagination {
+        display: flex !important;
+        list-style: none !important;
+        gap: 0.4rem !important;
+        padding: 0 !important;
+        margin: 1rem 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .pagination li {
+        display: inline-block !important;
+        margin: 0 !important;
+    }
+    
+    .pagination a,
+    .pagination span {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 32px !important;
+        height: 32px !important;
+        padding: 0.4rem 0.6rem !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+        color: #4a5568 !important;
+        text-decoration: none !important;
+        font-size: 0.813rem !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        background-color: #ffffff !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+    
+    .pagination a:hover {
+        background-color: #eef2ff !important;
+        color: #4F46E5 !important;
+        border-color: #4F46E5 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.15) !important;
+    }
+    
+    .pagination .active span {
+        background: linear-gradient(135deg, #4F46E5, #3B82F6) !important;
+        color: #ffffff !important;
+        border-color: #4F46E5 !important;
+        font-weight: 600 !important;
+    }
+    
+    .pagination .disabled span {
+        color: #cbd5e0 !important;
+        cursor: not-allowed !important;
+        background-color: #f7fafc !important;
+        opacity: 0.6 !important;
+    }
+    
+    .pagination .disabled span:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background-color: #f7fafc !important;
+    }
+
     </style>
     @endverbatim
 
@@ -446,9 +514,55 @@
         </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
     <script>
+        // Configure Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        // Global toast function
+        function showToast(type, message, title = '') {
+            switch(type) {
+                case 'success':
+                    toastr.success(message, title || 'Berhasil!');
+                    break;
+                case 'error':
+                    toastr.error(message, title || 'Error!');
+                    break;
+                case 'warning':
+                    toastr.warning(message, title || 'Peringatan!');
+                    break;
+                case 'info':
+                    toastr.info(message, title || 'Info');
+                    break;
+                default:
+                    toastr.info(message, title);
+            }
+        }
+
         feather.replace()
     </script>
+
+    @include('partials.notifications')
+    
+    @stack('scripts')
 
 </body>
 </html>

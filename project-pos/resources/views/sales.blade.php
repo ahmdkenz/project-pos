@@ -262,7 +262,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const modalCancelBtn = document.getElementById('modal_cancel_btn');
 
     function openPaymentModal(){
-        if(cart.length === 0){ alert('Keranjang kosong. Tambahkan produk terlebih dahulu.'); return; }
+        if(cart.length === 0){ 
+            showToast('warning', 'Keranjang kosong. Tambahkan produk terlebih dahulu.'); 
+            return; 
+        }
     const subtotal = cart.reduce((s,it) => s + (it.price_per_unit * it.quantity), 0);
     // Pajak tidak dihitung kedalam total pada permintaan saat ini
     const tax = 0;
@@ -346,10 +349,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 renderCart();
                 window.location.reload();
             } else {
-                alert('Gagal memproses: ' + (data.message || 'Server error'));
+                showToast('error', data.message || 'Server error');
             }
         } catch(err){
-            alert('Terjadi kesalahan: ' + err.message);
+            showToast('error', 'Terjadi kesalahan: ' + err.message);
         } finally {
             modalConfirmBtn.disabled = false;
             modalConfirmBtn.innerHTML = '<i data-feather="check-circle"></i> Konfirmasi Pembayaran';

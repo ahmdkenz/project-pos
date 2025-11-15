@@ -6,23 +6,28 @@
 @section('content')
 
     <div class="page-header">
-               <a href="{{ route('products.create') }}" class="cta-button">
+        <div class="search-container" style="flex: 1; max-width: 500px;">
+            <form method="GET" action="{{ route('inventory') }}" id="searchForm">
+                <div style="position: relative;">
+                    <i data-feather="search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #718096; width: 18px; height: 18px;"></i>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        id="product-search" 
+                        value="{{ $searchQuery ?? '' }}" 
+                        placeholder="Cari nama produk atau SKU..." 
+                        autocomplete="off"
+                        style="width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem; font-family: 'Poppins', sans-serif;"
+                    />
+                    <ul id="autocomplete-list" class="autocomplete-suggestions" style="display: none;"></ul>
+                </div>
+            </form>
+        </div>
+        <a href="{{ route('products.create') }}" class="cta-button">
             <i data-feather="plus"></i>
             Tambah Produk Baru
         </a>
     </div>
-    
-    @if(session('status'))
-        <div class="content-card" style="border-left:4px solid #10B981; background-color: #DEF7EC;">
-            <strong style="color:#0E9F6E">✓ {{ session('status') }}</strong>
-        </div>
-    @endif
-    
-    @if(session('error'))
-        <div class="content-card" style="border-left:4px solid #EF4444; background-color: #FEE2E2;">
-            <strong style="color:#DC2626">⚠ {{ session('error') }}</strong>
-        </div>
-    @endif
     
     <div class="content-card">
         <table class="modern-table">
@@ -65,6 +70,12 @@
                 @endforeach
             </tbody>
         </table>
+
+        @if($products->hasPages())
+        <div style="margin-top: 2rem;">
+            {{ $products->links() }}
+        </div>
+        @endif
     </div>
 
     <div class="page-header" style="margin-top: 2rem;">
@@ -104,3 +115,152 @@
     <script>feather.replace()</script>
 
 @endsection
+
+@push('styles')
+<style>
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .autocomplete-suggestions li {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f4f7fa;
+        font-size: 0.9rem;
+        color: #2d3748;
+        transition: background-color 0.2s;
+    }
+    
+    .autocomplete-suggestions li:last-child {
+        border-bottom: none;
+    }
+    
+    .autocomplete-suggestions li:hover,
+    .autocomplete-suggestions li.active {
+        background-color: #eef2ff;
+        color: #4F46E5;
+    }
+
+    /* Pagination styling sudah ada di layout global - tidak perlu duplikat */
+
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('product-search');
+    const autocompleteList = document.getElementById('autocomplete-list');
+    const searchForm = document.getElementById('searchForm');
+    let debounceTimer = null;
+    let currentFocus = -1;
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            const query = this.value.trim();
+            
+            if (!query || query.length < 2) {
+                autocompleteList.style.display = 'none';
+                autocompleteList.innerHTML = '';
+                return;
+            }
+            
+            debounceTimer = setTimeout(() => {
+                fetch(`{{ route('inventory') }}?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    autocompleteList.innerHTML = '';
+                    currentFocus = -1;
+                    
+                    if (!data || data.length === 0) {
+                        autocompleteList.style.display = 'none';
+                        return;
+                    }
+                    
+                    data.forEach((item, index) => {
+                        const li = document.createElement('li');
+                        li.textContent = item.label;
+                        li.setAttribute('data-value', item.value);
+                        li.addEventListener('click', function() {
+                            searchInput.value = this.getAttribute('data-value');
+                            autocompleteList.style.display = 'none';
+                            searchForm.submit();
+                        });
+                        autocompleteList.appendChild(li);
+                    });
+                    
+                    autocompleteList.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Autocomplete error:', error);
+                    autocompleteList.style.display = 'none';
+                });
+            }, 300);
+        });
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            const items = autocompleteList.getElementsByTagName('li');
+            
+            if (e.keyCode === 40) { // Arrow Down
+                e.preventDefault();
+                currentFocus++;
+                addActive(items);
+            } else if (e.keyCode === 38) { // Arrow Up
+                e.preventDefault();
+                currentFocus--;
+                addActive(items);
+            } else if (e.keyCode === 13) { // Enter
+                if (currentFocus > -1 && items[currentFocus]) {
+                    e.preventDefault();
+                    items[currentFocus].click();
+                }
+            } else if (e.keyCode === 27) { // Escape
+                autocompleteList.style.display = 'none';
+            }
+        });
+
+        function addActive(items) {
+            if (!items || items.length === 0) return false;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = items.length - 1;
+            items[currentFocus].classList.add('active');
+        }
+
+        function removeActive(items) {
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+        }
+
+        // Close autocomplete when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== searchInput) {
+                autocompleteList.style.display = 'none';
+            }
+        });
+    }
+});
+</script>
+@endpush

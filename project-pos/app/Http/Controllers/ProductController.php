@@ -16,10 +16,37 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('name')->get();
-        return view('inventory', compact('products'));
+        $query = Product::query();
+        $searchQuery = $request->query('q');
+
+        // Search filter
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('name', 'like', "%{$searchQuery}%")
+                  ->orWhere('sku', 'like', "%{$searchQuery}%");
+            });
+        }
+
+        // For autocomplete AJAX requests
+        if ($request->wantsJson() || $request->ajax()) {
+            $suggestions = $query->orderBy('name')
+                ->limit(10)
+                ->get(['name', 'sku'])
+                ->map(function($product) {
+                    return [
+                        'label' => $product->name . ($product->sku ? ' (' . $product->sku . ')' : ''),
+                        'value' => $product->name
+                    ];
+                });
+            return response()->json($suggestions);
+        }
+
+        // Pagination per 10 produk
+        $products = $query->orderBy('name')->paginate(10)->appends(['q' => $searchQuery]);
+        
+        return view('inventory', compact('products', 'searchQuery'));
     }
 
     public function edit($id)
