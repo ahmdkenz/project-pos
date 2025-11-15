@@ -609,6 +609,122 @@
         feather.replace()
     </script>
 
+    <!-- SweetAlert2 untuk modal konfirmasi modern -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle delete forms dengan class delete-form
+        document.querySelectorAll('form.delete-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                
+                const itemName = form.dataset.itemName || 'item ini';
+                const itemType = form.dataset.itemType || 'Data';
+                
+                Swal.fire({
+                    title: 'Konfirmasi Hapus',
+                    html: `Apakah Anda yakin ingin menghapus <strong>${itemName}</strong>?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="feather-trash-2" style="width:16px;height:16px;margin-right:6px;"></i> Ya, Hapus',
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    reverseButtons: true,
+                    focusCancel: true,
+                    customClass: {
+                        popup: 'swal-modern',
+                        confirmButton: 'swal-confirm-btn',
+                        cancelButton: 'swal-cancel-btn'
+                    },
+                    backdrop: `
+                        rgba(0,0,0,0.4)
+                        left top
+                        no-repeat
+                    `
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show loading
+                        Swal.fire({
+                            title: 'Menghapus...',
+                            html: 'Mohon tunggu sebentar',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        
+                        // Submit form
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // Session flash messages sebagai toast
+        @if(session('status'))
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ session('status') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: "{{ session('error') }}",
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true
+            });
+        @endif
+    });
+    </script>
+
+    <style>
+    /* SweetAlert2 Custom Styling */
+    .swal-modern {
+        font-family: 'Poppins', sans-serif !important;
+        border-radius: 16px !important;
+        padding: 2rem !important;
+    }
+    .swal-confirm-btn, .swal-cancel-btn {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 600 !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 8px !important;
+        font-size: 0.95rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        transition: all 0.2s ease !important;
+    }
+    .swal-confirm-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3) !important;
+    }
+    .swal-cancel-btn:hover {
+        background-color: #4B5563 !important;
+    }
+    .swal2-toast {
+        font-family: 'Poppins', sans-serif !important;
+    }
+    </style>
+
     @include('partials.notifications')
     
     @stack('scripts')

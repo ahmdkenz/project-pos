@@ -58,7 +58,7 @@
                     </td>
                     <td class="action-buttons">
                         <a href="{{ route('products.edit', $product->id) }}" title="Edit"><i data-feather="edit-2"></i></a>
-                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('⚠️ PERINGATAN!\n\nAnda yakin ingin menghapus produk \"{{ $product->name }}\" ({{ $product->sku }})?\n\nCatatan: Produk yang sudah pernah dijual tidak dapat dihapus untuk menjaga integritas data transaksi.');">
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" data-item-name="{{ $product->name }} ({{ $product->sku }})" data-item-type="Produk" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" title="Hapus" style="background:none;border:none;padding:0;margin:0;vertical-align:middle;color:inherit;">

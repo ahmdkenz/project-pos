@@ -46,7 +46,7 @@
                         <a href="{{ route('services.edit', $service->id) }}" title="Lihat/Edit Detail">
                             <i data-feather="edit-2"></i>
                         </a>
-                        <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus servis ini?')">
+                        <form action="{{ route('services.destroy', $service->id) }}" method="POST" class="delete-form" data-item-name="{{ $service->service_code }}" data-item-type="Servis" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" style="background: none; border: none; padding: 0; color: #EF4444; cursor: pointer;" title="Hapus">
