@@ -31,12 +31,16 @@ class ReportController extends Controller
             ->selectRaw('COALESCE(SUM(sale_items.quantity * sale_items.price_per_unit), 0) as total')
             ->value('total');
 
-        // Hitung Pendapatan Servis dari services (status done atau picked-up)
-        $serviceRevenue = (float) DB::table('services')
-            ->whereIn('status', ['done', 'picked-up'])
-            ->whereBetween('completed_at', [$startDate, $endDate])
-            ->selectRaw('COALESCE(SUM(cost), 0) as total')
-            ->value('total');
+            // Hitung Pendapatan Servis dari services (status done atau picked-up)
+            // Gunakan tanggal completed_at jika tersedia, jika tidak gunakan picked_up_at
+            $serviceRevenue = (float) DB::table('services')
+                ->whereIn('status', ['done', 'picked-up'])
+                ->where(function($q) {
+                    $q->whereNotNull('completed_at')->orWhereNotNull('picked_up_at');
+                })
+                ->whereBetween(DB::raw('COALESCE(services.completed_at, services.picked_up_at)'), [$startDate, $endDate])
+                ->selectRaw('COALESCE(SUM(cost), 0) as total')
+                ->value('total');
 
         // Format untuk view
         $stats = [
@@ -105,6 +109,18 @@ class ReportController extends Controller
             ")
             ->get()
             ->keyBy('period');
+            // Ambil data pendapatan servis — gunakan completed_at atau picked_up_at
+            $groupFormatService = str_replace("sales.created_at", "COALESCE(services.completed_at, services.picked_up_at)", $groupFormat);
+            $serviceRows = DB::table('services')
+                ->whereIn('status', ['done', 'picked-up'])
+                ->where(function($q) {
+                    $q->whereNotNull('completed_at')->orWhereNotNull('picked_up_at');
+                })
+                ->whereBetween(DB::raw('COALESCE(services.completed_at, services.picked_up_at)'), [$startDate, $endDate])
+                ->groupByRaw($groupFormatService)
+                ->selectRaw("\n                {$groupFormatService} as period,\n                COALESCE(SUM(cost),0) as revenue\n            ")
+                ->get()
+                ->keyBy('period');
 
         // Generate continuous periods
         $periods = [];
