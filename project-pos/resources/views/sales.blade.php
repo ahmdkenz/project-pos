@@ -5,9 +5,11 @@
 
     <div class="pos-layout">
             <div class="pos-products">
-                <div class="form-group">
-                    <input type="text" id="product_search" placeholder="Cari produk berdasarkan nama atau SKU...">
-                </div>
+                <form method="GET" action="" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" id="product_search" name="q" placeholder="Cari produk berdasarkan nama atau SKU..." value="{{ request('q') }}">
+                    </div>
+                </form>
 
                 <div class="product-grid">
                     @foreach($products as $product)
@@ -243,16 +245,7 @@ document.addEventListener('DOMContentLoaded', function(){
         card.addEventListener('click', () => addToCart(parseInt(card.dataset.id,10)));
     });
 
-    // search filter
-    if(searchInput){
-        searchInput.addEventListener('input', e => {
-            const q = e.target.value.toLowerCase();
-            productCards.forEach(c => {
-                const name = (c.dataset.name || '').toLowerCase();
-                c.style.display = name.includes(q) ? '' : 'none';
-            });
-        });
-    }
+    // Note: search is handled server-side via GET ?q= so client-side filtering removed.
 
     // Open payment modal and populate totals
     const modal = document.getElementById('payment_modal');

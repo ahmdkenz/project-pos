@@ -13,10 +13,20 @@ use Illuminate\Support\Facades\DB;
 class SaleController extends Controller
 {
     use LogsActivity;
-    public function index()
+
+    public function index(Request $request)
     {
-        // paginate products for POS list (10 per page) — keep ordering and other logic
-        $products = Product::orderBy('name')->paginate(10)->withQueryString();
+        // server-side search: jika ada query 'q', cari nama atau sku sebelum paginating
+        $query = Product::orderBy('name');
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($w) use ($q) {
+                $w->where('name', 'like', '%'.$q.'%')
+                  ->orWhere('sku', 'like', '%'.$q.'%');
+            });
+        }
+
+        $products = $query->paginate(10)->withQueryString();
         
         // Ambil 5 riwayat penjualan terakhir
         $recentSales = Sale::with(['items.product', 'user'])
