@@ -17,6 +17,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::get('/inventory', [App\Http\Controllers\ProductController::class, 'index'])->name('inventory');
 Route::post('/inventory/restock', [App\Http\Controllers\ProductController::class, 'restock'])->name('inventory.restock');
+// Autocomplete for product search in POS
+Route::get('/products/autocomplete', [App\Http\Controllers\ProductController::class, 'autocomplete'])->name('products.autocomplete');
 
 Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])->name('sales');
 Route::post('/sales/process', [App\Http\Controllers\SaleController::class, 'process'])->name('sales.process');

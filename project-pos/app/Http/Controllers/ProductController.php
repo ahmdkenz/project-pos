@@ -53,6 +53,25 @@ class ProductController extends Controller
         return view('inventory', compact('products', 'searchQuery', 'allProducts'));
     }
 
+    // Autocomplete endpoint for POS: returns id, name, sku, sale_price
+    public function autocomplete(Request $request)
+    {
+        $q = $request->query('q');
+        $query = Product::query();
+        if (!empty($q)) {
+            $query->where(function($w) use ($q) {
+                $w->where('name', 'like', "%{$q}%")
+                  ->orWhere('sku', 'like', "%{$q}%");
+            });
+        }
+
+        $results = $query->orderBy('name')
+            ->limit(15)
+            ->get(['id','name','sku','sale_price']);
+
+        return response()->json($results);
+    }
+
     public function edit($id)
     {
         $product = Product::findOrFail($id);

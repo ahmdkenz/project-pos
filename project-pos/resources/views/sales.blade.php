@@ -5,9 +5,10 @@
 
     <div class="pos-layout">
             <div class="pos-products">
-                <form method="GET" action="" class="form-inline">
-                    <div class="form-group">
+                <form method="GET" action="" class="form-inline" autocomplete="off">
+                    <div class="form-group" style="position:relative;">
                         <input type="text" id="product_search" name="q" placeholder="Cari produk berdasarkan nama atau SKU..." value="{{ request('q') }}">
+                        <ul id="pos-autocomplete-list" class="autocomplete-suggestions" style="display:none; position:absolute; z-index:50; background:#fff; border:1px solid #e2e8f0; width:100%; max-height:240px; overflow:auto; list-style:none; margin:4px 0 0; padding:0;"></ul>
                     </div>
                 </form>
 
@@ -245,7 +246,68 @@ document.addEventListener('DOMContentLoaded', function(){
         card.addEventListener('click', () => addToCart(parseInt(card.dataset.id,10)));
     });
 
-    // Note: search is handled server-side via GET ?q= so client-side filtering removed.
+    // Note: search is handled server-side via GET ?q= when pressing Enter.
+    // Additionally, provide AJAX autocomplete suggestions as user types.
+    const autocompleteList = document.getElementById('pos-autocomplete-list');
+    const debounce = (fn, wait) => {
+        let t;
+        return function(...args){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,args), wait); };
+    };
+
+    async function fetchSuggestions(term){
+        if(!term || term.length < 2){
+            autocompleteList.style.display = 'none';
+            autocompleteList.innerHTML = '';
+            return;
+        }
+        try{
+            const res = await fetch('/products/autocomplete?q=' + encodeURIComponent(term), { headers: { 'Accept': 'application/json' } });
+            if(!res.ok) throw new Error('Network');
+            const data = await res.json();
+            autocompleteList.innerHTML = '';
+            data.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'autocomplete-item';
+                li.style.padding = '0.5rem';
+                li.style.cursor = 'pointer';
+                li.dataset.id = item.id;
+                li.dataset.name = item.name;
+                li.dataset.price = item.sale_price;
+                li.innerHTML = `<strong>${item.name}</strong>${item.sku ? ' <small>(' + item.sku + ')</small>' : ''} <span style="float:right">Rp ${new Intl.NumberFormat('id-ID').format(item.sale_price)}</span>`;
+                li.addEventListener('click', () => {
+                    // ensure product exists in products[] array for addToCart
+                    const pid = parseInt(li.dataset.id,10);
+                    const existing = products.find(p => p.id === pid);
+                    if(!existing){
+                        products.push({ id: pid, name: li.dataset.name, price: parseFloat(li.dataset.price) || 0 });
+                    }
+                    addToCart(pid);
+                    autocompleteList.style.display = 'none';
+                    autocompleteList.innerHTML = '';
+                    document.getElementById('product_search').value = '';
+                });
+                autocompleteList.appendChild(li);
+            });
+            autocompleteList.style.display = data.length ? 'block' : 'none';
+        } catch(err){
+            console.error('Autocomplete error:', err);
+            autocompleteList.style.display = 'none';
+            autocompleteList.innerHTML = '';
+        }
+    }
+
+    if(searchInput){
+        searchInput.addEventListener('input', debounce(function(e){
+            fetchSuggestions(e.target.value.trim());
+        }, 250));
+
+        // hide on blur
+        document.addEventListener('click', function(ev){
+            if(!ev.target.closest('#pos-autocomplete-list') && ev.target.id !== 'product_search'){
+                autocompleteList.style.display = 'none';
+            }
+        });
+    }
 
     // Open payment modal and populate totals
     const modal = document.getElementById('payment_modal');
