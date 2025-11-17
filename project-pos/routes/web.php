@@ -27,10 +27,8 @@ Route::post('/sales/process', [App\Http\Controllers\SaleController::class, 'proc
 Route::get('/sales/history', [SalesHistoryController::class, 'index'])->name('sales.history');
 Route::get('/sales/{id}/detail', [SalesHistoryController::class, 'show'])->name('sales.detail');
 
-// Services History (Riwayat Servis) - static view based on design
-Route::get('/services/history', function () {
-    return view('services-history');
-})->name('services.history');
+// Services History (Riwayat Servis)
+Route::get('/services/history', [App\Http\Controllers\ServicesHistoryController::class, 'index'])->name('services.history');
 
 // Audit Log System
 Route::get('/audit-log', [AuditLogController::class, 'index'])->name('audit-log');

@@ -6,25 +6,27 @@
 @section('content')
 
     <div class="content-card">
-        <form class="filter-form-grid">
+        <form class="filter-form-grid" method="GET" action="{{ route('services.history') }}">
             <div class="form-group">
                 <label for="start_date">Tanggal Mulai</label>
-                <input type="date" id="start_date">
+                <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}">
             </div>
             <div class="form-group">
                 <label for="end_date">Tanggal Akhir</label>
-                <input type="date" id="end_date">
+                <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}">
             </div>
             <div class="form-group">
-                <label for="search_query">ID Servis / Pelanggan</label>
-                <input type="text" id="search_query" placeholder="Contoh: SVC-004 atau Citra">
+                <label for="search">ID Servis / Pelanggan</label>
+                <input type="text" id="search" name="search" placeholder="Contoh: SVC-004 atau Citra" value="{{ request('search') }}">
             </div>
             <div class="form-group">
                 <label for="status">Status</label>
-                <select id="status">
-                    <option value="">Semua Status Selesai</option>
-                    <option value="done">Selesai (Belum Diambil)</option>
-                    <option value="picked-up">Sudah Diambil</option>
+                <select id="status" name="status">
+                    <option value="">Semua Status</option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu Cek</option>
+                    <option value="progress" {{ request('status') == 'progress' ? 'selected' : '' }}>Dalam Pengerjaan</option>
+                    <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Selesai (Belum Diambil)</option>
+                    <option value="picked-up" {{ request('status') == 'picked-up' ? 'selected' : '' }}>Sudah Diambil</option>
                 </select>
             </div>
             
@@ -42,50 +44,36 @@
                     <th>ID Servis</th>
                     <th>Pelanggan</th>
                     <th>Perangkat</th>
-                    <th>Tanggal Diambil</th>
+                    <th>Tanggal Buat</th>
                     <th>Status</th>
                     <th class="text-right">Total Biaya</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
+                @forelse($services as $svc)
                 <tr>
-                    <td><strong>SVC-004</strong></td>
-                    <td>Citra Lestari</td>
-                    <td>Macbook Pro M1</td>
-                    <td>14 Nov 2025</td>
-                    <td><span class="status-badge picked-up">Sudah Diambil</span></td>
-                    <td class="text-right">Rp 4.500.000</td>
+                    <td><strong>{{ $svc->service_code }}</strong></td>
+                    <td>{{ $svc->customer_name }}</td>
+                    <td>{{ $svc->device_full_name }}</td>
+                    <td>{{ $svc->created_at ? $svc->created_at->format('d M Y') : '-' }}</td>
+                    <td><span class="status-badge {{ $svc->status_badge_class }}">{{ $svc->status_label }}</span></td>
+                    <td class="text-right">Rp {{ number_format($svc->cost ?? 0, 0, ',', '.') }}</td>
                     <td class="action-buttons">
-                        <a href="#" title="Lihat Detail"><i data-feather="eye"></i></a>
+                        <a href="{{ route('services.show', $svc->id) }}" title="Lihat Detail"><i data-feather="eye"></i></a>
                     </td>
                 </tr>
-                
+                @empty
                 <tr>
-                    <td><strong>SVC-002</strong></td>
-                    <td>Ani Wijaya</td>
-                    <td>PC Rakitan</td>
-                    <td>-</td> <td><span class="status-badge done">Selesai</span></td>
-                    <td class="text-right">Rp 150.000</td>
-                    <td class="action-buttons">
-                        <a href="#" title="Lihat Detail"><i data-feather="eye"></i></a>
-                    </td>
+                    <td colspan="7">Tidak ada data servis.</td>
                 </tr>
-                
-                <tr>
-                    <td><strong>SVC-005</strong></td>
-                    <td>David Lee</td>
-                    <td>Printer Epson L3110</td>
-                    <td>13 Nov 2025</td>
-                    <td><span class="status-badge picked-up">Sudah Diambil</span></td>
-                    <td class="text-right">Rp 200.000</td>
-                    <td class="action-buttons">
-                        <a href="#" title="Lihat Detail"><i data-feather="eye"></i></a>
-                    </td>
-                </tr>
-                
+                @endforelse
             </tbody>
         </table>
+
+        <div style="margin-top:1rem;">
+            {{ $services->withQueryString()->links() }}
+        </div>
     </div>
 
 @endsection
