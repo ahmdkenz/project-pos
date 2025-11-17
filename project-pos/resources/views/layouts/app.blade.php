@@ -523,7 +523,7 @@
                     <li><a href="{{ route('services.index') }}" class="{{ (request()->routeIs('services.*') && !request()->routeIs('services.history')) ? 'active' : '' }}"><i data-feather="tool"></i> <span>Manajemen Servis</span></a></li>
                     <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Penjualan</span></a></li>
                     <li><a href="{{ route('services.history') }}" class="{{ request()->routeIs('services.history') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Servis</span></a></li>
-                    <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> <span>Laporan Profit</span></a></li>
+                    <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> <span>Laporan</span></a></li>
                     <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> <span>Audit Log System</span></a></li>
                 </ul>
             </nav>
