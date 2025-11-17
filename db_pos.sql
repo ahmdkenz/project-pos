@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 17, 2025 at 11:40 AM
+-- Generation Time: Nov 17, 2025 at 02:02 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -151,7 +151,9 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `actor`, `type`, `action`, `message`,
 (103, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>HDD \"2.5 inch 320GB (PRD-171125-ZJA8NO)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:23:27', '2025-11-17 03:23:27'),
 (104, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/010)</strong> senilai Rp 75.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:57:09', '2025-11-17 03:57:09'),
 (105, 1, 'Admin', 'security', 'LOGOUT', 'keluar dari sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:12', '2025-11-17 04:33:12'),
-(106, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:16', '2025-11-17 04:33:16');
+(106, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:16', '2025-11-17 04:33:16'),
+(107, 1, 'Admin', 'product', 'CREATE', 'menambahkan servis baru <strong>SVC-171125-KT5WUX</strong> untuk pelanggan <strong>User</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 06:29:46', '2025-11-17 06:29:46'),
+(108, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-171125-KT5WUX</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:56');
 
 -- --------------------------------------------------------
 
@@ -359,7 +361,8 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `service_code`, `customer_name`, `customer_phone`, `device_type`, `device_brand`, `complaint`, `items_included`, `diagnosis`, `action_taken`, `status`, `cost`, `technician`, `created_by`, `completed_at`, `picked_up_at`, `created_at`, `updated_at`) VALUES
-(3, 'SVC-151125-3Q5L4T', 'User', '-', 'PC', 'PC Rakitan', 'Ram kebaca 8gb dari 16gb', NULL, NULL, NULL, 'picked-up', 25000.00, NULL, 1, NULL, '2025-11-15 06:35:33', '2025-11-15 06:35:12', '2025-11-15 06:35:33');
+(3, 'SVC-151125-3Q5L4T', 'User', '-', 'PC', 'PC Rakitan', 'Ram kebaca 8gb dari 16gb', NULL, NULL, NULL, 'picked-up', 25000.00, NULL, 1, NULL, '2025-11-15 06:35:33', '2025-11-15 06:35:12', '2025-11-15 06:35:33'),
+(4, 'SVC-171125-KT5WUX', 'User', '-', 'Laptop', 'Lenovo', 'Aktivasi Windows', NULL, NULL, NULL, 'picked-up', 50000.00, NULL, 1, NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:46', '2025-11-17 06:29:56');
 
 -- --------------------------------------------------------
 
@@ -381,7 +384,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('MH8aYn4hl2OPOlVlCetibbwn2f7OdWHEMdKwiv8P', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVdJckZ6M2hUYldqanowQ2RQZ0w4NmI1Y0ZlS1VURjZYRUdHYjlKayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1763379196);
+('MH8aYn4hl2OPOlVlCetibbwn2f7OdWHEMdKwiv8P', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVdJckZ6M2hUYldqanowQ2RQZ0w4NmI1Y0ZlS1VURjZYRUdHYjlKayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1763386247);
 
 -- --------------------------------------------------------
 
@@ -553,7 +556,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -595,7 +598,7 @@ ALTER TABLE `sale_items`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `stock_movements`
