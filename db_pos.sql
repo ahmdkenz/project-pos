@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 15, 2025 at 02:39 PM
+-- Generation Time: Nov 17, 2025 at 11:40 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -123,7 +123,35 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `actor`, `type`, `action`, `message`,
 (75, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Kuas Kecil (PRD-151125-6CRWJY)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-15 06:33:09', '2025-11-15 06:33:09'),
 (76, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/007)</strong> senilai Rp 40.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
 (77, 1, 'Admin', 'product', 'CREATE', 'menambahkan servis baru <strong>SVC-151125-3Q5L4T</strong> untuk pelanggan <strong>User</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-15 06:35:12', '2025-11-15 06:35:12'),
-(78, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-151125-3Q5L4T</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-15 06:35:33', '2025-11-15 06:35:33');
+(78, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-151125-3Q5L4T</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-15 06:35:33', '2025-11-15 06:35:33'),
+(79, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-16 22:32:32', '2025-11-16 22:32:32'),
+(80, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/008)</strong> senilai Rp 25.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-16 22:33:18', '2025-11-16 22:33:18'),
+(81, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/009)</strong> senilai Rp 350.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-16 22:33:27', '2025-11-16 22:33:27'),
+(82, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Baterai CMOS 2032 (PRD-151125-1USQCM)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 00:15:42', '2025-11-17 00:15:42'),
+(83, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Kabel LAN (PRD-151125-NOICO1)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 00:16:30', '2025-11-17 00:16:30'),
+(84, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Kuas Kecil (PRD-151125-6CRWJY)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 00:17:09', '2025-11-17 00:17:09'),
+(85, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i3-4170 @3.70Ghz (PRD-151125-MELAXR)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 02:58:52', '2025-11-17 02:58:52'),
+(86, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i3-6100 @3.70Ghz (PRD-151125-KLII6E)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 02:59:16', '2025-11-17 02:59:16'),
+(87, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i3-4150 @3.50Ghz (PRD-151125-SLX4AR)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 02:59:35', '2025-11-17 02:59:35'),
+(88, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i3-2120 @3.30Ghz (PRD-151125-1G4KMA)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 02:59:55', '2025-11-17 02:59:55'),
+(89, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i3-3240 @3.40Ghz (PRD-151125-TNKAIL)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:00:06', '2025-11-17 03:00:06'),
+(90, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>Core i5-2320 @3.00Ghz (PRD-151125-SQDHTD)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:00:41', '2025-11-17 03:00:41'),
+(91, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Kabel Power PC Second (PRD-171125-PXTXVG)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:05:26', '2025-11-17 03:05:26'),
+(92, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Adaptor Monitor (PRD-171125-7TN9P1)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:06:56', '2025-11-17 03:06:56'),
+(93, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Tas Laptop \"14 Inch (PRD-171125-ZPF0SB)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:08:06', '2025-11-17 03:08:06'),
+(94, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Keyboard Logitech Second (PRD-171125-RTKVB0)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:17:51', '2025-11-17 03:17:51'),
+(95, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>Fan Cooler \"14 inch (PRD-171125-HMHAEG)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:18:33', '2025-11-17 03:18:33'),
+(96, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>SSD 128GB (PRD-171125-NSBTH2)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:20:14', '2025-11-17 03:20:14'),
+(97, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>SSD 256GB (PRD-171125-5G3VV2)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:20:33', '2025-11-17 03:20:33'),
+(98, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>SSD 512GB (PRD-171125-MUU5PZ)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:20:46', '2025-11-17 03:20:46'),
+(99, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>HDD 500GB (PRD-171125-JHMKTW)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:21:15', '2025-11-17 03:21:15'),
+(100, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>HDD 1TB (PRD-171125-LAFZTD)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:21:34', '2025-11-17 03:21:34'),
+(101, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>HDD \"2.5 inch 320GB (PRD-171125-ZJA8NO)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:22:54', '2025-11-17 03:22:54'),
+(102, 1, 'Admin', 'product', 'CREATE', 'menambahkan produk baru <strong>HDD \"2.5 inch 500GB (PRD-171125-PQSLTM)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:23:11', '2025-11-17 03:23:11'),
+(103, 1, 'Admin', 'product', 'UPDATE', 'mengedit produk <strong>HDD \"2.5 inch 320GB (PRD-171125-ZJA8NO)</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:23:27', '2025-11-17 03:23:27'),
+(104, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/010)</strong> senilai Rp 75.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 03:57:09', '2025-11-17 03:57:09'),
+(105, 1, 'Admin', 'security', 'LOGOUT', 'keluar dari sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:12', '2025-11-17 04:33:12'),
+(106, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:16', '2025-11-17 04:33:16');
 
 -- --------------------------------------------------------
 
@@ -179,18 +207,18 @@ INSERT INTO `products` (`id`, `name`, `sku`, `current_stock`, `cost_price`, `sal
 (14, 'Caddy 12.7 mm', 'PRD-151125-SU3JKK', 2, 10000.00, 50000.00, 0, '2025-11-14 19:08:58', '2025-11-14 19:08:58'),
 (15, 'Keyboard Eyota', 'PRD-151125-ZGNCUR', 2, 31000.00, 60000.00, 0, '2025-11-14 19:09:33', '2025-11-14 19:09:33'),
 (16, 'Conveter HDMI to VGA', 'PRD-151125-V0JR9H', 6, 20000.00, 50000.00, 0, '2025-11-14 19:09:57', '2025-11-14 21:37:18'),
-(17, 'Baterai CMOS 2032', 'PRD-151125-1USQCM', 5, 240.00, 10000.00, 0, '2025-11-14 19:12:29', '2025-11-15 06:34:00'),
+(17, 'Baterai CMOS 2032', 'PRD-151125-1USQCM', 35, 240.00, 10000.00, 0, '2025-11-14 19:12:29', '2025-11-17 00:15:42'),
 (18, 'Converter DVI to VGA', 'PRD-151125-RYGUCT', 5, 11000.00, 30000.00, 0, '2025-11-14 19:13:59', '2025-11-14 19:13:59'),
 (19, 'USB Wifi Wolfcase', 'PRD-151125-DFNXWG', 4, 15000.00, 50000.00, 0, '2025-11-14 19:14:53', '2025-11-14 19:16:10'),
 (20, 'Fan Processor', 'PRD-151125-PMXOJP', 2, 20000.00, 50000.00, 0, '2025-11-14 19:15:31', '2025-11-14 19:15:31'),
 (21, 'USB Bluetooth v.5.0', 'PRD-151125-H0KF2T', 2, 10000.00, 30000.00, 0, '2025-11-14 19:15:58', '2025-11-14 19:15:58'),
 (22, 'USB Printer', 'PRD-151125-1YYKAP', 8, 7000.00, 20000.00, 0, '2025-11-14 19:18:13', '2025-11-14 19:18:13'),
 (23, 'Kabel VGA', 'PRD-151125-OAEHBJ', 10, 6500.00, 25000.00, 0, '2025-11-14 19:20:06', '2025-11-14 19:20:06'),
-(25, 'Mouse Avan', 'PRD-151125-ECC9FM', 6, 10000.00, 25000.00, 0, '2025-11-14 19:23:26', '2025-11-14 19:23:26'),
+(25, 'Mouse Avan', 'PRD-151125-ECC9FM', 5, 10000.00, 25000.00, 0, '2025-11-14 19:23:26', '2025-11-16 22:33:18'),
 (26, 'Mouse Wireless V3000', 'PRD-151125-9YXU8T', 0, 30000.00, 60000.00, 0, '2025-11-14 19:26:09', '2025-11-14 19:26:09'),
 (27, 'Thermal Paste Botol', 'PRD-151125-VEXQSS', 3, 3500.00, 20000.00, 0, '2025-11-14 19:28:16', '2025-11-14 19:28:16'),
 (28, 'Thermal Paste Suntik', 'PRD-151125-3QSKAP', 4, 25000.00, 10000.00, 0, '2025-11-14 19:28:48', '2025-11-14 21:39:39'),
-(29, 'Motherboard H61 Bulldozer', 'PRD-151125-UMLZ6P', 2, 206000.00, 350000.00, 0, '2025-11-14 19:33:40', '2025-11-14 19:33:40'),
+(29, 'Motherboard H61 Bulldozer', 'PRD-151125-UMLZ6P', 1, 206000.00, 350000.00, 0, '2025-11-14 19:33:40', '2025-11-16 22:33:27'),
 (30, 'Motherboard H81 Bulldozer', 'PRD-151125-VX3GRA', 1, 230000.00, 450000.00, 0, '2025-11-14 19:34:02', '2025-11-14 19:34:02'),
 (31, 'RAM VGEN DDR3 4GB 12800', 'PRD-151125-DGU5TW', 3, 50000.00, 100000.00, 0, '2025-11-14 19:36:24', '2025-11-14 19:36:24'),
 (33, 'RAM Team Group DDR4 4GB 2400', 'PRD-151125-CZUWNC', 1, 0.00, 200000.00, 0, '2025-11-14 19:39:34', '2025-11-14 19:39:34'),
@@ -200,19 +228,31 @@ INSERT INTO `products` (`id`, `name`, `sku`, `current_stock`, `cost_price`, `sal
 (37, 'RAM SODIMM Kingston DDR3 2GB 10600S', 'PRD-151125-TCY53X', 2, 0.00, 75000.00, 0, '2025-11-14 19:49:26', '2025-11-14 19:49:26'),
 (38, 'RAM SODIMM SKhynix DDR3 2GB 10600S', 'PRD-151125-OHQIHU', 1, 0.00, 75000.00, 0, '2025-11-14 19:50:26', '2025-11-14 19:50:26'),
 (39, 'RAM DDR4 8GB 3200AA', 'PRD-151125-MAQVRY', 1, 0.00, 200000.00, 0, '2025-11-14 19:53:33', '2025-11-14 19:53:33'),
-(41, 'Core i3-2120 @3.30Ghz', 'PRD-151125-1G4KMA', 4, 0.00, 0.00, 0, '2025-11-14 19:58:45', '2025-11-14 19:58:45'),
-(42, 'Core i5-2320 @3.00Ghz', 'PRD-151125-SQDHTD', 1, 0.00, 0.00, 0, '2025-11-14 20:01:32', '2025-11-14 20:01:32'),
-(44, 'Core i3-4170 @3.70Ghz', 'PRD-151125-MELAXR', 1, 0.00, 0.00, 0, '2025-11-14 20:02:46', '2025-11-14 20:02:46'),
-(45, 'Core i3-3240 @3.40Ghz', 'PRD-151125-TNKAIL', 1, 0.00, 0.00, 0, '2025-11-14 20:05:38', '2025-11-14 20:05:55'),
-(47, 'Core i3-4150 @3.50Ghz', 'PRD-151125-SLX4AR', 2, 0.00, 0.00, 0, '2025-11-14 20:08:16', '2025-11-14 20:08:16'),
-(48, 'Core i3-6100 @3.70Ghz', 'PRD-151125-KLII6E', 1, 0.00, 0.00, 0, '2025-11-14 20:08:51', '2025-11-14 20:08:51'),
-(49, 'Kabel LAN', 'PRD-151125-NOICO1', 298, 296000.00, 5000.00, 0, '2025-11-14 20:15:56', '2025-11-15 06:34:00'),
+(41, 'Core i3-2120 @3.30Ghz', 'PRD-151125-1G4KMA', 4, 0.00, 150000.00, 0, '2025-11-14 19:58:45', '2025-11-17 02:59:55'),
+(42, 'Core i5-2320 @3.00Ghz', 'PRD-151125-SQDHTD', 1, 150000.00, 250000.00, 0, '2025-11-14 20:01:32', '2025-11-17 03:00:41'),
+(44, 'Core i3-4170 @3.70Ghz', 'PRD-151125-MELAXR', 1, 0.00, 150000.00, 0, '2025-11-14 20:02:46', '2025-11-17 02:58:52'),
+(45, 'Core i3-3240 @3.40Ghz', 'PRD-151125-TNKAIL', 1, 0.00, 150000.00, 0, '2025-11-14 20:05:38', '2025-11-17 03:00:05'),
+(47, 'Core i3-4150 @3.50Ghz', 'PRD-151125-SLX4AR', 2, 0.00, 150000.00, 0, '2025-11-14 20:08:16', '2025-11-17 02:59:35'),
+(48, 'Core i3-6100 @3.70Ghz', 'PRD-151125-KLII6E', 1, 0.00, 200000.00, 0, '2025-11-14 20:08:51', '2025-11-17 02:59:16'),
+(49, 'Kabel LAN', 'PRD-151125-NOICO1', 10, 296000.00, 5000.00, 0, '2025-11-14 20:15:56', '2025-11-17 03:57:09'),
 (50, 'RJ45 CAT5', 'PRD-151125-P7JQRI', 36, 32000.00, 2500.00, 0, '2025-11-14 20:19:31', '2025-11-15 06:34:00'),
 (51, 'Kabel Power Laptop', 'PRD-151125-JNOYFS', 4, 150000.00, 30000.00, 0, '2025-11-15 01:29:24', '2025-11-15 01:29:24'),
 (52, 'HDD CASE 2.5 inch', 'PRD-151125-HBUC4A', 3, 24500.00, 50000.00, 0, '2025-11-15 01:52:02', '2025-11-15 01:52:02'),
 (53, 'Power Supply', 'PRD-151125-BNX2NQ', 10, 30000.00, 60000.00, 0, '2025-11-15 01:57:42', '2025-11-15 01:57:42'),
 (54, 'Kuas Besar', 'PRD-151125-M8MVPI', 1, 1000.00, 15000.00, 0, '2025-11-15 06:32:47', '2025-11-15 06:34:00'),
-(55, 'Kuas Kecil', 'PRD-151125-6CRWJY', 0, 1000.00, 10000.00, 0, '2025-11-15 06:33:09', '2025-11-15 06:33:09');
+(55, 'Kuas Kecil', 'PRD-151125-6CRWJY', 2, 1000.00, 10000.00, 0, '2025-11-15 06:33:09', '2025-11-17 00:17:09'),
+(56, 'Kabel Power PC Second', 'PRD-171125-PXTXVG', 5, 0.00, 25000.00, 0, '2025-11-17 03:05:26', '2025-11-17 03:05:26'),
+(57, 'Adaptor Monitor', 'PRD-171125-7TN9P1', 3, 35000.00, 90000.00, 0, '2025-11-17 03:06:56', '2025-11-17 03:06:56'),
+(58, 'Tas Laptop \"14 Inch', 'PRD-171125-ZPF0SB', 2, 10000.00, 35000.00, 0, '2025-11-17 03:08:06', '2025-11-17 03:08:06'),
+(59, 'Keyboard Logitech Second', 'PRD-171125-RTKVB0', 4, 0.00, 125000.00, 0, '2025-11-17 03:17:51', '2025-11-17 03:17:51'),
+(60, 'Fan Cooler \"14 inch', 'PRD-171125-HMHAEG', 3, 0.00, 50000.00, 0, '2025-11-17 03:18:33', '2025-11-17 03:18:33'),
+(61, 'SSD 128GB', 'PRD-171125-NSBTH2', 0, 0.00, 250000.00, 0, '2025-11-17 03:20:13', '2025-11-17 03:20:13'),
+(62, 'SSD 256GB', 'PRD-171125-5G3VV2', 0, 0.00, 350000.00, 0, '2025-11-17 03:20:33', '2025-11-17 03:20:33'),
+(63, 'SSD 512GB', 'PRD-171125-MUU5PZ', 0, 0.00, 450000.00, 0, '2025-11-17 03:20:46', '2025-11-17 03:20:46'),
+(64, 'HDD 500GB', 'PRD-171125-JHMKTW', 0, 0.00, 150000.00, 0, '2025-11-17 03:21:15', '2025-11-17 03:21:15'),
+(65, 'HDD 1TB', 'PRD-171125-LAFZTD', 0, 0.00, 250000.00, 0, '2025-11-17 03:21:34', '2025-11-17 03:21:34'),
+(66, 'HDD \"2.5 inch 320GB', 'PRD-171125-ZJA8NO', 1, 0.00, 175000.00, 0, '2025-11-17 03:22:54', '2025-11-17 03:23:27'),
+(67, 'HDD \"2.5 inch 500GB', 'PRD-171125-PQSLTM', 0, 0.00, 275000.00, 0, '2025-11-17 03:23:11', '2025-11-17 03:23:11');
 
 -- --------------------------------------------------------
 
@@ -251,7 +291,10 @@ CREATE TABLE `sales` (
 
 INSERT INTO `sales` (`id`, `user_id`, `total_amount`, `payment_method`, `created_at`, `updated_at`) VALUES
 (6, 1, 10000.00, 'transfer', '2025-11-14 21:39:39', '2025-11-14 21:39:39'),
-(7, 1, 40000.00, 'transfer', '2025-11-15 06:33:59', '2025-11-15 06:33:59');
+(7, 1, 40000.00, 'transfer', '2025-11-15 06:33:59', '2025-11-15 06:33:59'),
+(8, 1, 25000.00, 'cash', '2025-11-16 22:33:18', '2025-11-16 22:33:18'),
+(9, 1, 350000.00, 'transfer', '2025-11-16 22:33:27', '2025-11-16 22:33:27'),
+(10, 1, 75000.00, 'cash', '2025-11-17 03:57:09', '2025-11-17 03:57:09');
 
 -- --------------------------------------------------------
 
@@ -279,7 +322,10 @@ INSERT INTO `sale_items` (`id`, `sale_id`, `product_id`, `quantity`, `price_per_
 (3, 7, 49, 2, 5000.00, 296000.00, '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
 (4, 7, 50, 2, 2500.00, 32000.00, '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
 (5, 7, 54, 1, 15000.00, 1000.00, '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
-(6, 7, 17, 1, 10000.00, 240.00, '2025-11-15 06:34:00', '2025-11-15 06:34:00');
+(6, 7, 17, 1, 10000.00, 240.00, '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
+(7, 8, 25, 1, 25000.00, 10000.00, '2025-11-16 22:33:18', '2025-11-16 22:33:18'),
+(8, 9, 29, 1, 350000.00, 206000.00, '2025-11-16 22:33:27', '2025-11-16 22:33:27'),
+(9, 10, 49, 25, 3000.00, 296000.00, '2025-11-17 03:57:09', '2025-11-17 03:57:09');
 
 -- --------------------------------------------------------
 
@@ -335,7 +381,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('34oqwfEcG6OZGukrwBd3X8BdpJWwCW6AyKx3nhNv', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVGlTM2FBZWo2Rk5oemNCS2V5c3pEbjdCMEZTQmlienA3dlhjOVRLeCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1763214500);
+('MH8aYn4hl2OPOlVlCetibbwn2f7OdWHEMdKwiv8P', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVdJckZ6M2hUYldqanowQ2RQZ0w4NmI1Y0ZlS1VURjZYRUdHYjlKayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1763379196);
 
 -- --------------------------------------------------------
 
@@ -362,7 +408,10 @@ INSERT INTO `stock_movements` (`id`, `product_id`, `quantity`, `reason`, `create
 (3, 49, -2, 'sale', '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
 (4, 50, -2, 'sale', '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
 (5, 54, -1, 'sale', '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
-(6, 17, -1, 'sale', '2025-11-15 06:34:00', '2025-11-15 06:34:00');
+(6, 17, -1, 'sale', '2025-11-15 06:34:00', '2025-11-15 06:34:00'),
+(7, 25, -1, 'sale', '2025-11-16 22:33:18', '2025-11-16 22:33:18'),
+(8, 29, -1, 'sale', '2025-11-16 22:33:27', '2025-11-16 22:33:27'),
+(9, 49, -25, 'sale', '2025-11-17 03:57:09', '2025-11-17 03:57:09');
 
 -- --------------------------------------------------------
 
@@ -504,7 +553,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -522,7 +571,7 @@ ALTER TABLE `notification_records`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `purchase_lots`
@@ -534,13 +583,13 @@ ALTER TABLE `purchase_lots`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -552,7 +601,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `stock_movements`
 --
 ALTER TABLE `stock_movements`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `sync_operations`
