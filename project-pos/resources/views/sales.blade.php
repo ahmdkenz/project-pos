@@ -108,7 +108,7 @@
                 @forelse($recentSales as $sale)
                 <tr>
                     <td>{{ $sale->invoice_number }}</td>
-                    <td>{{ $sale->created_at->format('d M Y, H:i') }}</td>
+                    <td>{{ $sale->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') }}</td>
                     <td>Rp {{ number_format($sale->total_amount, 0, ',', '.') }}</td>
                     <td>{{ $sale->payment_method }}</td>
                     <td><span class="status-badge {{ $sale->status_badge_class }}">{{ $sale->status }}</span></td>
