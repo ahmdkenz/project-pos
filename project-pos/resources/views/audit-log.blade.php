@@ -58,7 +58,7 @@
                     </td>
                     <td>{!! $activity->message !!}</td>
                     <td>{{ $activity->ip_address ?? '-' }}</td>
-                    <td>{{ $activity->created_at->format('d M Y, H:i') }}</td>
+                    <td>{{ $activity->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') }}</td>
                 </tr>
                 @empty
                 <tr>
