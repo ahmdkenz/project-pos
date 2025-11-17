@@ -147,6 +147,7 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => ['required','string','max:255'],
             'min_stock_level' => ['nullable','integer','min:0'],
+            'current_stock' => ['nullable','integer','min:0'],
             'cost_price' => ['nullable','numeric','min:0'],
             'sale_price' => ['nullable','numeric','min:0'],
         ]);
@@ -154,6 +155,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $data['name'],
             'min_stock_level' => $data['min_stock_level'] ?? $product->min_stock_level,
+            'current_stock' => $data['current_stock'] ?? $product->current_stock,
             'cost_price' => $data['cost_price'] ?? $product->cost_price,
             'sale_price' => $data['sale_price'] ?? $product->sale_price,
         ]);

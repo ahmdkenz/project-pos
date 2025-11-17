@@ -39,8 +39,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="min_stock_level">Batas Stok Minimum</label>
-                    <input type="number" id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', $product->min_stock_level) }}" min="0">
+                    <label for="current_stock">Stok Saat Ini</label>
+                    <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock', $product->current_stock) }}" min="0">
                 </div>
 
                 <div class="form-group">
