@@ -2,10 +2,17 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+<<<<<<< HEAD:project-pos/db_pos.sql
 -- Host: 127.0.0.1
 -- Waktu pembuatan: 29 Nov 2025 pada 16.28
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
+=======
+-- Host: localhost:3306
+-- Generation Time: Nov 17, 2025 at 02:02 PM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.16
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -153,6 +160,7 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `actor`, `type`, `action`, `message`,
 (105, 1, 'Admin', 'security', 'LOGOUT', 'keluar dari sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:12', '2025-11-17 04:33:12'),
 (106, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 04:33:16', '2025-11-17 04:33:16'),
 (107, 1, 'Admin', 'product', 'CREATE', 'menambahkan servis baru <strong>SVC-171125-KT5WUX</strong> untuk pelanggan <strong>User</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 06:29:46', '2025-11-17 06:29:46'),
+<<<<<<< HEAD:project-pos/db_pos.sql
 (108, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-171125-KT5WUX</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:56'),
 (109, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 21:07:40', '2025-11-17 21:07:40'),
 (110, 1, 'Admin', 'security', 'LOGIN', 'berhasil login ke sistem', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 23:17:02', '2025-11-17 23:17:02'),
@@ -237,6 +245,9 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `actor`, `type`, `action`, `message`,
 (188, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-291125-L5IZGE</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0', NULL, '2025-11-29 06:57:50', '2025-11-29 06:57:50'),
 (189, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-261125-V2FLY3</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0', NULL, '2025-11-29 07:29:35', '2025-11-29 07:29:35'),
 (190, 1, 'Admin', 'sales', 'CREATE', 'memproses penjualan baru <strong>(INV/2025/11/015)</strong> senilai Rp 10.000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0', NULL, '2025-11-29 07:30:32', '2025-11-29 07:30:32');
+=======
+(108, 1, 'Admin', 'product', 'UPDATE', 'mengupdate servis <strong>SVC-171125-KT5WUX</strong> - Status: <strong>Sudah Diambil</strong>', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:56');
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 -- --------------------------------------------------------
 
@@ -467,6 +478,7 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`id`, `service_code`, `customer_name`, `customer_phone`, `device_type`, `device_brand`, `complaint`, `items_included`, `diagnosis`, `action_taken`, `status`, `cost`, `technician`, `created_by`, `completed_at`, `picked_up_at`, `created_at`, `updated_at`) VALUES
 (3, 'SVC-151125-3Q5L4T', 'User', '-', 'PC', 'PC Rakitan', 'Ram kebaca 8gb dari 16gb', NULL, NULL, NULL, 'picked-up', 25000.00, NULL, 1, NULL, '2025-11-15 06:35:33', '2025-11-15 06:35:12', '2025-11-15 06:35:33'),
+<<<<<<< HEAD:project-pos/db_pos.sql
 (4, 'SVC-171125-KT5WUX', 'User', '-', 'Laptop', 'Lenovo', 'Aktivasi Windows', NULL, NULL, NULL, 'picked-up', 50000.00, NULL, 1, NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:46', '2025-11-17 06:29:56'),
 (5, 'SVC-181125-HD903K', 'User', '-', 'Laptop', 'ASUS X441N', 'Windows blacksreen', NULL, NULL, NULL, 'picked-up', 100000.00, NULL, 1, NULL, '2025-11-18 06:29:55', '2025-11-18 06:29:42', '2025-11-18 06:29:55'),
 (6, 'SVC-201125-JVX7WL', 'User', '-', 'PC', 'Rakitan', 'Windows Rusak', NULL, NULL, NULL, 'picked-up', 100000.00, NULL, 1, NULL, '2025-11-20 02:13:16', '2025-11-20 02:13:00', '2025-11-20 02:13:16'),
@@ -480,6 +492,9 @@ INSERT INTO `services` (`id`, `service_code`, `customer_name`, `customer_phone`,
 (14, 'SVC-271125-XSBRTK', 'Bunda Grosir', '-', 'PC', 'Rakitan', 'Port Usb, Port Lan, Aktivasi', NULL, NULL, NULL, 'picked-up', 100000.00, NULL, 1, '2025-11-27 00:13:53', '2025-11-27 10:42:40', '2025-11-27 00:13:43', '2025-11-27 10:42:40'),
 (15, 'SVC-271125-IXENHV', 'Bunda Grosir', '-', 'Laptop', 'Rakitan', 'Aktivasi, Cleaning', NULL, NULL, NULL, 'picked-up', 75000.00, NULL, 1, '2025-11-27 00:14:54', '2025-11-27 10:42:48', '2025-11-27 00:14:35', '2025-11-27 10:42:48'),
 (16, 'SVC-291125-L5IZGE', 'User', '-', 'Laptop', 'Acer', 'Windows Rusak', NULL, NULL, NULL, 'picked-up', 100000.00, NULL, 1, NULL, '2025-11-29 06:57:50', '2025-11-29 05:54:59', '2025-11-29 06:57:50');
+=======
+(4, 'SVC-171125-KT5WUX', 'User', '-', 'Laptop', 'Lenovo', 'Aktivasi Windows', NULL, NULL, NULL, 'picked-up', 50000.00, NULL, 1, NULL, '2025-11-17 06:29:56', '2025-11-17 06:29:46', '2025-11-17 06:29:56');
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 -- --------------------------------------------------------
 
@@ -501,7 +516,11 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+<<<<<<< HEAD:project-pos/db_pos.sql
 ('9Cl4yYpHrPkTjv8butYywmOtb5ltGBmCn7jx6fIW', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTmJ1NW1jYmNWcE1PbTZ0UHNZcjljT3kyV0w2ZVZxUnJBREdUOFhmUiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly9tdXN0aWthLmxvY2FsL3NlcnZpY2VzLzExIjtzOjU6InJvdXRlIjtzOjEzOiJzZXJ2aWNlcy5zaG93Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1764429999);
+=======
+('MH8aYn4hl2OPOlVlCetibbwn2f7OdWHEMdKwiv8P', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVdJckZ6M2hUYldqanowQ2RQZ0w4NmI1Y0ZlS1VURjZYRUdHYjlKayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1763386247);
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 -- --------------------------------------------------------
 
@@ -682,7 +701,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `audit_logs`
 --
 ALTER TABLE `audit_logs`
+<<<<<<< HEAD:project-pos/db_pos.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+=======
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -724,7 +747,11 @@ ALTER TABLE `sale_items`
 -- AUTO_INCREMENT untuk tabel `services`
 --
 ALTER TABLE `services`
+<<<<<<< HEAD:project-pos/db_pos.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+=======
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+>>>>>>> b7dcfb8ef75b7e9fa39640fc1a0e42eb306dd8bb:db_pos.sql
 
 --
 -- AUTO_INCREMENT untuk tabel `stock_movements`
