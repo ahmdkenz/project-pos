@@ -49,10 +49,7 @@
                             <i data-feather="package"></i>
                             <span>Kelengkapan: {{ $service->items_included ?? '-' }}</span>
                         </div>
-                        <div class="info-item">
-                            <i data-feather="tag"></i>
-                            <span>SN: {{ $service->serial_number ?? '-' }}</span>
-                        </div>
+                        
                     </div>
                 </div>
 
