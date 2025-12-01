@@ -86,6 +86,15 @@ class ServiceController extends Controller
     }
 
     /**
+     * Menampilkan detail servis (read-only)
+     */
+    public function show($id)
+    {
+        $service = Service::findOrFail($id);
+        return view('services.show', compact('service'));
+    }
+
+    /**
      * Update servis
      */
     public function update(Request $request, $id)

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Servis - Mustika Komputer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* * ======================================
+         * CSS (Semua dalam satu file)
+         * ======================================
+         */
+
+        /* --- 1. Reset & Global --- */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; 
+            color: #333;
+            overflow-x: hidden; 
+        }
+        
+        /* --- 2. Layout Utama --- */
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 3. Sidebar Navigasi --- */
+        
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 1.5rem; 
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-top: 1rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4F46E5, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.5rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar-nav a svg { width: 20px; height: 20px; margin-right: 0.75rem; stroke-width: 2.5px; }
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background-color: #eef2ff;
+            color: #4F46E5;
+        }
+        .sidebar-footer { margin-top: auto; }
+
+        /* --- 4. Konten Utama (Kanan) --- */
+        
+        .main-content {
+            margin-left: 260px; 
+            flex: 1; 
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content-area {
+            flex-grow: 1; /* Mendorong footer ke bawah */
+        }
+        
+        /* --- 5. HEADER (TOP BAR) --- */
+         
+        .main-header {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .search-bar { position: relative; }
+        .search-bar svg {
+            position: absolute; top: 50%; left: 1rem; transform: translateY(-50%);
+            color: #718096; stroke-width: 2.5px;
+        }
+        .search-bar input {
+            font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 500; width: 350px;
+            padding: 0.85rem 1rem 0.85rem 3rem; border: 1px solid #e2e8f0; border-radius: 8px;
+            background-color: #f8f9fa; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-bar input:focus {
+            outline: none; border-color: #4F46E5; background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .user-profile .avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-image: linear-gradient(45deg, #4F46E5, #3B82F6);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 1rem;
+        }
+        .user-profile .user-info { line-height: 1.3; text-align: right; }
+        .user-profile .user-info strong { display: block; font-size: 0.95rem; font-weight: 600; color: #2d3748; }
+        .user-profile .user-info span { font-size: 0.85rem; color: #718096; }
+
+        /* --- 6. FOOTER --- */
+        
+        .main-footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #718096;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* --- 7. STYLING DETAIL SERVIS --- */
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .content-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        /* Tombol */
+        .cta-button {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-image: linear-gradient(90deg, #4F46E5, #3B82F6);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); }
+        
+        .secondary-button {
+            padding: 0.85rem 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #4a5568;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+        .secondary-button:hover { background-color: #f8f9fa; }
+
+        /* Layout Grid Detail */
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Kiri konten utama, Kanan timeline */
+            gap: 2rem;
+        }
+        
+        /* Header Info Servis (ID & Status) */
+        .service-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eef2f7;
+            margin-bottom: 2rem;
+        }
+        .service-header-info h2 {
+            font-size: 1.5rem;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+        .service-meta span {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        
+        /* Badge Status */
+        .status-badge {
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-badge.picked-up {
+            background-color: #e2e8f0; color: #4a5568;
+        }
+        
+        /* Blok Informasi (Customer & Device) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .info-block h5 {
+            font-size: 0.85rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .info-item i {
+            color: #4F46E5;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+        }
+        .info-item span {
+            color: #2d3748;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        /* Box Keluhan & Solusi */
+        .description-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #eef2f7;
+        }
+        .description-box h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+        .description-box p {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Timeline Vertical */
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background-color: #eef2f7;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #e2e8f0; /* Default abu */
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 0 2px #eef2f7;
+        }
+        .timeline-item.active .timeline-dot {
+            background-color: #4F46E5; /* Biru aktif */
+            box-shadow: 0 0 0 2px #e0e7ff;
+        }
+        .timeline-item.done .timeline-dot {
+            background-color: #10B981; /* Hijau selesai */
+            box-shadow: 0 0 0 2px #d1fae5;
+        }
+        
+        .timeline-content h6 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-content p {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-content .date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        /* Tabel Biaya */
+        .modern-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .modern-table th { text-align: left; padding: 0.75rem; background-color: #f8f9fa; color: #718096; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        .modern-table td { padding: 0.75rem; color: #2d3748; font-size: 0.95rem; border-bottom: 1px solid #eef2f7; }
+        .text-right { text-align: right; }
+        .total-row td { font-weight: 700; color: #1a202c; font-size: 1.1rem; border-top: 2px solid #eef2f7; }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            
+            <div class="sidebar-header">
+                <h2>MUSTIKA KOMPUTER</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i data-feather="home"></i> Dashboard</a></li>
+                    <li><a href="inventory.html"><i data-feather="package"></i> Manajemen Produk</a></li>
+                    <li><a href="sales.html"><i data-feather="shopping-cart"></i> Kasir (POS)</a></li>
+                    <li><a href="sales-history.html"><i data-feather="file-text"></i> Riwayat Penjualan</a></li>
+                    <li><a href="reports.html"><i data-feather="bar-chart-2"></i> Laporan Profit</a></li>
+                    <li><a href="audit-log.html"><i data-feather="shield"></i> Audit Log System</a></li>
+                    <li><a href="service.html" class="active"><i data-feather="tool"></i> Jasa Servis</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#"><i data-feather="log-out"></i> Logout</a>
+            </div>
+            
+        </aside>
+        
+        <main class="main-content">
+            
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Detail Riwayat Servis</h1>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-info">
+                        <strong>Admin</strong>
+                        <span>Mustika Komputer</span>
+                    </div>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+            
+            <div class="content-area">
+
+                <a href="service-history.html" class="back-link">
+                    <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
+                    Kembali ke Riwayat
+                </a>
+                
+                <div class="content-card">
+                    
+                    <div class="detail-layout">
+                        
+                        <div class="detail-main">
+                            
+                            <div class="service-header-info">
+                                <div>
+                                    <h2>Servis #SVC-004</h2>
+                                    <div class="service-meta">
+                                        <span class="status-badge picked-up">Status: Sudah Diambil</span>
+                                        <span><i data-feather="calendar" style="width:14px;"></i> Masuk: 10 Nov 2025</span>
+                                    </div>
+                                </div>
+                                <div class="action-buttons">
+                                    <button class="secondary-button">
+                                        <i data-feather="printer"></i> Cetak Invoice
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="info-grid">
+                                <div class="info-block">
+                                    <h5>Info Pelanggan</h5>
+                                    <div class="info-item">
+                                        <i data-feather="user"></i>
+                                        <span>Citra Lestari</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i data-feather="phone"></i>
+                                        <span>0812-9876-5432</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i data-feather="map-pin"></i>
+                                        <span>Depok, Jawa Barat</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-block">
+                                    <h5>Perangkat</h5>
+                                    <div class="info-item">
+                                        <i data-feather="monitor"></i>
+                                        <span>Macbook Pro M1 2020</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i data-feather="package"></i>
+                                        <span>Kelengkapan: Unit + Charger</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i data-feather="tag"></i>
+                                        <span>SN: C02F...X78</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="description-box">
+                                <h5>Keluhan Awal:</h5>
+                                <p>Layar LCD retak di bagian pojok kanan atas, kadang berkedip. Customer minta ganti LCD original.</p>
+                            </div>
+                            
+                            <div class="description-box" style="background-color: #eef2ff; border-color: #e0e7ff;">
+                                <h5>Tindakan Teknisi (Solusi):</h5>
+                                <p>Melakukan penggantian LCD Assembly Fullset Original. Membersihkan fan dan mengganti thermal paste.</p>
+                            </div>
+                            
+                            <h5 style="margin-top: 2rem; margin-bottom: 1rem; color: #718096; font-size: 0.9rem;">Rincian Biaya</h5>
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>Deskripsi Item / Jasa</th>
+                                        <th class="text-right">Biaya</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>LCD Assembly Macbook Pro M1 (Original)</td>
+                                        <td class="text-right">Rp 4.200.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jasa Pasang & Cleaning</td>
+                                        <td class="text-right">Rp 300.000</td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td>Total Biaya</td>
+                                        <td class="text-right" style="color: #4F46E5;">Rp 4.500.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        
+                        <div class="detail-sidebar">
+                            <h5 style="margin-bottom: 1.5rem; color: #718096; font-size: 0.9rem;">Jejak Servis</h5>
+                            
+                            <div class="timeline">
+                                
+                                <div class="timeline-item done">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h6>Sudah Diambil</h6>
+                                        <p>Perangkat diserahkan ke pelanggan.</p>
+                                        <span class="date">14 Nov 2025, 16:30</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item done">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h6>Selesai & QC</h6>
+                                        <p>Teknisi: Rudi. Lolos QC.</p>
+                                        <span class="date">14 Nov 2025, 10:00</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item done">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h6>Sedang Dikerjakan</h6>
+                                        <p>LCD pengganti sudah datang.</p>
+                                        <span class="date">12 Nov 2025, 09:15</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item done">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h6>Diterima</h6>
+                                        <p>Diterima oleh Admin.</p>
+                                        <span class="date">10 Nov 2025, 14:20</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <footer class="main-footer">
+                &copy; 2025 Mustika Komputer. Dibuat dengan cinta & kopi.
+            </footer>
+            
+        </main>
+        
+    </div>
+
+    <script>
+        feather.replace()
+    </script>
+
+</body>
+</html>
