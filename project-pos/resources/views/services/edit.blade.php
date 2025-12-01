@@ -57,12 +57,7 @@
                     <label for="items_included">Kelengkapan Barang</label>
                     <textarea id="items_included" name="items_included" placeholder="Tuliskan barang apa saja yang disertakan, misal: Unit Laptop, Charger Original, Tas Laptop">{{ old('items_included', $service->items_included) }}</textarea>
                 </div>
-
-                <div class="form-group full-width">
-                    <label for="diagnosis">Hasil Diagnosis</label>
-                    <textarea id="diagnosis" name="diagnosis" placeholder="Hasil pengecekan teknisi...">{{ old('diagnosis', $service->diagnosis) }}</textarea>
-                </div>
-
+                
                 <div class="form-group full-width">
                     <label for="action_taken">Tindakan yang Dilakukan</label>
                     <textarea id="action_taken" name="action_taken" placeholder="Tindakan perbaikan yang dilakukan...">{{ old('action_taken', $service->action_taken) }}</textarea>
