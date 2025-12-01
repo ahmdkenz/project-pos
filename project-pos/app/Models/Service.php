@@ -14,6 +14,7 @@ class Service extends Model
         'device_type',
         'device_brand',
         'complaint',
+        'items_included',
         'diagnosis',
         'action_taken',
         'status',
