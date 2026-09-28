@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Edit Produk - Mustika Komputer')
+@section('title','Edit Produk - SALES & SERVICE')
 @section('header-title','Edit Produk')
 @section('content')
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Tambah Produk Baru - Mustika Komputer')
+@section('title','Tambah Produk Baru - SALES & SERVICE')
 @section('header-title','Tambah Produk Baru')
 
 @section('content')

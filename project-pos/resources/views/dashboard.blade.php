@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title','Dashboard - Mustika Komputer')
+@section('title','Dashboard - SALES & SERVICE')
 @section('header-title','Dashboard')
 
 @section('content')
 
     <div class="welcome-banner">
-        <h1>SELAMAT DATANG DI APLIKASI MUSTIKA KOMPUTER</h1>
+        <h1>SELAMAT DATANG DI APLIKASI SALES &amp; SERVICE</h1>
         <p>Ini adalah pusat kendali untuk bisnis Anda.</p>
     </div>
 

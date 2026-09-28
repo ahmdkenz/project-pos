@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Audit Log - Mustika Komputer')
+@section('title','Audit Log - SALES & SERVICE')
 @section('header-title','Riwayat Aktivitas (Audit Log)')
 
 @section('content')

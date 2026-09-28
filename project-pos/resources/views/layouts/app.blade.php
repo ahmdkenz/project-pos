@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title','Dashboard - Mustika Komputer')</title>
+    <title>@yield('title','Dashboard - SALES &amp; SERVICE')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -513,7 +513,7 @@
     <div class="dashboard-container">
         <aside class="sidebar collapsed" id="appSidebar">
             <div class="sidebar-header">
-                <h2>MUSTIKA KOMPUTER</h2>
+                <h2>SALES &amp; SERVICE</h2>
             </div>
             <nav class="sidebar-nav">
                 <ul>
@@ -547,7 +547,7 @@
                 <div class="user-profile">
                     <div class="user-info">
                         <strong>Admin</strong>
-                        <span>Mustika Komputer</span>
+                        <span>SALES &amp; SERVICE</span>
                     </div>
                     <div class="avatar">A</div>
                 </div>
@@ -558,7 +558,7 @@
             </div>
 
             <footer class="main-footer">
-                &copy; 2025 Mustika Komputer | All Rights Reserved.
+                &copy; 2025 SALES &amp; SERVICE | All Rights Reserved.
             </footer>
 
         </main>
