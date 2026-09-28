@@ -14,12 +14,14 @@
             <a href="{{ route('services.index', ['status' => 'picked-up']) }}" class="filter-tab {{ request('status') == 'picked-up' ? 'active' : '' }}">Sudah Diambil</a>
         </div>
         
+        @can('services.create')
         <a href="{{ route('services.create') }}" class="cta-button">
             <i data-feather="plus"></i>
             Tambah Servis Baru
         </a>
+        @endcan
     </div>
-    
+
     <div class="content-card">
         <table class="modern-table">
             <thead>
@@ -43,9 +45,16 @@
                     <td><span class="status-badge {{ $service->status_badge_class }}">{{ $service->status_label }}</span></td>
                     <td class="text-right">Rp {{ number_format($service->cost, 0, ',', '.') }}</td>
                     <td class="action-buttons">
+                        @can('services.update')
                         <a href="{{ route('services.edit', $service->id) }}" title="Lihat/Edit Detail">
                             <i data-feather="edit-2"></i>
                         </a>
+                        @else
+                        <a href="{{ route('services.show', $service->id) }}" title="Lihat Detail">
+                            <i data-feather="eye"></i>
+                        </a>
+                        @endcan
+                        @can('services.delete')
                         <form action="{{ route('services.destroy', $service->id) }}" method="POST" class="delete-form" data-item-name="{{ $service->service_code }}" data-item-type="Servis" style="display: inline;">
                             @csrf
                             @method('DELETE')
@@ -53,6 +62,7 @@
                                 <i data-feather="trash-2"></i>
                             </button>
                         </form>
+                        @endcan
                     </td>
                 </tr>
                 @empty

@@ -182,19 +182,22 @@
             @csrf
 
             <div class="form-group">
-                <label for="email">Alamat Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    value="{{ old('email') }}"  {{-- 2. Tampilkan email lama jika login gagal --}}
-                    required 
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value="{{ old('username') }}"  {{-- 2. Tampilkan username lama jika login gagal --}}
+                    autocomplete="username"
+                    autocapitalize="none"
+                    spellcheck="false"
+                    required
                     autofocus
-                    class="@error('email') input-error @enderror" {{-- 3. Tambah class jika error --}}
+                    class="@error('username') input-error @enderror" {{-- 3. Tambah class jika error --}}
                 >
-                
-                {{-- 4. Tampilkan pesan error validasi email --}}
-                @error('email')
+
+                {{-- 4. Tampilkan pesan error validasi username --}}
+                @error('username')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>

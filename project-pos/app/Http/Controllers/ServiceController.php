@@ -4,12 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Traits\LogsActivity;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ServiceController extends Controller
+class ServiceController extends Controller implements HasMiddleware
 {
     use LogsActivity;
+
+    /**
+     * Permission per aksi. Dipasang di controller (bukan di routes) karena route-nya Route::resource.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:services.view', only: ['index', 'show']),
+            new Middleware('can:services.create', only: ['create', 'store']),
+            new Middleware('can:services.update', only: ['edit', 'update']),
+            new Middleware('can:services.delete', only: ['destroy']),
+        ];
+    }
 
     /**
      * Menampilkan daftar servis

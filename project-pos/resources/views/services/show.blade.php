@@ -5,10 +5,17 @@
 
 @section('content')
 
+    @can('services.history')
     <a href="{{ route('services.history') }}" class="back-link">
         <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
         Kembali ke Riwayat
     </a>
+    @else
+    <a href="{{ route('services.index') }}" class="back-link">
+        <i data-feather="arrow-left" style="width:16px; height:16px;"></i>
+        Kembali ke Daftar Servis
+    </a>
+    @endcan
     
     <div class="content-card">
         <div class="detail-layout">

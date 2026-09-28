@@ -84,6 +84,7 @@
         </div>
     </div>
 
+    @can('sales.history')
     <div class="page-header" style="margin-top:3rem;">
         <h1>Riwayat Penjualan Terbaru</h1>
         <a href="{{ route('sales.history') }}" class="cta-button" style="text-decoration: none;">
@@ -127,6 +128,7 @@
             </tbody>
         </table>
     </div>
+    @endcan
 
 @endsection
 

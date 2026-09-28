@@ -23,22 +23,30 @@
                 </div>
             </form>
         </div>
+        @can('products.create')
         <a href="{{ route('products.create') }}" class="cta-button">
             <i data-feather="plus"></i>
             Tambah Produk Baru
         </a>
+        @endcan
     </div>
-    
+
+    {{-- Harga modal hanya untuk yang mengelola produk; role read-only (mis. kasir) hanya melihat stok & harga jual --}}
+    @php
+        $canManageProducts = auth()->user()->can('products.update');
+        $showActions = auth()->user()->canAny(['products.update', 'products.delete']);
+    @endphp
+
     <div class="content-card">
         <table class="modern-table">
             <thead>
                 <tr>
                     <th>Nama Produk</th>
                     <th>SKU (Kode)</th>
-                    <th>Harga Beli (Modal)</th>
+                    @if($canManageProducts)<th>Harga Beli (Modal)</th>@endif
                     <th>Harga Jual</th>
                     <th>Stok Saat Ini</th>
-                    <th>Aksi</th>
+                    @if($showActions)<th>Aksi</th>@endif
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +54,7 @@
                 <tr>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->sku ?? '-' }}</td>
-                    <td>Rp {{ number_format($product->cost_price,0,',','.') }}</td>
+                    @if($canManageProducts)<td>Rp {{ number_format($product->cost_price,0,',','.') }}</td>@endif
                     <td>Rp {{ number_format($product->sale_price,0,',','.') }}</td>
                     <td class="stock-level {{ $product->current_stock <= ($product->min_stock_level ?? 0) ? 'low' : '' }}">
                         {{ $product->current_stock }}
@@ -56,8 +64,12 @@
                             <span class="badge badge-warning" style="margin-left:0.5rem;">Menipis</span>
                         @endif
                     </td>
+                    @if($showActions)
                     <td class="action-buttons">
+                        @can('products.update')
                         <a href="{{ route('products.edit', $product->id) }}" title="Edit"><i data-feather="edit-2"></i></a>
+                        @endcan
+                        @can('products.delete')
                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" data-item-name="{{ $product->name }} ({{ $product->sku }})" data-item-type="Produk" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
@@ -65,7 +77,9 @@
                                 <i data-feather="trash-2"></i>
                             </button>
                         </form>
+                        @endcan
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
@@ -78,6 +92,7 @@
         @endif
     </div>
 
+    @can('products.restock')
     <div class="page-header" style="margin-top: 2rem;">
         <h1>Barang Masuk / Restock</h1>
     </div>
@@ -111,6 +126,7 @@
             </button>
         </form>
     </div>
+    @endcan
 
     <script>feather.replace()</script>
 

@@ -11,11 +11,14 @@
     </div>
 
     <div class="widget-grid">
+        @can('sales.history')
         <div class="widget-card">
             <h4>Penjualan Hari Ini</h4>
             <div class="widget-value">Rp {{ number_format($salesToday ?? 0, 0, ',', '.') }}</div>
             <div class="widget-change positive">Realtime</div>
         </div>
+        @endcan
+        @can('services.history')
         <div class="widget-card">
             <h4>
                 <i data-feather="tool" style="color: #4F46E5;"></i>
@@ -24,18 +27,24 @@
             <div class="widget-value" style="color:#6D28D9">Rp {{ number_format($serviceRevenueToday ?? 0, 0, ',', '.') }}</div>
             <div class="widget-change positive">Realtime</div>
         </div>
+        @endcan
+        @can('sales.history')
         <div class="widget-card">
             <h4>Transaksi Hari Ini</h4>
             <div class="widget-value">{{ $transactionsToday ?? 0 }}</div>
             <div class="widget-change positive">Realtime</div>
         </div>
+        @endcan
+        @can('products.view')
         <div class="widget-card">
             <h4>Barang Stok Kritis</h4>
             <div class="widget-value">{{ $criticalStockCount ?? 0 }}</div>
             <div class="widget-change negative">Perlu restock</div>
         </div>
+        @endcan
     </div>
 
+    @can('audit-log.view')
     <div class="content-card">
         <h3>Aktivitas Terbaru (Audit Log)</h3>
         <div class="activity-feed">
@@ -60,5 +69,6 @@
             </ul>
         </div>
     </div>
+    @endcan
 
 @endsection

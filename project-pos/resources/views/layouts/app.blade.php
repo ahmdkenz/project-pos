@@ -517,14 +517,36 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
+                    @can('dashboard.view')
                     <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-feather="home"></i> <span>Dashboard</span></a></li>
+                    @endcan
+                    @can('products.view')
                     <li><a href="{{ route('inventory') }}" class="{{ request()->routeIs('inventory') ? 'active' : '' }}"><i data-feather="package"></i> <span>Manajemen Produk</span></a></li>
+                    @endcan
+                    @can('sales.create')
                     <li><a href="{{ route('sales') }}" class="{{ request()->routeIs('sales') ? 'active' : '' }}"><i data-feather="shopping-cart"></i> <span>Kasir (POS)</span></a></li>
+                    @endcan
+                    @can('services.view')
                     <li><a href="{{ route('services.index') }}" class="{{ (request()->routeIs('services.*') && !request()->routeIs('services.history')) ? 'active' : '' }}"><i data-feather="tool"></i> <span>Manajemen Servis</span></a></li>
+                    @endcan
+                    @can('sales.history')
                     <li><a href="{{ route('sales.history') }}" class="{{ request()->routeIs('sales.history') || request()->routeIs('sales.detail') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Penjualan</span></a></li>
+                    @endcan
+                    @can('services.history')
                     <li><a href="{{ route('services.history') }}" class="{{ request()->routeIs('services.history') ? 'active' : '' }}"><i data-feather="file-text"></i> <span>Riwayat Servis</span></a></li>
+                    @endcan
+                    @can('reports.profit')
                     <li><a href="{{ route('reports.profit') }}" class="{{ request()->routeIs('reports.profit') ? 'active' : '' }}"><i data-feather="bar-chart-2"></i> <span>Laporan</span></a></li>
+                    @endcan
+                    @can('audit-log.view')
                     <li><a href="{{ route('audit-log') }}" class="{{ request()->routeIs('audit-log') ? 'active' : '' }}"><i data-feather="shield"></i> <span>Audit Log System</span></a></li>
+                    @endcan
+                    @can('users.manage')
+                    <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}"><i data-feather="users"></i> <span>Manajemen User</span></a></li>
+                    @endcan
+                    @can('roles.manage')
+                    <li><a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}"><i data-feather="lock"></i> <span>Manajemen Role</span></a></li>
+                    @endcan
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -545,11 +567,13 @@
                     <h1>@yield('header-title','Dashboard')</h1>
                 </div>
                 <div class="user-profile">
+                    @auth
                     <div class="user-info">
-                        <strong>Admin</strong>
-                        <span>SALES &amp; SERVICE</span>
+                        <strong>{{ auth()->user()->name }}</strong>
+                        <span>{{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Tanpa role') }}</span>
                     </div>
-                    <div class="avatar">A</div>
+                    <div class="avatar">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</div>
+                    @endauth
                 </div>
             </header>
 

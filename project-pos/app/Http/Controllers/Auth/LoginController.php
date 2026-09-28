@@ -18,11 +18,12 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember')) ) {
+        // User nonaktif ditolak dengan pesan yang sama seperti kredensial salah
+        if (Auth::attempt($credentials + ['is_active' => true], $request->boolean('remember')) ) {
             $request->session()->regenerate();
 
             // Log login activity
@@ -32,8 +33,8 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Kredensial tidak cocok dengan catatan kami.',
-        ])->onlyInput('email');
+            'username' => 'Kredensial tidak cocok dengan catatan kami.',
+        ])->onlyInput('username');
     }
 
     public function logout(Request $request)

@@ -60,7 +60,9 @@
                     <td><span class="status-badge {{ $svc->status_badge_class }}">{{ $svc->status_label }}</span></td>
                     <td class="text-right">Rp {{ number_format($svc->cost ?? 0, 0, ',', '.') }}</td>
                     <td class="action-buttons">
+                        @can('services.view')
                         <a href="{{ route('services.show', $svc->id) }}" title="Lihat Detail"><i data-feather="eye"></i></a>
+                        @endcan
                     </td>
                 </tr>
                 @empty
